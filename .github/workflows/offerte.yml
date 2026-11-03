@@ -1,0 +1,22 @@
+name: Aggiorna offerte Lidl
+
+on:
+  schedule:
+    - cron: "30 5 * * 1"   # lunedì mattina (ora UTC)
+    - cron: "30 5 * * 4"   # giovedì mattina: Lidl cambia anche a metà settimana
+  workflow_dispatch:        # si può far partire anche a mano dalla scheda Actions
+
+jobs:
+  lidl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Leggo le offerte e le pubblico
+        run: python scripts/offerte_lidl.py
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          OFFERS_SECRET: ${{ secrets.OFFERS_SECRET }}
