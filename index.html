@@ -138,6 +138,14 @@
   dialog summary { cursor:pointer; font-weight:600; }
   dialog ol { padding-left:20px; font-size:15px; color:var(--mute); margin:8px 0; }
   dialog ol b, dialog ol code { color:var(--ink); }
+  .sb { display:inline-flex; align-items:center; background:#fff; border-radius:7px; padding:2px 4px; vertical-align:middle; line-height:0; margin-right:4px; }
+  .sb img { display:block; width:auto; }
+  .sb.t { color:#333; font-size:12px; font-weight:700; line-height:1.3; padding:1px 7px; }
+  .pct { background:#d6453d; color:#fff; border-radius:6px; padding:0 6px; font-size:12px; font-weight:700; }
+  .offer .thumb { width:56px; height:56px; background:#fff; object-fit:contain; }
+  .olink { display:inline-block; margin-top:4px; font-size:13px; color:var(--green); text-decoration:none; font-weight:600; }
+  .cstore .sb, .n small .sb { margin-right:6px; }
+  #offerList .offer { margin-top:10px; }
   dialog { border:0; border-radius:18px; padding:22px; max-width:420px; width:calc(100% - 32px); background:var(--card); color:var(--ink); }
   dialog::backdrop { background:#0006; }
   dialog h2 { margin:0 0 8px; font-size:20px; overflow-wrap:anywhere; }
@@ -239,6 +247,12 @@
   <p id="scanMsg">Avvio della fotocamera…</p>
   <input id="scanManual" inputmode="numeric" placeholder="Oppure scrivi le cifre del codice">
   <div class="row2"><button class="p" id="scanGo">Cerca</button><button id="scanNo">Chiudi</button></div>
+</dialog>
+
+<dialog id="offerDlg">
+  <h2 id="offerTitle">In offerta</h2>
+  <div id="offerList"></div>
+  <div class="row2"><button id="offerNo">Chiudi</button></div>
 </dialog>
 
 <dialog id="voiceDlg">
@@ -604,14 +618,32 @@ const eur = (n) => (n == null ? "" : Number(n).toFixed(2).replace(".", ",") + " 
 const dm = (iso) => (iso ? iso.slice(8, 10) + "/" + iso.slice(5, 7) : "");
 const todayISO = () => new Date().toISOString().slice(0, 10);
 const isExpired = (x) => !!x.valid_to && x.valid_to < todayISO();
-function bestOffer(name) {
-  let best = null;
-  for (const o of offers) {
-    const pos = matchPos(name, o.title); if (pos < 0) continue;
-    const k = [pos, o.price == null ? 999 : Number(o.price)];
-    if (!best || k[0] < best.k[0] || (k[0] === best.k[0] && k[1] < best.k[1])) best = { o, k };
-  }
-  return best && best.o;
+const LOGOS = {"Esselunga": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+Cjxzdmcgd2lkdGg9IjIxMiIgaGVpZ2h0PSIyNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KIDxkZWZzPgogIDxjbGlwUGF0aCBpZD0iY2xpcDBfMTY5Ml8yNzYiPgogICA8cmVjdCBmaWxsPSJ3aGl0ZSIgaGVpZ2h0PSIyNiIgaWQ9InN2Z18xIiB3aWR0aD0iMjEyIi8+CiAgPC9jbGlwUGF0aD4KIDwvZGVmcz4KIDxnIGNsYXNzPSJsYXllciI+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMF8xNjkyXzI3NikiIGlkPSJzdmdfMiI+CiAgIDxwYXRoIGQ9Im0xODQuNTMsMTYuMDRjMCw1LjUgLTQuNTYsOS45NSAtMTAuMiw5Ljk1bC0zLjMyLDBjLTUuNjMsMCAtMTAuMiwtNC40NSAtMTAuMiwtOS45NWwwLC01LjYxYzAsLTUuNSA0LjU3LC05Ljk2IDEwLjIsLTkuOTZsOS40NiwwbDAsNi45NGwtNy43OCwwYy0xLjkzLDAgLTMuNDksMS41MyAtMy40OSwzLjQxbDAsNC42YzAsMS44OCAxLjU2LDMuNDEgMy40OSwzLjQxYzEuOTMsMCAzLjQ5LC0xLjUzIDMuNDksLTMuNDFsMCwtNS41MWw4LjM3LDBsMCw2LjEzbC0wLjAyLDB6IiBmaWxsPSIjMDAyMDViIiBpZD0ic3ZnXzMiLz4KICAgPHBhdGggZD0ibTE0NS44NywyLjAxYy0wLjU4LC0xLjAxIC0xLjk0LC0xLjc3IC0zLjMzLC0xLjc3bC0yLjAzLDBjLTIuMDYsMCAtMy43MywxLjY0IC0zLjczLDMuNjVsMCwyMS40OWw4LjMxLDBsMCwtMTAuNTdsNS4yNCw5LjFjMC42NCwxLjEgMS42NiwxLjg4IDMuMDYsMS44OGwyLjAyLDBjMi4wNywwIDMuNzQsLTEuNjMgMy43NCwtMy42NWwwLC0yMS40MmwtOC4yNywwbDAsOS45MWwtNSwtOC42MmwtMC4wMSwweiIgZmlsbD0iIzAwMjA1YiIgaWQ9InN2Z180Ii8+CiAgIDxwYXRoIGQ9Im05NC42MywxOS43NGMwLDMuMTEgMi41OSw1LjY0IDUuNzksNS42NGwxMS40NiwwbDAsLTYuN2wtOC45NCwwbDAsLTE3Ljk4bC04LjMxLDBsMCwxOS4wNGwwLDB6IiBmaWxsPSIjMDAyMDViIiBpZD0ic3ZnXzUiLz4KICAgPHBhdGggZD0ibTUuNzksMjUuMzhjLTMuMiwwIC01Ljc5LC0yLjUzIC01Ljc5LC01LjY1bDAsLTEzLjM4YzAsLTMuMTIgMi41OSwtNS42NSA1Ljc5LC01LjY1bDE0Ljg5LDBsMCw2LjY1bC0xMi4yOSwwbDAsMi41MmwxMC4wNywwbDAsNi4yOGwtMTAuMDcsMGwwLDIuNTFsMTIuMywwbDAsNi43M2wtMTQuOSwwbDAsLTAuMDF6IiBmaWxsPSIjMDAyMDViIiBpZD0ic3ZnXzYiLz4KICAgPHBhdGggZD0ibTI4LDAuNzFjLTMuMiwwIC01Ljc5LDIuNTQgLTUuNzksNS42NmwwLDQuMTZjMCwzLjEzIDIuNTksNS42NiA1Ljc5LDUuNjZsOS4wNiwwbDAsMi42MmwtMTQuNzUsMGwwLDYuNTVsMTcuMzUsMGMzLjE5LDAgNS43OCwtMi41NCA1Ljc4LC01LjY3bDAsLTQuMTZjMCwtMy4xMyAtMi41OSwtNS42NiAtNS43OCwtNS42NmwtOS4wNywwbDAsLTIuNjJsMTQuODYsMGwwLC02LjUzbC0xNy40NSwtMC4wMXoiIGZpbGw9IiMwMDIwNWIiIGlkPSJzdmdfNyIvPgogICA8cGF0aCBkPSJtNTIuOTEsMC43MWMtMy4yLDAgLTUuNzksMi41NCAtNS43OSw1LjY2bDAsNC4xNmMwLDMuMTMgMi41OSw1LjY2IDUuNzksNS42Nmw5LjA2LDBsMCwyLjYybC0xNC43NSwwbDAsNi41NWwxNy4zNSwwYzMuMTksMCA1Ljc4LC0yLjU0IDUuNzgsLTUuNjdsMCwtNC4xNmMwLC0zLjEzIC0yLjU5LC01LjY2IC01Ljc4LC01LjY2bC05LjA3LDBsMCwtMi42MmwxNC44NiwwbDAsLTYuNTNsLTE3LjQ1LC0wLjAxeiIgZmlsbD0iIzAwMjA1YiIgaWQ9InN2Z184Ii8+CiAgIDxwYXRoIGQ9Im03Ny45NCwyNS4zOGMtMy4yLDAgLTUuNzksLTIuNTMgLTUuNzksLTUuNjVsMCwtMTMuMzhjMCwtMy4xMiAyLjU5LC01LjY1IDUuNzksLTUuNjVsMTQuODksMGwwLDYuNjVsLTEyLjMsMGwwLDIuNTJsMTAuMDcsMGwwLDYuMjhsLTEwLjA3LDBsMCwyLjUxbDEyLjMsMGwwLDYuNzNsLTE0Ljg5LDBsMCwtMC4wMXoiIGZpbGw9IiMwMDIwNWIiIGlkPSJzdmdfOSIvPgogICA8cGF0aCBkPSJtMTM0Ljk4LDAuNjlsLTguMjksMGwtMC4wMSwxNS4zN2MwLDEuNDggLTEuMjIsMi42NyAtMi43MywyLjY3Yy0xLjUxLDAgLTIuNzIsLTEuMTkgLTIuNzIsLTIuNjdsMCwtMTUuMzdsLTguMzUsMGwtMC4wMSwxNS45NGMwLDUuMTcgNC4yNyw5LjM2IDkuNTUsOS4zNmwzLjAyLDBjNS4yNywwIDkuNTUsLTQuMTkgOS41NSwtOS4zNmwtMC4wMSwtMTUuOTR6IiBmaWxsPSIjMDAyMDViIiBpZD0ic3ZnXzEwIi8+CiAgIDxwYXRoIGQ9Im0yMDMuNTEsMy42OGMtMC41NCwtMS45NyAtMi4zOCwtMy40MiAtNC41NywtMy40MmwtNC41LDBjLTIuMTksMCAtNC4wMywxLjQ1IC00LjU3LDMuNDJsLTYuMzEsMjEuN2w4LjM2LDBsMS4xLC0zLjgzbDAuMDEsLTAuMDVsNi45OSwwbDAuMDIsMC4wNWwxLjAyLDMuODNsOC4zNiwwbC01LjkxLC0yMS43em0tOC45LDExLjg5bDIuMDIsLTcuNjNsMS45MSw3LjYzbC0zLjkzLDB6IiBmaWxsPSIjMDAyMDViIiBpZD0ic3ZnXzExIi8+CiAgIDxwYXRoIGQ9Im0yMDguMywxLjc2bDAuOTksMGMwLjE0LDAgMC4yNSwwLjAzIDAuMzQsMC4wN2MwLjE1LDAuMDcgMC4yMywwLjIxIDAuMjMsMC40MmMwLDAuMiAtMC4wNiwwLjMzIC0wLjE3LDAuNDFjLTAuMTEsMC4wNyAtMC4yNiwwLjExIC0wLjQ1LDAuMTFsLTAuOTQsMGwwLC0xLjAxem0wLDIuNTlsMCwtMS4yNmwwLjkyLDBjMC4xNywwIDAuMjksMC4wMiAwLjM3LDAuMDZjMC4xMywwLjA2IDAuMiwwLjE5IDAuMjEsMC4zOGwwLjAyLDAuNDljMCwwLjExIDAuMDIsMC4xOSAwLjAzLDAuMjNjMCwwLjA0IDAuMDEsMC4wNyAwLjAzLDAuMWwwLjUsMGwwLC0wLjA3Yy0wLjA2LC0wLjAzIC0wLjExLC0wLjA5IC0wLjEzLC0wLjE4Yy0wLjAyLC0wLjA1IC0wLjAyLC0wLjEzIC0wLjAzLC0wLjI0bC0wLjAyLC0wLjRjMCwtMC4xNyAtMC4wNCwtMC4yOSAtMC4wOSwtMC4zN2MtMC4wNiwtMC4wOCAtMC4xNSwtMC4xNCAtMC4yNiwtMC4xOGMwLjEzLC0wLjA3IDAuMjMsLTAuMTYgMC4zMSwtMC4yN2MwLjA3LC0wLjExIDAuMTEsLTAuMjYgMC4xMSwtMC40M2MwLC0wLjM0IC0wLjE0LC0wLjU3IC0wLjQyLC0wLjY5Yy0wLjE0LC0wLjA3IC0wLjMzLC0wLjEgLTAuNTcsLTAuMWwtMS4zOCwwbDAsMi45MmwwLjQxLDBsLTAuMDEsMC4wMXoiIGZpbGw9IiMwMDIwNWIiIGlkPSJzdmdfMTIiLz4KICAgPHBhdGggZD0ibTIwOC45OSwwYy0xLjY3LDAgLTMuMDIsMS4zMiAtMy4wMiwyLjk0YzAsMS42MyAxLjM1LDIuOTUgMy4wMiwyLjk1YzEuNjYsMCAzLjAxLC0xLjMyIDMuMDEsLTIuOTVjMCwtMS42MiAtMS4zNSwtMi45NCAtMy4wMSwtMi45NHptMCw1LjQyYy0xLjQsMCAtMi41NCwtMS4xMSAtMi41NCwtMi40OGMwLC0xLjM2IDEuMTQsLTIuNDggMi41NCwtMi40OGMxLjM5LDAgMi41MywxLjEyIDIuNTMsMi40OGMwLDEuMzcgLTEuMTQsMi40OCAtMi41MywyLjQ4eiIgZmlsbD0iIzAwMjA1YiIgaWQ9InN2Z18xMyIvPgogIDwvZz4KIDwvZz4KPC9zdmc+", "Coop": "data:image/png;base64,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", "Lidl": "data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiB2aWV3Qm94PSIwIDAgNjAgNjAiPgogICAgPHBhdGggZmlsbD0iIzAwNTBhYSIgZD0iTTAuNTIyIDAuNTIyaDU4Ljk1N3Y1OC45NTdoLTU4Ljk1N3oiPjwvcGF0aD4KICAgIDxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik01OS40NzggMC41MjJ2NTguOTU3aC01OC45NTd2LTU4Ljk1N2g1OC45NTd6TTYwIDBoLTYwdjYwaDYwdi02MHoiPjwvcGF0aD4KICAgIDxwYXRoIGZpbGw9IiNmZmYwMDAiIGQ9Ik0zMCAzLjg1Yy0xNC40NDIgMC0yNi4xNSAxMS43MDgtMjYuMTUgMjYuMTVzMTEuNzA4IDI2LjE1IDI2LjE1IDI2LjE1YzE0LjQzOCAwIDI2LjE0NC0xMS43MDIgMjYuMTUtMjYuMTM5di0wLjAwMWMwLTE0LjQ0NC0xMS43MDYtMjYuMTU0LTI2LjE0OS0yNi4xNmgtMC4wMDF6Ij48L3BhdGg+CiAgICA8cGF0aCBmaWxsPSIjZTYwYTE0IiBkPSJNMjguMzc3IDMwLjczNmwtNC42MTctNC42MTctNS4zMjIgNS4zMzJ2MS43OWwxLjM0MS0xLjM0NiAzLjcxNSAzLjcyNS0xLjM3MiAxLjM2NyAwLjg5MiAwLjg5NyA3LjQzLTcuNDR2LTEuNzg0bC0yLjA2NiAyLjA3N3oiPjwvcGF0aD4KICAgIDxwYXRoIGZpbGw9IiMwMDUwYWEiIGQ9Ik02LjgyNCAyNS4xNDhoOC4yMjN2MS43NzRoLTEuMzcydjUuNzM5bDQuNzYzLTIuNjV2NC44NTdoLTExLjYxNHYtMS43ODRoMS4zNzd2LTYuMTYyaC0xLjM3N3YtMS43NzR6TTQxLjQ5NCAyNS4xNDh2MS43NzRoMS4zNzd2Ni4xNjJoLTEuMzc3djEuNzg0aDExLjYyNHYtNC44NTdsLTQuNzY5IDIuNjV2LTUuNzM5aDEuMzc3di0xLjc3NGgtOC4yMzN6Ij48L3BhdGg+CiAgICA8cGF0aCBmaWxsPSIjZTYwYTE0IiBkPSJNMjMuMDgyIDE5LjYyM2MxLjYxNiAwIDIuOTI3IDEuMzEgMi45MjcgMi45MjdzLTEuMzEgMi45MjctMi45MjcgMi45MjdjLTEuNjE2IDAtMi45MjctMS4zMS0yLjkyNy0yLjkyNyAwLTAuMDA0IDAtMC4wMDcgMC0wLjAxMXYwLjAwMWMwIDAgMCAwIDAgMCAwLTEuNjExIDEuMzA2LTIuOTE3IDIuOTE3LTIuOTE3IDAuMDA0IDAgMC4wMDcgMCAwLjAxMSAwaC0wLjAwMXoiPjwvcGF0aD4KICAgIDxwYXRoIGZpbGw9IiNlNjBhMTQiIGQ9Ik0zMCAyLjA4N2MtMC4wMDIgMC0wLjAwMyAwLTAuMDA1IDAtMTUuNDE5IDAtMjcuOTE4IDEyLjQ5OS0yNy45MTggMjcuOTE4czEyLjQ5OSAyNy45MTggMjcuOTE4IDI3LjkxOGMxNS40MTcgMCAyNy45MTUtMTIuNDk2IDI3LjkxOC0yNy45MTN2LTBjLTAuMDAzLTE1LjQxNy0xMi40OTctMjcuOTE1LTI3LjkxMi0yNy45MjNoLTAuMDAxek0zMCA1Ni4xNTVjLTE0LjQ0MiAwLTI2LjE1LTExLjcwOC0yNi4xNS0yNi4xNXMxMS43MDgtMjYuMTUgMjYuMTUtMjYuMTVjMTQuNDQyIDAgMjYuMTUgMTEuNzA4IDI2LjE1IDI2LjE1IDAgMC4wMDQgMCAwLjAwNyAwIDAuMDExdi0wLjAwMWMtMC4wMTIgMTQuNDM0LTExLjcxNCAyNi4xMzEtMjYuMTQ5IDI2LjEzNGgtMHoiPjwvcGF0aD4KICAgIDxwYXRoIGZpbGw9IiMwMDUwYWEiIGQ9Ik0zNi45MTMgMjUuMTQ4aC03LjgyNnYxLjc3NGgxLjM3MnY2LjE2MmgtMS4zODh2MS43ODRoNy44MjZjNS44MTIgMCA1Ljg4NS05LjcyIDAuMDE2LTkuNzJ6Ij48L3BhdGg+CiAgICA8cGF0aCBmaWxsPSIjZmZmMDAwIiBkPSJNMzUuODEyIDMxLjgyNmgtMC4zOTF2LTMuNjUyaDAuMzI5YzEuNzE3IDAgMS43MTcgMy42NTIgMC4wNjMgMy42NTJ6Ij48L3BhdGg+Cjwvc3ZnPgo="};
+// larghezza/altezza dei loghi: quelli quadrati si mostrano più alti di quello a scritta
+const LOGO_H = { Lidl: 18, Coop: 18, Esselunga: 13 };
+const safeUrl = (u) => (/^https:\/\//.test(u || "") ? u : "");
+function storeBadge(name, big) {
+  if (!name) return "";
+  const src = LOGOS[name];
+  if (!src) return `<span class="sb t">${esc(name)}</span>`;
+  return `<span class="sb" title="${esc(name)}"><img src="${src}" alt="${esc(name)}" style="height:${(LOGO_H[name] || 16) + (big ? 4 : 0)}px"></span>`;
+}
+// tutte le offerte che richiamano un prodotto, dalla più convincente
+function offersFor(name) {
+  const r = [];
+  for (const o of offers) { const pos = matchPos(name, o.title); if (pos >= 0) r.push({ o, pos }); }
+  return r.sort((a, b) => a.pos - b.pos || (a.o.price ?? 999) - (b.o.price ?? 999)).map((x) => x.o);
+}
+const bestOffer = (name) => offersFor(name)[0] || null;
+const isAdded = (o) => specs.some((x) => x.store === o.store && x.name.toLowerCase() === o.title.toLowerCase());
+function offerCardHtml(o, forName, big) {
+  const pct = o.price != null && o.old_price ? Math.round((1 - o.price / o.old_price) * 100) : 0;
+  const img = safeUrl(o.image), link = safeUrl(o.url);
+  const added = isAdded(o);
+  return `<div class="offer">${img ? `<img class="thumb" src="${esc(img)}" alt="" loading="lazy">` : ""}<div class="ot"><div class="oname">${storeBadge(o.store, big)}${esc(o.title)}</div>
+    <div class="oinfo"><span class="oprice">${o.price != null ? eur(o.price) : "prezzo nel volantino"}${o.old_price ? `<s>${eur(o.old_price)}</s>` : ""}</span>${pct > 0 ? ` <span class="pct">−${pct}%</span>` : ""}${o.valid_to ? " · fino al " + dm(o.valid_to) : ""}${forName ? ` · per «${esc(forName)}»` : ""}</div>
+    ${big && link ? `<a class="olink" href="${esc(link)}" target="_blank" rel="noopener">Apri la pagina del prodotto ↗</a>` : ""}</div>
+    <button data-oid="${o.id}" ${added ? "disabled" : ""}>${added ? "Aggiunta" : "Aggiungi"}</button></div>`;
 }
 async function loadOffers() {
   offersAt = Date.now();
@@ -621,14 +653,15 @@ async function loadOffers() {
 function renderList() {
   const todo = items.filter((i) => !i.done), done = items.filter((i) => i.done).sort(byNew);
   const sTodo = specs.filter((x) => x.want && !x.done), sDone = specs.filter((x) => x.want && x.done);
-  const where = (x) => [x.store ? "🏪 " + x.store : "", x.valid_to ? (isExpired(x) ? "SCADUTA il " : "fino al ") + dm(x.valid_to) : ""].filter(Boolean).join(" · ");
-  const specRow = (x) => `<div class="row sp" data-sid="${x.id}"><span class="check"></span>${thumb(x)}<span class="n"><b>${esc(x.name)}</b>${where(x) ? `<small>${esc(where(x))}</small>` : ""}${x.note ? `<small>${esc(x.note)}</small>` : ""}</span><button class="x" data-sdel title="Togli dalla lista">✕</button></div>`;
+  const groupedStores = new Set(sTodo.map((x) => x.store || "")).size > 1;   // con più negozi c'è già l'intestazione col logo
+  const where = (x) => [x.store && !groupedStores ? storeBadge(x.store) : "", x.valid_to ? esc((isExpired(x) ? "SCADUTA il " : "fino al ") + dm(x.valid_to)) : ""].filter(Boolean).join(" ");
+  const specRow = (x) => `<div class="row sp" data-sid="${x.id}"><span class="check"></span>${thumb(x)}<span class="n"><b>${esc(x.name)}</b>${where(x) ? `<small>${where(x)}</small>` : ""}${x.note ? `<small>${esc(x.note)}</small>` : ""}</span><button class="x" data-sdel title="Togli dalla lista">✕</button></div>`;
   let html = "";
   if (sTodo.length) {                              // in evidenza, in cima: prodotti precisi da cercare
     const stores = [...new Set(sTodo.map((x) => x.store || ""))].sort();
     html += `<div class="lh spec"><span style="background:none;color:#fff;padding:0;text-align:left">⭐ Prodotti specifici · cerca proprio questi</span><span>${sTodo.length}</span></div><div class="body spec">`;
     for (const st of stores) {
-      if (stores.length > 1) html += `<div class="sub">🏪 ${esc(st || "Dove capita")}</div>`;
+      if (stores.length > 1) html += `<div class="sub">${st ? storeBadge(st) : "🏪 Dove capita"}</div>`;
       html += sTodo.filter((x) => (x.store || "") === st).map(specRow).join("");
     }
     html += `</div>`;
@@ -639,7 +672,7 @@ function renderList() {
     html += `<div class="lh" style="--c:${c.color}"><span style="background:none;color:#fff;padding:0;text-align:left">${c.emoji} ${c.name}</span><span>${g.length}</span></div><div class="body" style="--c:${c.color}">` +
       g.map((i) => {
         const o = bestOffer(i.name);
-        const tag = o ? `<small class="ofr" data-ofr>🏷 ${esc(o.store)}${o.price != null ? " " + eur(o.price) : ""} · in offerta${o.valid_to ? " fino al " + dm(o.valid_to) : ""}</small>` : "";
+        const tag = o ? `<small class="ofr" data-ofr="${esc(i.name)}">🏷 ${storeBadge(o.store)}${o.price != null ? " " + eur(o.price) + " ·" : ""} in offerta${o.valid_to ? " fino al " + dm(o.valid_to) : ""} ›</small>` : "";
         return `<div class="row" data-id="${i.id}"><span class="check"></span><span class="e">${emojiFor(i.name, c.id)}</span><span class="n">${esc(i.name)}${tag}</span><button class="x" data-del title="Togli dalla lista">✕</button></div>`;
       }).join("") + `</div>`;
   }
@@ -656,7 +689,6 @@ function renderList() {
 }
 
 function renderOffers() {
-  const sameAs = (o) => specs.some((x) => x.store === o.store && x.name.toLowerCase() === o.title.toLowerCase());
   const wanted = items.filter((i) => !i.done).map((i) => i.name);
   const keys = new Set(wanted.map((n) => n.toLowerCase()));
   const catalog = [...knownMap().values()].filter((p) => !keys.has(p.key));
@@ -669,9 +701,7 @@ function renderOffers() {
     }
     return out.sort((a, b) => a.pos - b.pos || (a.o.price ?? 999) - (b.o.price ?? 999));
   };
-  const card = (m) => `<div class="offer"><div class="ot"><div class="oname"><span class="store">${esc(m.o.store)}</span>${esc(m.o.title)}</div>
-      <div class="oinfo"><span class="oprice">${m.o.price != null ? eur(m.o.price) : "prezzo nel volantino"}${m.o.old_price ? `<s>${eur(m.o.old_price)}</s>` : ""}</span>${m.o.valid_to ? " · fino al " + dm(m.o.valid_to) : ""}${m.for ? ` · per «${esc(m.for)}»` : ""}</div></div>
-      <button data-oid="${m.o.id}" ${sameAs(m.o) ? "disabled" : ""}>${sameAs(m.o) ? "Aggiunta" : "Aggiungi"}</button></div>`;
+  const card = (m) => offerCardHtml(m.o, m.for, false);
   let html = "";
   if (!offers.length) {
     html = `<div class="hint" style="padding:8px 0">Le offerte di Lidl compaiono qui da sole una volta attivato l'aggiornamento automatico.<br>Per Esselunga e Coop usa “Leggi un volantino”.</div>`;
@@ -693,8 +723,8 @@ function renderSpecs() {
   $("specs").innerHTML = sorted.map((x) => {
     const c = catById(specCat(x));
     const st = !x.want ? "＋<br>in lista" : x.done ? "✓<br>preso" : "✓<br>in lista";
-    const where = [x.store ? "🏪 " + x.store : "", x.valid_to ? (isExpired(x) ? "scaduta il " : "fino al ") + dm(x.valid_to) : ""].filter(Boolean).join(" · ");
-    return `<div class="card ${x.want ? "wanted" : ""} ${isExpired(x) ? "expired" : ""}" data-sid="${x.id}" style="--c:${c.color}">${thumb(x)}<div class="ct"><div class="cname">${esc(x.name)}</div>${where ? `<div class="cstore">${esc(where)}</div>` : ""}${x.note ? `<div class="cnote">${esc(x.note)}</div>` : ""}<div class="ctag">${c.emoji} ${c.name}</div></div><button class="edit" data-edit title="Modifica">✎</button><div class="cstate">${st}</div></div>`;
+    const where = [x.store ? storeBadge(x.store) : "", x.valid_to ? esc((isExpired(x) ? "scaduta il " : "fino al ") + dm(x.valid_to)) : ""].filter(Boolean).join(" ");
+    return `<div class="card ${x.want ? "wanted" : ""} ${isExpired(x) ? "expired" : ""}" data-sid="${x.id}" style="--c:${c.color}">${thumb(x)}<div class="ct"><div class="cname">${esc(x.name)}</div>${where ? `<div class="cstore">${where}</div>` : ""}${x.note ? `<div class="cnote">${esc(x.note)}</div>` : ""}<div class="ctag">${c.emoji} ${c.name}</div></div><button class="edit" data-edit title="Modifica">✎</button><div class="cstate">${st}</div></div>`;
   }).join("") || `<div class="empty">Nessun prodotto specifico.<br>Fotografa una confezione, scansiona il codice a barre o aggiungi un'offerta.</div>`;
 }
 
@@ -770,7 +800,7 @@ $("catalog").addEventListener("click", (e) => {
 });
 $("list").addEventListener("click", (e) => {
   if (pressed) { pressed = false; return; }
-  if (e.target.closest("[data-ofr]")) { goTab(2); return; }
+  const tg = e.target.closest("[data-ofr]"); if (tg) { openOfferDlg(tg.dataset.ofr); return; }
   const row = e.target.closest(".row"); if (!row) return;
   if (row.dataset.sid) {                                                     // prodotto specifico
     const x = specs.find((s) => String(s.id) === row.dataset.sid); if (!x) return;
@@ -908,16 +938,30 @@ $("specDel").onclick = async () => {
   if (x.id > 0) await safe(() => rpc("delete_specific", { p_list: LIST, p_id: x.id }));
 };
 
-// ---- Offerte: pulsanti ----
+// ---- Offerte: aggiungere un'offerta ai prodotti specifici, e finestra dei dettagli ----
+async function addOfferAsSpec(o) {
+  const note = [o.price != null ? eur(o.price) : "", o.old_price ? "invece di " + eur(o.old_price) : ""].filter(Boolean).join(" ");
+  await createSpec({ name: o.title, note, cat: guessCat(o.title), photoUrl: safeUrl(o.image) || null, store: o.store, validTo: o.valid_to || null }, true);
+  toast(`✓ ${o.title} aggiunto alla lista`);
+}
 $("offers").addEventListener("click", async (e) => {
   if (e.target.closest("#allOffers")) { offersAll = !offersAll; redraw(); return; }
   const b = e.target.closest("button[data-oid]"); if (!b || b.disabled) return;
   const o = offers.find((v) => String(v.id) === b.dataset.oid); if (!o) return;
-  const note = [o.price != null ? eur(o.price) : "", o.old_price ? "invece di " + eur(o.old_price) : ""].filter(Boolean).join(" ");
-  b.disabled = true;
-  await createSpec({ name: o.title, note, cat: guessCat(o.title), photoUrl: o.image || null, store: o.store, validTo: o.valid_to || null }, true);
-  toast(`✓ ${o.title} aggiunto alla lista`);
+  b.disabled = true; await addOfferAsSpec(o);
 });
+function openOfferDlg(name) {
+  const list = offersFor(name).slice(0, 6);
+  $("offerTitle").innerHTML = `In offerta per «${esc(name)}»`;
+  $("offerList").innerHTML = list.map((o) => offerCardHtml(o, null, true)).join("") || `<p>Nessuna offerta trovata.</p>`;
+  $("offerDlg").showModal(); $("offerNo").focus();
+}
+$("offerList").addEventListener("click", async (e) => {
+  const b = e.target.closest("button[data-oid]"); if (!b || b.disabled) return;
+  const o = offers.find((v) => String(v.id) === b.dataset.oid); if (!o) return;
+  b.disabled = true; b.textContent = "Aggiunta"; await addOfferAsSpec(o);
+});
+$("offerNo").onclick = () => $("offerDlg").close();
 
 // ---- Volantini (Esselunga, Coop...): lettura delle pagine direttamente sul telefono (Tesseract, gratis) ----
 let tessLoad = null;
