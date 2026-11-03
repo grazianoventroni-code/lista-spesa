@@ -14,84 +14,308 @@
 <style>
   :root { --bg:#f6f7f4; --card:#fff; --ink:#1d2a22; --mute:#7a867e; --green:#2f8f5b; --line:#e3e7e1; --red:#d6453d; }
   @media (prefers-color-scheme: dark) {
-    :root { --bg:#14181555; --bg:#141815; --card:#1e2420; --ink:#eef2ee; --mute:#8d9a91; --line:#2b332d; }
+    :root { --bg:#141815; --card:#1e2420; --ink:#eef2ee; --mute:#8d9a91; --line:#2b332d; }
   }
   * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body { height:100%; }
   body { margin:0; background:var(--bg); color:var(--ink); font:17px/1.35 -apple-system,system-ui,sans-serif;
-         padding:env(safe-area-inset-top) 0 calc(env(safe-area-inset-bottom) + 24px); }
-  .wrap { max-width:560px; margin:0 auto; padding:0 16px; }
-  header { display:flex; align-items:center; justify-content:space-between; padding:18px 0 10px; }
-  h1 { font-size:26px; margin:0; }
+         display:flex; flex-direction:column; height:100dvh; overflow:hidden; padding-top:env(safe-area-inset-top); }
+  .top { flex:none; width:100%; max-width:560px; margin:0 auto; padding:0 16px; }
+  header { display:flex; align-items:center; justify-content:space-between; padding:12px 0 6px; }
+  h1 { font-size:24px; margin:0; }
   .icon-btn { background:none; border:0; font-size:22px; padding:8px; color:var(--mute); cursor:pointer; }
-  .add { display:flex; gap:8px; position:sticky; top:0; background:var(--bg); padding:8px 0 12px; z-index:2; }
-  .add input { flex:1; min-width:0; font:inherit; padding:14px 16px; border-radius:14px; border:1px solid var(--line);
+  .add { display:flex; gap:8px; padding:4px 0 6px; }
+  .add input { flex:1; min-width:0; font:inherit; padding:13px 16px; border-radius:14px; border:1px solid var(--line);
                background:var(--card); color:var(--ink); }
   .btn { border:0; border-radius:14px; width:52px; font-size:22px; cursor:pointer; background:var(--green); color:#fff; }
   .btn.mic { background:var(--card); border:1px solid var(--line); color:var(--ink); }
   .btn.mic.on { background:var(--red); color:#fff; animation:pulse 1s infinite; }
   @keyframes pulse { 50% { opacity:.6; } }
-  .quick { display:flex; gap:8px; overflow-x:auto; padding:2px 0 14px; scrollbar-width:none; }
-  .quick::-webkit-scrollbar { display:none; }
-  .chip { flex:none; background:var(--card); border:1px solid var(--line); border-radius:999px; padding:8px 14px;
-          font:inherit; color:var(--ink); cursor:pointer; }
-  ul { list-style:none; margin:0; padding:0; background:var(--card); border-radius:16px; border:1px solid var(--line); overflow:hidden; }
-  li { display:flex; align-items:center; gap:12px; padding:13px 14px; border-bottom:1px solid var(--line); }
-  li:last-child { border-bottom:0; }
-  li .e { font-size:24px; width:30px; text-align:center; }
-  li .n { flex:1; min-width:0; overflow-wrap:anywhere; }
-  li.done .n { text-decoration:line-through; color:var(--mute); }
-  li.done .e { opacity:.4; }
-  .check { width:26px; height:26px; border-radius:50%; border:2px solid var(--line); background:none; flex:none; cursor:pointer;
-           color:#fff; font-size:15px; line-height:1; }
-  li.done .check { background:var(--green); border-color:var(--green); }
-  .del { background:none; border:0; color:var(--mute); font-size:18px; padding:6px; cursor:pointer; }
-  .empty { text-align:center; color:var(--mute); padding:36px 16px; }
-  .foot { display:flex; justify-content:center; padding:16px 0; }
-  .link { background:none; border:0; color:var(--mute); font:inherit; font-size:15px; text-decoration:underline; cursor:pointer; padding:8px 12px; }
   .status { text-align:center; color:var(--mute); font-size:13px; min-height:18px; }
+
+  /* Schede */
+  .tabs { display:flex; gap:4px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:4px; margin:2px 0 8px; }
+  .tab { flex:1; border:0; background:none; padding:10px 6px; border-radius:10px; font:inherit; font-weight:600; color:var(--mute); cursor:pointer; }
+  .tab.on { background:var(--green); color:#fff; }
+  .tb { display:inline-block; min-width:22px; padding:0 6px; margin-left:4px; border-radius:999px; background:#fff; color:var(--green); font-size:13px; text-align:center; }
+  .tb:empty { display:none; }
+  .pager { flex:1; min-height:0; display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory;
+           -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  .pager::-webkit-scrollbar { display:none; }
+  .panel { flex:0 0 100%; scroll-snap-align:start; scroll-snap-stop:always; overflow-y:auto; overscroll-behavior:contain;
+           padding-bottom:calc(env(safe-area-inset-bottom) + 28px); }
+  .panel .in { max-width:560px; margin:0 auto; padding:0 16px; }
+
+  /* Reparti a tendina (Catalogo) */
+  .cat { display:flex; align-items:center; gap:10px; width:100%; margin-top:10px; padding:13px 14px; border:0; border-radius:14px;
+         background:var(--c); color:#fff; font:inherit; font-weight:700; font-size:17px; text-align:left; cursor:pointer; }
+  .cat .ce { font-size:22px; }
+  .cat .cn { flex:1; }
+  .cat .badge { background:#fff; color:var(--c); border-radius:999px; min-width:26px; padding:1px 9px; text-align:center; font-size:14px; }
+  .cat .chev { font-size:14px; opacity:.85; }
+  .body { background:var(--card); border:1px solid var(--line); border-left:5px solid var(--c); border-radius:0 0 14px 14px; margin-top:-6px; padding-top:6px; overflow:hidden; }
+  .gray { --c:#8a948d; }
+  /* intestazioni dei reparti nella Lista */
+  .lh { display:flex; justify-content:space-between; align-items:center; margin-top:12px; padding:9px 14px; border-radius:12px 12px 0 0;
+        background:var(--c); color:#fff; font-weight:700; font-size:15px; }
+  .lh span { background:#fff; color:var(--c); border-radius:999px; min-width:24px; padding:0 8px; text-align:center; font-size:13px; }
+  .lh + .body { margin-top:0; padding-top:0; }
+
+  .row { display:flex; align-items:center; gap:12px; padding:12px 12px 12px 14px; border-bottom:1px solid var(--line); cursor:pointer;
+         -webkit-touch-callout:none; -webkit-user-select:none; user-select:none; }
+  .row:last-child { border-bottom:0; }
+  .row .e { font-size:24px; width:30px; text-align:center; }
+  .row .n { flex:1; min-width:0; overflow-wrap:anywhere; }
+  .row .check { width:26px; height:26px; border-radius:50%; border:2px solid var(--c); flex:none; color:#fff; font-size:15px; line-height:22px; text-align:center; }
+  .row.done .check, .row.in .check { background:var(--c); }
+  .row.in { background:color-mix(in srgb, var(--c) 14%, transparent); font-weight:600; }
+  .row.done .n { text-decoration:line-through; color:var(--mute); }
+  .row.done .e { opacity:.4; }
+  .row.off { opacity:.6; }
+  .row .plus { width:26px; text-align:center; font-size:22px; color:var(--c); flex:none; line-height:1; }
+  .row .x { background:none; border:0; color:var(--mute); font-size:18px; padding:6px 8px; cursor:pointer; }
+  .hint { text-align:center; color:var(--mute); font-size:13px; padding:18px 8px 4px; }
+  .empty { text-align:center; color:var(--mute); padding:36px 16px; }
+  .endbtn { display:block; width:100%; margin-top:22px; padding:15px; border-radius:14px; border:2px solid var(--red); background:none;
+            color:var(--red); font:inherit; font-weight:700; cursor:pointer; }
   .notice { background:#fff4d6; color:#5a4500; border-radius:14px; padding:14px; margin:12px 0; font-size:15px; }
+
+  .tab { font-size:15px; padding:10px 2px; }
+  .spbtns { display:flex; gap:10px; margin:6px 0 14px; }
+  .spbtn { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; padding:16px 8px; border-radius:16px; border:2px dashed var(--line);
+           background:var(--card); color:var(--ink); font:inherit; font-weight:600; cursor:pointer; }
+  .spbtn .big { font-size:30px; line-height:1; }
+  .spbtn small { color:var(--mute); font-weight:400; font-size:13px; }
+  .thumb { width:52px; height:52px; border-radius:10px; object-fit:cover; flex:none; background:var(--bg); }
+  .thumb.ph { display:flex; align-items:center; justify-content:center; font-size:26px; }
+  .card { display:flex; align-items:center; gap:12px; padding:10px 10px 10px 10px; margin-top:10px; background:var(--card); border:1px solid var(--line);
+          border-left:5px solid var(--c); border-radius:14px; cursor:pointer; }
+  .card.wanted { background:color-mix(in srgb, var(--c) 14%, var(--card)); }
+  .card .ct { flex:1; min-width:0; }
+  .card .cname { font-weight:600; overflow-wrap:anywhere; }
+  .card .cnote { color:#b8860b; font-size:14px; overflow-wrap:anywhere; }
+  .card .ctag { color:var(--mute); font-size:13px; }
+  .card .cstate { font-size:13px; font-weight:700; color:var(--c); text-align:center; min-width:62px; }
+  .card .edit { background:none; border:0; color:var(--mute); font-size:20px; padding:6px; cursor:pointer; }
+  .spec { --c:#b8860b; }
+  .row .n small { display:block; color:#b8860b; font-size:14px; }
+  .row.sp .thumb { width:44px; height:44px; }
+  .lbl { display:block; margin:12px 0 4px; font-size:14px; color:var(--mute); }
+  dialog select { width:100%; font:inherit; padding:12px; border-radius:12px; border:1px solid var(--line); background:var(--bg); color:var(--ink); }
+  #specImg { display:block; max-height:180px; max-width:100%; margin:6px auto 0; border-radius:12px; }
+  #scanVideo { width:100%; max-height:46vh; border-radius:14px; background:#000; object-fit:cover; }
+  .links { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:0 0 12px; font-size:14px; color:var(--mute); }
+  .links a { color:var(--ink); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:6px 11px; text-decoration:none; }
+  .sectitle { margin:16px 2px 4px; font-weight:700; font-size:16px; }
+  .sectitle small { color:var(--mute); font-weight:400; }
+  .offer { display:flex; align-items:center; gap:10px; margin-top:8px; padding:10px 12px; background:var(--card); border:1px solid var(--line); border-left:5px solid #b8860b; border-radius:14px; }
+  .offer .ot { flex:1; min-width:0; }
+  .offer .oname { font-weight:600; overflow-wrap:anywhere; }
+  .offer .oinfo { color:var(--mute); font-size:13px; }
+  .offer .oprice { color:#b8860b; font-weight:700; }
+  .offer .oprice s { color:var(--mute); font-weight:400; margin-left:4px; }
+  .offer button { flex:none; border:0; border-radius:10px; padding:9px 12px; background:var(--green); color:#fff; font:inherit; font-weight:600; cursor:pointer; }
+  .offer button:disabled { background:var(--line); color:var(--mute); }
+  .store { display:inline-block; padding:1px 8px; border-radius:999px; background:#b8860b; color:#fff; font-size:12px; font-weight:700; margin-right:6px; vertical-align:1px; }
+  .more { display:block; width:100%; margin-top:8px; padding:11px; border:1px solid var(--line); border-radius:12px; background:none; color:var(--mute); font:inherit; cursor:pointer; }
+  .sub { padding:8px 14px 2px; font-size:13px; font-weight:700; color:#b8860b; text-transform:uppercase; letter-spacing:.04em; }
+  .row .n small.ofr { color:#b8860b; font-weight:600; cursor:pointer; }
+  .card.expired { opacity:.55; }
+  .card .cstore { font-size:13px; color:#b8860b; font-weight:600; }
+  #flyResults { max-height:34vh; overflow-y:auto; margin-top:10px; }
+  .fres { display:flex; gap:10px; align-items:flex-start; padding:9px 0; border-bottom:1px solid var(--line); font-size:15px; }
+  .fres input { width:22px; height:22px; flex:none; margin-top:2px; accent-color:var(--green); }
+  .fres small { display:block; color:var(--mute); overflow-wrap:anywhere; }
+  dialog input[type=date] { min-height:44px; }
+  .tab { display:flex; flex-direction:column; align-items:center; gap:1px; padding:6px 2px 5px; font-size:12px; position:relative; }
+  .tab .ti { font-size:20px; line-height:1.15; }
+  .tab .tb { position:absolute; top:1px; left:calc(50% + 6px); margin:0; min-width:18px; padding:0 5px; font-size:11px; line-height:17px; }
+  .xhead { margin:2px 0 4px; }
+  .cp { display:flex; gap:6px; }
+  .cp input { flex:1; min-width:0; font-size:13px; }
+  .cp button { flex:none; padding:0 12px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink); font:inherit; cursor:pointer; }
+  dialog details { margin:10px 0; }
+  dialog summary { cursor:pointer; font-weight:600; }
+  dialog ol { padding-left:20px; font-size:15px; color:var(--mute); margin:8px 0; }
+  dialog ol b, dialog ol code { color:var(--ink); }
   dialog { border:0; border-radius:18px; padding:22px; max-width:420px; width:calc(100% - 32px); background:var(--card); color:var(--ink); }
   dialog::backdrop { background:#0006; }
-  dialog h2 { margin:0 0 8px; font-size:20px; }
+  dialog h2 { margin:0 0 8px; font-size:20px; overflow-wrap:anywhere; }
   dialog p { color:var(--mute); font-size:15px; margin:8px 0; }
   dialog input { width:100%; font:inherit; padding:12px; border-radius:12px; border:1px solid var(--line); background:var(--bg); color:var(--ink); }
-  .row { display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
-  .row button { flex:1; font:inherit; padding:12px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer; }
-  .row button.p { background:var(--green); color:#fff; border-color:var(--green); }
+  #catGrid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
+  .catpick { border:2px solid transparent; border-radius:12px; padding:11px 8px; font:inherit; font-size:15px; font-weight:600; color:#fff; background:var(--c); cursor:pointer; }
+  .catpick.sel { border-color:var(--ink); box-shadow:0 0 0 2px var(--card) inset; }
+  .row2 { display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
+  .row2 button { flex:1; font:inherit; padding:12px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer; }
+  .row2 button.danger { background:var(--red); color:#fff; border-color:var(--red); font-weight:700; }
+  .row2 button.p { background:var(--green); color:#fff; border-color:var(--green); }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="top">
   <header>
     <h1>🛒 Spesa</h1>
     <button class="icon-btn" id="shareBtn" title="Condividi">👥</button>
   </header>
-
   <div id="notice"></div>
-
   <form class="add" id="form" autocomplete="off">
-    <input id="inp" placeholder="Cosa devi comprare?" enterkeyhint="done" autocapitalize="sentences">
+    <input id="inp" type="search" placeholder="Cerca o aggiungi un prodotto…" enterkeyhint="done" autocapitalize="sentences">
     <button type="button" class="btn mic" id="mic" title="Detta">🎤</button>
-    <button class="btn" title="Aggiungi">＋</button>
+    <button class="btn" title="Aggiungi alla lista">＋</button>
   </form>
-
-  <div class="quick" id="quick"></div>
   <div class="status" id="status"></div>
-  <ul id="list"></ul>
-  <div class="foot"><button class="link" id="clear" hidden>Elimina le voci già prese</button></div>
+  <div class="tabs">
+    <button class="tab" id="tab0"><span class="ti">📖</span>Catalogo</button>
+    <button class="tab" id="tab1"><span class="ti">🛒</span>Lista<span class="tb" id="tb"></span></button>
+    <button class="tab" id="tab2"><span class="ti">⭐</span>Specifici<span class="tb" id="tb2"></span></button>
+    <button class="tab" id="tab3"><span class="ti">🛍️</span>Altro<span class="tb" id="tb3"></span></button>
+  </div>
 </div>
+
+<div class="pager" id="pager">
+  <section class="panel"><div class="in">
+    <div id="catalog"></div>
+    <div class="hint">Tocca un prodotto per metterlo in lista, toccalo ancora per toglierlo.<br>Scorri a destra per vedere la lista.</div>
+  </div></section>
+  <section class="panel"><div class="in">
+    <div id="list"></div>
+    <div id="endwrap"></div>
+    <div class="hint" id="listhint"></div>
+  </div></section>
+  <section class="panel"><div class="in">
+    <div class="spbtns">
+      <button class="spbtn" id="camBtn"><span class="big">📷</span>Foto<small>confezione o volantino</small></button>
+      <button class="spbtn" id="scanBtn"><span class="big"><svg viewBox="0 0 48 30" width="46" height="30" fill="currentColor" aria-hidden="true"><rect x="2" width="3" height="30"/><rect x="8" width="1.5" height="30"/><rect x="12" width="4" height="30"/><rect x="19" width="2" height="30"/><rect x="24" width="1.5" height="30"/><rect x="28" width="4" height="30"/><rect x="35" width="2" height="30"/><rect x="40" width="3" height="30"/></svg></span>Codice a barre<small>trova il prodotto</small></button>
+    </div>
+    <input type="file" id="camInput" accept="image/*" hidden>
+    <div class="links"><span>🔎 Cerca offerte:</span>
+      <a href="https://www.esselunga.it/it-it/promozioni/volantini.esselunga-di-via-di-novoli-firenze.oli.html" target="_blank" rel="noopener">Esselunga Novoli</a>
+      <a href="https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini" target="_blank" rel="noopener">Unicoop Firenze</a>
+      <a href="https://www.lidl.it/c/volantino-lidl/s10018048" target="_blank" rel="noopener">Lidl</a>
+      <a href="https://www.doveconviene.it/firenze/iper-e-super" target="_blank" rel="noopener">DoveConviene</a>
+    </div>
+    <button class="more" id="flyerBtn" style="margin:0 0 6px">📄 Leggi un volantino (screenshot o foto)</button>
+    <div id="offers"></div>
+    <div class="sectitle">I tuoi prodotti specifici</div>
+    <div id="specs"></div>
+    <div class="hint">Qui metti i prodotti precisi: una marca, un modello, un'offerta.<br>Toccane uno per metterlo in lista, toccalo ancora per toglierlo.</div>
+  </div></section>
+  <section class="panel"><div class="in">
+    <form class="add xhead" id="xform" autocomplete="off">
+      <input id="xinp" placeholder="Es. scarpe da corsa - numero 43" enterkeyhint="done" autocapitalize="sentences">
+      <button class="btn" title="Aggiungi">＋</button>
+    </form>
+    <div id="extras"></div>
+    <div id="xend"></div>
+    <div class="hint">Qui ti segni quello che non trovi al supermercato: scarpe, mobili, libri, utensili, cartoleria…<br>Dopo il trattino puoi scrivere una nota (misura, modello, negozio).</div>
+  </div></section>
+</div>
+
+<dialog id="specDlg">
+  <h2 id="specTitle">Prodotto specifico</h2>
+  <img id="specImg" alt="" hidden>
+  <label class="lbl" for="specName">Nome (marca e modello)</label>
+  <input id="specName" placeholder="es. Gocciole Pavesi 500 g" autocapitalize="sentences">
+  <label class="lbl" for="specNote">Nota (facoltativa)</label>
+  <input id="specNote" placeholder="es. in offerta fino a sabato">
+  <label class="lbl" for="specCat">Reparto</label>
+  <select id="specCat"></select>
+  <label class="lbl" for="specStore">Supermercato (se è un'offerta)</label>
+  <select id="specStore"><option value="">— qualsiasi —</option><option>Esselunga</option><option>Coop</option><option>Lidl</option><option>Altro</option></select>
+  <label class="lbl" for="specValid">L'offerta vale fino al (facoltativo)</label>
+  <input id="specValid" type="date">
+  <div class="row2">
+    <button class="p" id="specAdd">Metti in lista</button>
+    <button id="specSave">Salva senza metterlo in lista</button>
+    <button class="danger" id="specDel" hidden>Elimina prodotto</button>
+    <button id="specNo">Annulla</button>
+  </div>
+</dialog>
+
+<dialog id="scanDlg">
+  <h2>Scansiona il codice a barre</h2>
+  <video id="scanVideo" playsinline muted autoplay></video>
+  <p id="scanMsg">Avvio della fotocamera…</p>
+  <input id="scanManual" inputmode="numeric" placeholder="Oppure scrivi le cifre del codice">
+  <div class="row2"><button class="p" id="scanGo">Cerca</button><button id="scanNo">Chiudi</button></div>
+</dialog>
+
+<dialog id="voiceDlg">
+  <h2>🎙️ Comandi vocali</h2>
+  <p>Con <b>Siri</b> aggiungi prodotti alla spesa e ti fai leggere la lista, anche da Apple Watch, in auto (CarPlay) e da HomePod. Si crea una volta sola nell'app <b>Comandi rapidi</b>, con questi valori:</p>
+  <label class="lbl">Indirizzo per «aggiungere»</label><div class="cp"><input id="vAdd" readonly><button data-copy="vAdd">Copia</button></div>
+  <label class="lbl">Indirizzo per «leggere la lista»</label><div class="cp"><input id="vRead" readonly><button data-copy="vRead">Copia</button></div>
+  <label class="lbl">Chiave (apikey)</label><div class="cp"><input id="vKey" readonly><button data-copy="vKey">Copia</button></div>
+  <label class="lbl">Codice della tua lista (p_list)</label><div class="cp"><input id="vList" readonly><button data-copy="vList">Copia</button></div>
+  <details><summary>Comando «Aggiungi alla spesa»</summary><ol>
+    <li>In <b>Comandi rapidi</b> tocca <b>＋</b> per creare un comando.</li>
+    <li>Azione <b>Chiedi input</b>: tipo <b>Testo</b>, domanda «Cosa aggiungo alla spesa?».</li>
+    <li>Azione <b>Ottieni contenuti dell'URL</b>. URL: incolla l'indirizzo per «aggiungere». Tocca la freccia per le opzioni: Metodo <b>POST</b>.</li>
+    <li>Intestazioni: <code>apikey</code> = la chiave · <code>Authorization</code> = <code>Bearer </code> seguito dalla chiave · <code>Content-Type</code> = <code>application/json</code>.</li>
+    <li>Corpo della richiesta: <b>JSON</b>, con due campi di tipo Testo: <code>p_list</code> = il codice lista · <code>p_text</code> = la variabile <b>Input fornito</b>.</li>
+    <li>Azione <b>Ottieni valore del dizionario</b>: chiave <code>message</code>, da «Contenuti dell'URL».</li>
+    <li>Azione <b>Pronuncia testo</b>: «Valore del dizionario».</li>
+    <li>Chiama il comando <b>Aggiungi alla spesa</b>. Dirai: «Ehi Siri, aggiungi alla spesa», poi i prodotti, anche più di uno («uova, latte e pane»).</li>
+  </ol></details>
+  <details><summary>Comando «Cosa devo comprare»</summary><ol>
+    <li>Nuovo comando con <b>Ottieni contenuti dell'URL</b>: URL = indirizzo per «leggere la lista», Metodo <b>POST</b>, stesse tre intestazioni.</li>
+    <li>Corpo JSON con un solo campo Testo: <code>p_list</code> = il codice lista.</li>
+    <li>Poi <b>Ottieni valore del dizionario</b> (<code>message</code>) e <b>Pronuncia testo</b>.</li>
+    <li>Chiamalo <b>Cosa devo comprare</b>.</li>
+  </ol></details>
+  <p>Per tua moglie: nel comando tocca <b>Condividi → Copia link iCloud</b> e mandaglielo. Chi usa lo stesso codice lista vede e modifica la stessa spesa.</p>
+  <p><b>Alexa</b>: serve una skill personale. Le istruzioni e i file sono nella cartella <b>alexa</b> del progetto (<b>LEGGIMI.txt</b>), e usano gli stessi valori qui sopra.</p>
+  <div class="row2"><button id="voiceNo">Chiudi</button></div>
+</dialog>
+
+<dialog id="flyerDlg">
+  <h2>Leggi un volantino</h2>
+  <p>Scegli gli screenshot o le foto delle pagine del volantino. L'app cerca i tuoi prodotti e i prezzi vicini. Lavora sul telefono, gratis: con volantini molto colorati può sbagliare o perdere qualcosa.</p>
+  <label class="lbl" for="flyStore">Supermercato</label>
+  <select id="flyStore"><option>Esselunga</option><option>Coop</option><option>Lidl</option><option>Altro</option></select>
+  <label class="lbl" for="flyTo">Il volantino vale fino al</label>
+  <input id="flyTo" type="date">
+  <label class="lbl" for="flyFiles">Pagine del volantino</label>
+  <input id="flyFiles" type="file" accept="image/*" multiple>
+  <p id="flyStatus"></p>
+  <div id="flyResults"></div>
+  <div class="row2">
+    <button class="p" id="flyGo">Leggi le pagine</button>
+    <button class="p" id="flyAdd" hidden>Aggiungi i selezionati</button>
+    <button id="flyNo">Chiudi</button>
+  </div>
+</dialog>
+
+<dialog id="endDlg">
+  <h2>Concludere la spesa?</h2>
+  <p id="endMsg"></p>
+  <div class="row2">
+    <button class="danger" id="endGo">Cancella i prodotti presi</button>
+    <button id="endAll">Cancella tutta la lista</button>
+    <button id="endNo">Annulla</button>
+  </div>
+</dialog>
+
+<dialog id="catDlg">
+  <h2 id="catTitle">Reparto</h2>
+  <p id="catSub">Scegli il reparto. Quello evidenziato è il mio suggerimento.</p>
+  <div id="catGrid"></div>
+  <div class="row2"><button id="catClose">Annulla</button></div>
+</dialog>
 
 <dialog id="dlg">
   <h2>Condividi la lista</h2>
   <p>Manda questo link a chi vuoi: aprendolo vedrà e potrà modificare la stessa lista. Chi ha il link ha accesso, quindi mandalo solo a persone fidate.</p>
   <input id="shareLink" readonly>
-  <div class="row">
+  <div class="row2">
     <button class="p" id="copyBtn">Copia link</button>
     <button id="nativeShare">Invia…</button>
   </div>
+  <button class="more" id="voiceBtn" style="margin-top:14px">🎙️ Comandi vocali (Siri e Alexa)</button>
   <p style="margin-top:18px">Hai ricevuto un link o un codice? Incollalo qui per unirti a un'altra lista:</p>
   <input id="joinInp" placeholder="Link o codice lista">
-  <div class="row">
+  <div class="row2">
     <button id="joinBtn">Unisciti</button>
     <button id="closeBtn">Chiudi</button>
   </div>
@@ -101,6 +325,8 @@
 <script>
 const $ = (id) => document.getElementById(id);
 const UUID = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 // ---- Lista corrente: dal link (?l=...) oppure salvata, oppure nuova ----
 function loadListId() {
@@ -115,20 +341,171 @@ function loadListId() {
 }
 let LIST = loadListId();
 
-// ---- Emoji automatiche ----
-const EMOJI = [
-  [/uov/, "🥚"], [/latt/, "🥛"], [/pane|panini|focaccia/, "🍞"], [/past|spaghet|penne|riso/, "🍝"],
-  [/formagg|parmigian|mozzarell/, "🧀"], [/carn|bistecc|pollo|salsicc|prosciutt/, "🥩"], [/pesc|tonno|salmon/, "🐟"],
-  [/mel[ae]/, "🍎"], [/banan/, "🍌"], [/arancl?|limon|agrum/, "🍊"], [/pomodor|passata/, "🍅"], [/insalat|verdur|zucchin|spinac/, "🥬"],
-  [/patat/, "🥔"], [/carot/, "🥕"], [/cipoll|aglio/, "🧅"], [/acqua/, "💧"], [/vino|birra|prosecco/, "🍷"],
-  [/caff/, "☕"], [/biscott|merend|dolc|cioccolat|nutella/, "🍪"], [/gelat/, "🍦"], [/olio/, "🫒"], [/burro/, "🧈"],
-  [/carta|scottex|tovagliol/, "🧻"], [/detersiv|sapone|shampoo|bagno/, "🧴"], [/pannolin/, "👶"], [/cane|gatto|crocchett/, "🐾"],
+// ---- Reparti (nell'ordine in cui compaiono) e relativo colore ----
+const CATS = [
+  { id: "frutta", name: "Frutta", emoji: "🍎", color: "#d93f45" },
+  { id: "verdura", name: "Verdura", emoji: "🥬", color: "#2f9e5b" },
+  { id: "frigo", name: "Banco frigo", emoji: "🧀", color: "#3b82e0" },
+  { id: "pesce", name: "Pesce", emoji: "🐟", color: "#0c8f9c" },
+  { id: "carne", name: "Carne", emoji: "🥩", color: "#a8324f" },
+  { id: "forno", name: "Forno", emoji: "🥖", color: "#b87a10" },
+  { id: "scatolette", name: "Scatolette", emoji: "🥫", color: "#8a6a4a" },
+  { id: "dispensa", name: "Dispensa", emoji: "🍝", color: "#c85f1f" },
+  { id: "cucina", name: "Cucina", emoji: "🍽️", color: "#5f6f86" },
+  { id: "colazione", name: "Colazione", emoji: "☕", color: "#8e5bd1" },
+  { id: "merendine", name: "Merendine", emoji: "🍪", color: "#d6448a" },
+  { id: "snack", name: "Snack", emoji: "🥨", color: "#7d8a1c" },
+  { id: "bevande", name: "Bevande", emoji: "🥤", color: "#4f46c8" },
+  { id: "farmaci", name: "Farmaci", emoji: "💊", color: "#b83dba" },
+  { id: "bagno", name: "Bagno", emoji: "🛁", color: "#2f86c4" },
+  { id: "casa", name: "Casa", emoji: "🏠", color: "#3d8b8b" },
+  { id: "altro", name: "Altro", emoji: "📦", color: "#8c7b70" },
 ];
-const guessEmoji = (t) => { t = t.toLowerCase(); for (const [re, e] of EMOJI) if (re.test(t)) return e; return "🛒"; };
+const catById = (id) => CATS.find((c) => c.id === id) || CATS[CATS.length - 1];
 
-const QUICK = ["Uova", "Latte", "Pane", "Pasta", "Frutta", "Verdura", "Acqua", "Caffè", "Carta igienica"];
-$("quick").innerHTML = QUICK.map((q) => `<button class="chip" data-q="${q}">${guessEmoji(q)} ${q}</button>`).join("");
-$("quick").onclick = (e) => { const q = e.target.closest("[data-q]")?.dataset.q; if (q) add([q]); };
+// ---- Riconoscimento automatico del reparto, dal nome ----
+const CAT_RULES = [
+  ["colazione", /(?<![a-zà-ù])(?:t[eè]|the)(?![a-zà-ù])/],
+  ["scatolette", /passata|pelati|polpa|tonno|legumi|fagioli|ceci|lenticch|sardin|sgombro|conserv|olive\b|scatol|mais\b/],
+  ["frutta", /\bmel[ae]\b|\bper[ae]\b|banan|arancl?|mandarin|limon|fragol|\buva\b|pesch|albicocc|kiwi|anguri|melon|frutta|ananas|mirtill|ciliegi|cachi|clementin|pompelm/],
+  ["verdura", /lattuga|insalat|verdur|zucchin|spinac|pomodor|carot|cipoll|\baglio\b|patat(?!in)|peperon|melanzan|finocch|sedano|funghi|cavol|broccol|rucola|basilico|prezzemolo|zucca|cetriol|asparag|fagiolini|piselli|erbette|porri/],
+  ["pesce", /pesc|salmon|merluzz|gamber|orata|branzin|cozze|vongol|calamar|polpo|baccal|sogliol/],
+  ["carne", /\bcarn|bistecc|pollo|maial|manzo|vitell|salsicc|hamburger|macinato|tacchino|arrost|cotolett|costin|fettine|bacon|pancetta|agnello|fegato/],
+  ["frigo", /\blatt[ei]\b|formagg|parmigian|mozzarell|yogurt|burro|\buov|prosciutt|salum|mortadell|affettat|panna\b|ricott|mascarpone|stracchin|gorgonzol|grana|speck|bresaola|salame|wurstel|margarina|gnocchi|besciamella/],
+  ["forno", /\bpane\b|panin|focaccia|pizza|piadin|grissin|cracker|taralli|pancarr|tramezzin|schiacciat/],
+  ["colazione", /caff|cappuccin|cereali|biscott|marmellat|nutella|miele|fette biscottat|corn ?flakes|muesli|orzo|cornett|zucchero|cacao|tisan/],
+  ["merendine", /merend|plumcake|kinder|tortin|crostat|bauli|brioche|cioccolat|caramell|gelat|ghiacciol|budino|dolc|torta/],
+  ["snack", /patatin|chips|noccioline|arachid|pistacch|mandorl|nocciol|popcorn|salatin|snack|frutta secca|anacard|barrett/],
+  ["bevande", /acqua|vino|birra|prosecco|succo|coca|aranciata|bibita|spritz|spumante|liquor|amaro|gazzosa|\bcola\b|energy|aperitiv/],
+  ["farmaci", /farmac|aspirin|tachipirin|paracetamol|ibuprofen|cerott|garza|vitamin|sciropp|collirio|termometr|integrator|pastiglie|compresse|disinfett|betadine|oki\b|moment/],
+  ["bagno", /shampoo|bagnoschiuma|docciaschiuma|sapone|dentifric|spazzolin|deodorant|igienica|assorbent|pannolin|cotone|fioc|rasoi|barba|crema|balsamo|struccant|salviett|lamette|collutorio|interdentale|bagno/],
+  ["casa", /lavastoviglie|piatti\b|spazzatura|spugn/],
+  ["dispensa", /pasta|spaghett|riso\b|\bolio\b|aceto|\bsale\b|farina|spezie|\bpepe\b|\bdado\b|maionese|ketchup|senape|zafferano|salsa|\bsugo|brodo|lievito|polenta|couscous|trofie|pastine/],
+  ["cucina", /scottex|rotolo|bobina|tovagli|alluminio|pellicola|sacchett|carta forno|stuzzicadenti|cucchiaini|forchett|bicchieri/],
+  ["casa", /ammorbident|lavatrice|candeggin|pulizia|sgrassator|ammoniaca|sacchi|spazzatura|lampadin|\bpile\b|scopa|swiffer|straccio|guanti|insetticid|vetri|anticalcare|bucato|detersiv|detergente/],
+];
+
+const guessCat = (t) => { t = t.toLowerCase(); for (const [c, re] of CAT_RULES) if (re.test(t)) return c; return "altro"; };
+
+// ---- Un'emoji per prodotto ----
+const EM = {
+  // frutta
+  "pesche":"🍑","mirtilli":"🫐","fragole":"🍓","banane":"🍌","limone":"🍋","mandarini":"🍊",
+  // verdura
+  "patate":"🥔","cipolle":"🧅","zucchine":"🥒","spinaci":"🥬","lattuga":"🥬","insalata":"🥗","pomodori":"🍅","prezzemolo":"🌿",
+  "erba cipollina":"🌱","peperoncino":"🌶️","minestrone":"🍲","mix verdure surgelate":"🥦","mix soffritto":"🥕","aglio":"🧄","carote":"🥕",
+  // banco frigo
+  "uova":"🥚","latte":"🥛","latte brick":"🧃","burro":"🧈","formaggio grattugiato":"🧀","mozzarelle":"⚪","mozzarelline":"⚪","philadelphia":"🧈",
+  "mascarpone":"🍰","yogurt":"🥣","yogurt alla banana":"🍌","yogurt probiotico":"🦠","yogurt da bere":"🥤","yogurt colesterolo":"❤️",
+  "yogurt super mario":"🍄","yomino":"🥤","prosciutto":"🍖","prosciutto cotto":"🍖","bresaola":"🥩","speck":"🥓","affettati":"🥓",
+  "pancetta":"🥓","guanciale":"🥓","pesto":"🌿","spätzle":"🥨","hamburger vegetariani":"🍔",
+  // pesce
+  "vongole":"🐚","sogliole":"🐟","bottarga":"🐠","pesce surgelato":"🐟","pesce congelato":"🐟",
+  // carne
+  "pollo":"🍗","fettine bovino":"🥩","cordon blue":"🧀",
+  // forno
+  "pane":"🍞","ciabatta":"🥖","pancarré":"🍞","pizza":"🍕","crackers":"🍘","paninetti":"🥯","schiacciatine":"🫓",
+  // scatolette
+  "tonno":"🐟","legumi":"🫘","ceci":"🫘","fagioli cannellini":"🫘","fagioli rossi":"🫘","fagioli borlotti":"🫘","olive":"🫒","capperi":"🫙",
+  "polpa fine piccola":"🍅","polpa di pomodoro":"🍅",
+  // dispensa
+  "pasta":"🍝","pasta corta":"🍝","spaghetti":"🍝","pastine":"🥣","riso":"🍚","trofie":"🍝","sugo pronto":"🥫","olio":"🫒","aceto":"🍶",
+  "sale grosso":"🧂","farina di granturco":"🌽","dado":"🧊","ketchup":"🍅","senape":"🌭","zafferano":"🌼","pomodori secchi":"🍅",
+  // cucina
+  "scottex":"🧻","bobina carta":"🧻","tovaglioli":"🍽️","tovaglia carta":"📄","carta forno":"📜","pellicola":"🎞️","alluminio":"🪙",
+  "sacchetti freezer":"🧊","cucchiaini plastica":"🥄","stuzzicadenti":"🍢",
+  // colazione
+  "caffè":"☕","cialde caffè":"☕","cialde borbone":"☕","fette biscottate":"🍞","marmellata":"🫙","nutella":"🍫","zucchero":"🍬",
+  "biscotti kinderini":"🍪","gocciole":"🍪","tè":"🍵","tè pesca":"🍑",
+  // merendine
+  "gelato":"🍦","gelato panna":"🍨","crostata":"🥧","budino":"🍮","mousse di frutta":"🍧",
+  // snack
+  "patatine":"🍟",
+  // bevande
+  "acqua":"💧","acqua sant'anna":"💦","spritz":"🍹","prosecco":"🥂","vino":"🍷","birra":"🍺","4 moretti":"🍻","estathe":"🧋",
+  "succo di frutta":"🧃","succo mirtillo":"🫐","succhini da bere":"🧃","triangolini":"🧃",
+  // farmaci
+  "tachipirina":"💊","acqua ossigenata":"🧪","polase":"💊","antizanzare":"🦟","crema solare":"☀️",
+  // bagno
+  "dentifricio":"🪥","dentifricio leo":"🪥","dentifricio graziano":"🪥","colluttorio":"🫧","spazzolino lavoro":"🪥","ricambi spazzolino":"🪥",
+  "ricambio spazzolino leo":"🪥","cotton fioc":"☁️","cotton fioc leo":"☁️","bagnoschiuma":"🛁","shampoo":"🧴","sapone mani":"🧼",
+  "sapone intimo":"🧼","sapone":"🧼","deodorante anna":"💨","burro cacao":"💄","salvaslip":"🌸","ceretta baffi":"🪒","carta igienica":"🧻","fazzoletti":"🤧",
+  // casa
+  "detersivo piatti":"🫧","sale lavastoviglie":"🧂","detersivo pavimenti":"🧹","detersivo lavatrice":"🧺","sgrassatore":"🧽",
+  "igienizzante":"🧴","mocio":"🧹","candeggina cif":"🧴","viakal vetro doccia":"🚿","tavolette wc":"🚽","napisan":"🧺","smacchiatore":"🧺",
+  "amuchina bucato igienizzante":"🧺","cattura colore":"🎨","buste spazzatura":"🗑️","profumatore ambiente":"🌸","batterie ricaricabili":"🔋",
+  "terriccio":"🪴","acqua san giovanni multiuso":"🧽",
+  // altro
+  "pure":"🍼","omogenizzati carne":"🍼","cibo senior":"🐶","lettiera":"🐱","sacchetti cacca":"💩",
+};
+// per i prodotti non in elenco: prima le parole chiave più specifiche, poi l'icona del reparto
+const EMOJI_RULES = [
+  [/zucchin|cetriol/, "🥒"], [/insalat/, "🥗"], [/spinac|lattuga|rucola|bieta/, "🥬"], [/pomodor|passata|pelati/, "🍅"],
+  [/aglio/, "🧄"], [/cipoll/, "🧅"], [/carot/, "🥕"], [/patatin/, "🍟"], [/patat/, "🥔"], [/peperon/, "🫑"], [/melanzan/, "🍆"],
+  [/fung/, "🍄"], [/broccol|cavolfior/, "🥦"], [/\bmais\b/, "🌽"], [/fagiol|ceci|lenticch|legum/, "🫘"], [/yogurt/, "🥣"],
+  [/uov/, "🥚"], [/latt/, "🥛"], [/burro/, "🧈"], [/formagg|parmigian|grana|mozzarell|pecorino/, "🧀"], [/pizza/, "🍕"],
+  [/pane|panin|focaccia|ciabatt/, "🍞"], [/past|spaghet|penne|rigaton|fusill/, "🍝"], [/\briso\b/, "🍚"],
+  [/pollo|tacchino/, "🍗"], [/carn|bistecc|salsicc|hamburger|maial|manzo|vitell/, "🥩"], [/prosciutt|salam|speck|pancett/, "🥓"],
+  [/tonno|salmon|pesce|merluzz|orata|branzin|sogliol/, "🐟"], [/gambero|gamberi|scamp/, "🦐"], [/cozze|vongol/, "🐚"],
+  [/pesch/, "🍑"], [/mel[ae]\b/, "🍎"], [/banan/, "🍌"], [/arancia|arance|mandarin|clementin/, "🍊"], [/limon/, "🍋"], [/fragol/, "🍓"],
+  [/uva/, "🍇"], [/anguria|cocomer/, "🍉"], [/melon/, "🍈"], [/ananas/, "🍍"], [/kiwi/, "🥝"], [/ciliegi/, "🍒"], [/pera|pere/, "🍐"],
+  [/acqua/, "💧"], [/vino|prosecco|spumante/, "🍷"], [/birra/, "🍺"], [/succo|succhi/, "🧃"], [/coca|cola|aranciata|gazzosa|bibita/, "🥤"],
+  [/caff|espresso|cappuccin/, "☕"], [/\bt[eè]\b|the\b|tisan/, "🍵"], [/biscott|merend|plumcake/, "🍪"], [/cioccolat|nutella/, "🍫"],
+  [/gelat/, "🍦"], [/olio|olive/, "🫒"], [/\bsale\b/, "🧂"], [/zucchero/, "🍬"], [/miele/, "🍯"], [/carta igienica|scottex|rotolo/, "🧻"],
+  [/dentifric|spazzolin/, "🪥"], [/sapone/, "🧼"], [/shampoo|bagnoschiuma|docciaschiuma/, "🧴"], [/detersiv|ammorbident/, "🧺"],
+  [/candeggin|sgrassat|spugn/, "🧽"], [/spazzatura|buste/, "🗑️"], [/pannolin/, "👶"], [/gatto|lettiera/, "🐱"], [/cane\b|crocchett/, "🐶"],
+  [/pastigli|compress|tachipirin|aspirin|farmac/, "💊"], [/pile\b|batteri/, "🔋"], [/lampadin/, "💡"],
+];
+const guessEmoji = (t) => { t = t.toLowerCase(); for (const [re, e] of EMOJI_RULES) if (re.test(t)) return e; return "🛒"; };
+function emojiFor(name, cat) {
+  const n = name.trim().toLowerCase();
+  if (EM[n]) return EM[n];
+  const g = guessEmoji(n);
+  return g !== "🛒" ? g : catById(cat).emoji;
+}
+
+// ---- Catalogo iniziale: i prodotti che comprate di solito ----
+const CATALOG_SRC = {
+  frutta: "Pesche|Mirtilli|Fragole|Banane|Limone|Mandarini",
+  verdura: "Patate|Cipolle|Zucchine|Spinaci|Lattuga|Pomodori|Prezzemolo|Erba cipollina|Peperoncino|Minestrone|Mix verdure surgelate|Mix soffritto",
+  frigo: "Uova|Latte|Latte brick|Burro|Formaggio grattugiato|Mozzarelle|Mozzarelline|Philadelphia|Mascarpone|Yogurt|Yogurt alla banana|Yogurt probiotico|Yogurt da bere|Yogurt colesterolo|Yogurt super Mario|Yomino|Prosciutto|Prosciutto cotto|Bresaola|Speck|Affettati|Pancetta|Guanciale|Pesto|Spätzle|Hamburger vegetariani",
+  pesce: "Vongole|Sogliole|Bottarga|Pesce surgelato|Pesce congelato",
+  carne: "Pollo|Fettine bovino|Cordon blue",
+  forno: "Pane|Ciabatta|Pancarré|Pizza|Crackers|Paninetti|Schiacciatine",
+  scatolette: "Tonno|Legumi|Ceci|Fagioli cannellini|Fagioli rossi|Fagioli borlotti|Olive|Capperi|Polpa fine piccola|Polpa di pomodoro",
+  dispensa: "Pasta|Pasta corta|Spaghetti|Pastine|Riso|Trofie|Sugo pronto|Olio|Aceto|Sale grosso|Farina di granturco|Dado|Ketchup|Senape|Zafferano|Pomodori secchi",
+  cucina: "Scottex|Bobina carta|Tovaglioli|Tovaglia carta|Carta forno|Pellicola|Alluminio|Sacchetti freezer|Cucchiaini plastica|Stuzzicadenti",
+  colazione: "Caffè|Cialde caffè|Cialde Borbone|Fette biscottate|Marmellata|Nutella|Zucchero|Biscotti Kinderini|Gocciole|Tè|Tè pesca",
+  merendine: "Gelato|Gelato panna|Crostata|Budino|Mousse di frutta",
+  snack: "Patatine",
+  bevande: "Acqua|Acqua Sant'Anna|Spritz|Prosecco|Vino|Birra|4 Moretti|Estathe|Succo di frutta|Succo mirtillo|Succhini da bere|Triangolini",
+  farmaci: "Tachipirina|Acqua ossigenata|Polase|Antizanzare|Crema solare",
+  bagno: "Dentifricio|Dentifricio Leo|Dentifricio Graziano|Colluttorio|Spazzolino lavoro|Ricambi spazzolino|Ricambio spazzolino Leo|Cotton fioc|Cotton fioc Leo|Bagnoschiuma|Shampoo|Sapone mani|Sapone intimo|Sapone|Deodorante Anna|Burro cacao|Salvaslip|Ceretta baffi|Carta igienica|Fazzoletti",
+  casa: "Detersivo piatti|Sale lavastoviglie|Detersivo pavimenti|Detersivo lavatrice|Sgrassatore|Igienizzante|Mocio|Candeggina Cif|Viakal vetro doccia|Tavolette WC|Napisan|Smacchiatore|Amuchina bucato igienizzante|Cattura colore|Buste spazzatura|Profumatore ambiente|Batterie ricaricabili|Terriccio|Acqua San Giovanni multiuso",
+  altro: "Pure|Omogenizzati carne|Cibo senior|Lettiera|Sacchetti cacca",
+};
+
+const CATALOG = Object.entries(CATALOG_SRC).flatMap(([c, str]) => str.split("|").map((name) => ({ key: name.toLowerCase(), name, category: c, times: 0 })));
+
+// ---- Stato ----
+let items = [];      // voci nella lista (da comprare o già prese)
+let habits = [];     // cronologia di ciò che è stato comprato (si impara spuntando)
+let extras = [];     // cose da comprare fuori dal supermercato (scheda Altro)
+let offers = [], offersAt = 0;   // offerte dei supermercati (scaricate da Supabase)
+let specs = [];      // prodotti specifici (foto / codice a barre)
+const photos = new Map(), fetching = new Set();
+let openOv = new Map(); // reparti aperti/chiusi a mano
+try { openOv = new Map(JSON.parse(localStorage.getItem("open") || "[]")); } catch (e) {}
+const keyOf = (i) => i.name.trim().toLowerCase();
+const catOf = (i) => i.category || guessCat(i.name);
+const byNew = (a, b) => new Date(b.created_at) - new Date(a.created_at);
+
+function knownMap() {
+  const m = new Map();
+  for (const c of CATALOG) m.set(c.key, c);
+  for (const h of habits) m.set(h.key, { key: h.key, name: h.name, category: h.category || m.get(h.key)?.category || guessCat(h.name), times: h.times });
+  return m;
+}
 
 // ---- Server (Supabase, funzioni RPC) ----
 const configured = window.CONFIG && !window.CONFIG.SUPABASE_URL.startsWith("INCOLLA");
@@ -142,62 +519,316 @@ async function rpc(fn, args) {
   const t = await r.text();
   return t ? JSON.parse(t) : null;
 }
-
-let items = [];
-function render() {
-  const ul = $("list");
-  if (!items.length) { ul.outerHTML = `<ul id="list"><li class="empty" style="display:block">La lista è vuota 🎉<br>Aggiungi qualcosa qui sopra.</li></ul>`; }
-  else {
-    ul.innerHTML = items.map((i) => `
-      <li class="${i.done ? "done" : ""}" data-id="${i.id}">
-        <button class="check" data-act="toggle">${i.done ? "✓" : ""}</button>
-        <span class="e">${i.emoji || "🛒"}</span>
-        <span class="n"></span>
-        <button class="del" data-act="del" title="Elimina">✕</button>
-      </li>`).join("");
-    ul.querySelectorAll("li").forEach((li, idx) => (li.querySelector(".n").textContent = items[idx].name));
-  }
-  $("clear").hidden = !items.some((i) => i.done);
-}
-// il <ul> può essere stato sostituito: riaggancia i click sul contenitore stabile
-document.querySelector(".wrap").addEventListener("click", async (e) => {
-  const btn = e.target.closest("[data-act]"); if (!btn) return;
-  const id = +btn.closest("li").dataset.id;
-  const it = items.find((x) => x.id === id);
-  if (btn.dataset.act === "toggle") { it.done = !it.done; items.sort(sortFn); render(); await safe(() => rpc("set_done", { p_list: LIST, p_id: id, p_done: it.done })); }
-  if (btn.dataset.act === "del") { items = items.filter((x) => x.id !== id); render(); await safe(() => rpc("delete_item", { p_list: LIST, p_id: id })); }
-});
-const sortFn = (a, b) => a.done - b.done || new Date(b.created_at) - new Date(a.created_at);
-
 async function safe(fn) {
   try { await fn(); setStatus(""); } catch (e) { console.error(e); setStatus("⚠️ Problema di connessione, riprovo…"); }
 }
 function setStatus(s) { $("status").textContent = s; }
 
-async function refresh() {
-  if (!configured || document.hidden) return;
-  try { items = await rpc("get_items", { p_list: LIST }); render(); setStatus(""); }
-  catch (e) { console.error(e); setStatus("⚠️ Offline: i dati potrebbero non essere aggiornati"); }
+// ---- Disegno: scheda Catalogo e scheda Lista ----
+let lastSig = "";
+const curOpen = new Map();
+const findIn = (key) => items.find((i) => keyOf(i) === key);
+let tt = null;
+function toast(msg) { setStatus(msg); clearTimeout(tt); tt = setTimeout(() => setStatus(""), 2200); }
+
+function render() {
+  const q = $("inp").value.trim().toLowerCase();
+  const sig = JSON.stringify([items.map((i) => [i.id, i.name, i.done, i.category]), specs.map((x) => [x.id, x.name, x.note, x.want, x.done, x.category, x.photo_url, x.store, x.valid_to, photos.has(x.id)]), extras.map((x) => [x.id, x.name, x.note, x.done, x.category]), habits.length, offers.length, [...openOv], q]);
+  if (sig === lastSig) return;
+  lastSig = sig;
+  renderCatalog(q);
+  renderList();
+  renderSpecs();
+  renderOffers();
+  renderExtras();
+  const wanted = specs.filter((x) => x.want && !x.done).length;
+  $("tb").textContent = items.filter((i) => !i.done).length + wanted || "";
+  $("tb2").textContent = wanted || "";
+}
+const redraw = () => { lastSig = ""; render(); };
+
+function renderCatalog(q) {
+  const known = knownMap();
+  for (const i of items) {                       // il reparto in lista vale più di quello del catalogo; i prodotti scritti a mano compaiono
+    const k = keyOf(i), old = known.get(k);
+    known.set(k, { key: k, name: old?.name || i.name, category: catOf(i), times: old?.times || 0 });
+  }
+  const match = (n) => !q || n.toLowerCase().includes(q);
+  let html = "";
+  for (const c of CATS) {
+    const prods = [...known.values()].filter((p) => p.category === c.id && match(p.name))
+      .sort((a, b) => b.times - a.times || a.name.localeCompare(b.name, "it"));
+    if (!prods.length) continue;
+    const nIn = items.filter((i) => catOf(i) === c.id).length;
+    const isOpen = q ? true : !!openOv.get(c.id);
+    curOpen.set(c.id, isOpen);
+    html += `<button class="cat" data-cat="${c.id}" style="--c:${c.color}"><span class="ce">${c.emoji}</span><span class="cn">${c.name}</span>${nIn ? `<span class="badge">${nIn}</span>` : ""}<span class="chev">${isOpen ? "▲" : "▼"}</span></button>`;
+    if (isOpen) {
+      html += `<div class="body" style="--c:${c.color}">` + prods.map((p) => {
+        const inl = !!findIn(p.key);
+        return `<div class="row ${inl ? "in" : "off"}" data-key="${esc(p.key)}">${inl ? `<span class="check">✓</span>` : `<span class="plus">＋</span>`}<span class="e">${emojiFor(p.name, c.id)}</span><span class="n">${esc(p.name)}</span></div>`;
+      }).join("") + `</div>`;
+    }
+  }
+  $("catalog").innerHTML = html || `<div class="empty">Nessun prodotto trovato.<br>Premi ＋ in alto per aggiungerlo alla lista.</div>`;
 }
 
-// ---- Aggiunta (anche più voci insieme) ----
-function splitItems(text) {
-  return text.split(/,|;|\n|\s+e\s+/i).map((s) => s.trim().replace(/^(e|e poi|poi)\s+/i, "")).filter(Boolean)
-    .map((s) => s.charAt(0).toUpperCase() + s.slice(1));
+function ensurePhoto(x) {
+  if (!x.has_photo || x.id < 0 || photos.has(x.id) || fetching.has(x.id)) return;
+  fetching.add(x.id);
+  rpc("get_specific_photo", { p_list: LIST, p_id: x.id })
+    .then((ph) => { if (ph) { photos.set(x.id, ph); redraw(); } })
+    .catch(() => {}).finally(() => fetching.delete(x.id));
 }
-async function add(names) {
+function thumb(x) {
+  ensurePhoto(x);
+  const src = x.photo_url || photos.get(x.id);
+  return src ? `<img class="thumb" src="${esc(src)}" alt="">` : `<span class="thumb ph">${catById(x.category || guessCat(x.name)).emoji}</span>`;
+}
+const specCat = (x) => x.category || guessCat(x.name);
+
+// ---- Offerte: abbinamento con i tuoi prodotti ----
+const STOPW = new Set(["alla", "allo", "alle", "della", "delle", "dello", "degli", "dei", "del", "con", "senza", "per", "tipo", "gusto", "extra", "bio", "pronto", "pronta", "fresco", "fresca", "misto", "mista", "mini", "maxi", "gran", "nuovo", "pacco", "conf", "confezione", "lavoro"]);
+const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+const stemOf = (w) => w.replace(/[aeiou]$/, "");
+const sigWords = (s) => (norm(s).match(/[a-z]{3,}/g) || []).filter((w) => !STOPW.has(w)).map(stemOf).filter((w) => w.length >= 3);
+function matchPos(prodName, text) {            // -1 = nessun abbinamento; più basso = più convincente
+  const pw = sigWords(prodName); if (!pw.length) return -1;
+  const tw = sigWords(text);
+  const need = pw.length >= 3 ? pw.length - 1 : pw.length;
+  let hit = 0, first = 99;
+  for (const w of pw) { const i = tw.indexOf(w); if (i >= 0) { hit++; first = Math.min(first, i); } }
+  return hit >= need ? first : -1;
+}
+const eur = (n) => (n == null ? "" : Number(n).toFixed(2).replace(".", ",") + " €");
+const dm = (iso) => (iso ? iso.slice(8, 10) + "/" + iso.slice(5, 7) : "");
+const todayISO = () => new Date().toISOString().slice(0, 10);
+const isExpired = (x) => !!x.valid_to && x.valid_to < todayISO();
+function bestOffer(name) {
+  let best = null;
+  for (const o of offers) {
+    const pos = matchPos(name, o.title); if (pos < 0) continue;
+    const k = [pos, o.price == null ? 999 : Number(o.price)];
+    if (!best || k[0] < best.k[0] || (k[0] === best.k[0] && k[1] < best.k[1])) best = { o, k };
+  }
+  return best && best.o;
+}
+async function loadOffers() {
+  offersAt = Date.now();
+  try { offers = (await rpc("get_offers", {})) || []; redraw(); } catch (e) { /* il database delle offerte non c'è ancora: l'app funziona lo stesso */ }
+}
+
+function renderList() {
+  const todo = items.filter((i) => !i.done), done = items.filter((i) => i.done).sort(byNew);
+  const sTodo = specs.filter((x) => x.want && !x.done), sDone = specs.filter((x) => x.want && x.done);
+  const where = (x) => [x.store ? "🏪 " + x.store : "", x.valid_to ? (isExpired(x) ? "SCADUTA il " : "fino al ") + dm(x.valid_to) : ""].filter(Boolean).join(" · ");
+  const specRow = (x) => `<div class="row sp" data-sid="${x.id}"><span class="check"></span>${thumb(x)}<span class="n"><b>${esc(x.name)}</b>${where(x) ? `<small>${esc(where(x))}</small>` : ""}${x.note ? `<small>${esc(x.note)}</small>` : ""}</span><button class="x" data-sdel title="Togli dalla lista">✕</button></div>`;
+  let html = "";
+  if (sTodo.length) {                              // in evidenza, in cima: prodotti precisi da cercare
+    const stores = [...new Set(sTodo.map((x) => x.store || ""))].sort();
+    html += `<div class="lh spec"><span style="background:none;color:#fff;padding:0;text-align:left">⭐ Prodotti specifici · cerca proprio questi</span><span>${sTodo.length}</span></div><div class="body spec">`;
+    for (const st of stores) {
+      if (stores.length > 1) html += `<div class="sub">🏪 ${esc(st || "Dove capita")}</div>`;
+      html += sTodo.filter((x) => (x.store || "") === st).map(specRow).join("");
+    }
+    html += `</div>`;
+  }
+  for (const c of CATS) {
+    const g = todo.filter((i) => catOf(i) === c.id).sort(byNew);
+    if (!g.length) continue;
+    html += `<div class="lh" style="--c:${c.color}"><span style="background:none;color:#fff;padding:0;text-align:left">${c.emoji} ${c.name}</span><span>${g.length}</span></div><div class="body" style="--c:${c.color}">` +
+      g.map((i) => {
+        const o = bestOffer(i.name);
+        const tag = o ? `<small class="ofr" data-ofr>🏷 ${esc(o.store)}${o.price != null ? " " + eur(o.price) : ""} · in offerta${o.valid_to ? " fino al " + dm(o.valid_to) : ""}</small>` : "";
+        return `<div class="row" data-id="${i.id}"><span class="check"></span><span class="e">${emojiFor(i.name, c.id)}</span><span class="n">${esc(i.name)}${tag}</span><button class="x" data-del title="Togli dalla lista">✕</button></div>`;
+      }).join("") + `</div>`;
+  }
+  if (done.length || sDone.length) {
+    html += `<div class="lh gray"><span style="background:none;color:#fff;padding:0;text-align:left">✓ Nel carrello</span><span>${done.length + sDone.length}</span></div><div class="body gray">` +
+      sDone.map((x) => `<div class="row sp done" data-sid="${x.id}" style="--c:#b8860b"><span class="check">✓</span>${thumb(x)}<span class="n">${esc(x.name)}</span></div>`).join("") +
+      done.map((i) => { const c = catById(catOf(i)); return `<div class="row done" data-id="${i.id}" style="--c:${c.color}"><span class="check">✓</span><span class="e">${emojiFor(i.name, c.id)}</span><span class="n">${esc(i.name)}</span></div>`; }).join("") + `</div>`;
+  }
+  const any = items.length || sTodo.length || sDone.length;
+  if (!any) html = `<div class="empty">La lista è vuota 🎉<br>Scorri a sinistra, o tocca “Catalogo”, per scegliere cosa comprare.</div>`;
+  $("list").innerHTML = html;
+  $("endwrap").innerHTML = any ? `<button class="endbtn" id="endBtn">🧾 Spesa conclusa: cancella la lista</button>` : "";
+  $("listhint").innerHTML = (todo.length || sTodo.length) ? `Tocca un prodotto quando lo metti nel carrello.<br>Tienilo premuto per cambiargli reparto.` : "";
+}
+
+function renderOffers() {
+  const sameAs = (o) => specs.some((x) => x.store === o.store && x.name.toLowerCase() === o.title.toLowerCase());
+  const wanted = items.filter((i) => !i.done).map((i) => i.name);
+  const keys = new Set(wanted.map((n) => n.toLowerCase()));
+  const catalog = [...knownMap().values()].filter((p) => !keys.has(p.key));
+  const pick = (names) => {                       // per ogni offerta, il prodotto che l'ha richiamata
+    const out = [];
+    for (const o of offers) {
+      let best = null;
+      for (const n of names) { const pos = matchPos(typeof n === "string" ? n : n.name, o.title); if (pos >= 0 && (!best || pos < best.pos)) best = { n: typeof n === "string" ? n : n.name, pos }; }
+      if (best) out.push({ o, for: best.n, pos: best.pos });
+    }
+    return out.sort((a, b) => a.pos - b.pos || (a.o.price ?? 999) - (b.o.price ?? 999));
+  };
+  const card = (m) => `<div class="offer"><div class="ot"><div class="oname"><span class="store">${esc(m.o.store)}</span>${esc(m.o.title)}</div>
+      <div class="oinfo"><span class="oprice">${m.o.price != null ? eur(m.o.price) : "prezzo nel volantino"}${m.o.old_price ? `<s>${eur(m.o.old_price)}</s>` : ""}</span>${m.o.valid_to ? " · fino al " + dm(m.o.valid_to) : ""}${m.for ? ` · per «${esc(m.for)}»` : ""}</div></div>
+      <button data-oid="${m.o.id}" ${sameAs(m.o) ? "disabled" : ""}>${sameAs(m.o) ? "Aggiunta" : "Aggiungi"}</button></div>`;
+  let html = "";
+  if (!offers.length) {
+    html = `<div class="hint" style="padding:8px 0">Le offerte di Lidl compaiono qui da sole una volta attivato l'aggiornamento automatico.<br>Per Esselunga e Coop usa “Leggi un volantino”.</div>`;
+  } else {
+    const forList = pick(wanted), forCat = pick(catalog).slice(0, 12);
+    if (forList.length) html += `<div class="sectitle">🏷 In offerta su quello che devi comprare <small>(${forList.length})</small></div>` + forList.map(card).join("");
+    if (forCat.length) html += `<div class="sectitle">🏷 In offerta sui tuoi prodotti di solito <small>(${forCat.length})</small></div>` + forCat.map(card).join("");
+    if (!forList.length && !forCat.length) html += `<div class="hint" style="padding:8px 0">Questa settimana nessuna offerta Lidl sui tuoi prodotti.</div>`;
+    html += `<button class="more" id="allOffers">${offersAll ? "Nascondi" : "Mostra"} tutte le offerte (${offers.length})</button>`;
+    if (offersAll) html += offers.map((o) => card({ o, for: null })).join("");
+  }
+  $("offers").innerHTML = html;
+}
+let offersAll = false;
+
+function renderSpecs() {
+  const live = (x) => x.want && !x.done;
+  const sorted = [...specs].sort((a, b) => live(b) - live(a) || new Date(b.created_at) - new Date(a.created_at));
+  $("specs").innerHTML = sorted.map((x) => {
+    const c = catById(specCat(x));
+    const st = !x.want ? "＋<br>in lista" : x.done ? "✓<br>preso" : "✓<br>in lista";
+    const where = [x.store ? "🏪 " + x.store : "", x.valid_to ? (isExpired(x) ? "scaduta il " : "fino al ") + dm(x.valid_to) : ""].filter(Boolean).join(" · ");
+    return `<div class="card ${x.want ? "wanted" : ""} ${isExpired(x) ? "expired" : ""}" data-sid="${x.id}" style="--c:${c.color}">${thumb(x)}<div class="ct"><div class="cname">${esc(x.name)}</div>${where ? `<div class="cstore">${esc(where)}</div>` : ""}${x.note ? `<div class="cnote">${esc(x.note)}</div>` : ""}<div class="ctag">${c.emoji} ${c.name}</div></div><button class="edit" data-edit title="Modifica">✎</button><div class="cstate">${st}</div></div>`;
+  }).join("") || `<div class="empty">Nessun prodotto specifico.<br>Fotografa una confezione, scansiona il codice a barre o aggiungi un'offerta.</div>`;
+}
+
+// ---- Scelta del reparto ----
+let catResolve = null;
+function chooseCategory(title, current, cats = CATS) {
+  return new Promise((res) => {
+    $("catTitle").textContent = title;
+    $("catGrid").innerHTML = cats.map((c) => `<button type="button" class="catpick${c.id === current ? " sel" : ""}" data-cat="${c.id}" style="--c:${c.color}">${c.emoji} ${c.name}</button>`).join("");
+    catResolve = res;
+    $("catDlg").showModal();
+  });
+}
+$("catGrid").onclick = (e) => {
+  const c = e.target.closest("[data-cat]")?.dataset.cat; if (!c) return;
+  const r = catResolve; catResolve = null; $("catDlg").close(); if (r) r(c);
+};
+$("catDlg").addEventListener("close", () => { if (catResolve) { const r = catResolve; catResolve = null; r(null); } });
+$("catClose").onclick = () => $("catDlg").close();
+
+// ---- Azioni ----
+function saveOpen() { try { localStorage.setItem("open", JSON.stringify([...openOv])); } catch (e) {} }
+
+async function addNames(names) {
   if (!configured) return;
-  const now = new Date().toISOString();
-  const fresh = names.map((n, k) => ({ id: -Date.now() - k, name: n, emoji: guessEmoji(n), done: false, created_at: now }));
-  items = [...fresh, ...items]; render();
-  await safe(async () => { for (const f of fresh) await rpc("add_item", { p_list: LIST, p_name: f.name, p_emoji: f.emoji }); });
+  const known = knownMap();
+  for (const raw of names) {
+    const typed = raw.trim(); if (!typed) continue;
+    const key = typed.toLowerCase();
+    const here = findIn(key);
+    if (here) {                                                              // già in lista: se era stato preso lo rimetto da comprare
+      if (here.done) { here.done = false; redraw(); await safe(() => rpc("set_done", { p_list: LIST, p_id: here.id, p_done: false })); toast(`✓ ${here.name} di nuovo in lista`); }
+      else toast(`${here.name} è già in lista`);
+      continue;
+    }
+    const k = known.get(key);
+    let cat = k?.category, name = k?.name || cap(typed);
+    if (!cat) {                                                              // prodotto nuovo: chiedo il reparto
+      cat = await chooseCategory(`In che reparto va «${name}»?`, guessCat(name));
+      if (!cat) continue;
+    }
+    items = [{ id: -Date.now() - Math.random(), name, category: cat, done: false, created_at: new Date().toISOString() }, ...items];
+    redraw(); toast(`✓ ${name} aggiunto alla lista`);
+    await safe(() => rpc("add_item", { p_list: LIST, p_name: name, p_emoji: emojiFor(name, cat), p_cat: cat }));
+  }
   refresh();
 }
-$("form").onsubmit = (e) => { e.preventDefault(); const t = $("inp").value; $("inp").value = ""; const n = splitItems(t); if (n.length) add(n); };
+async function toggleItem(it) {
+  it.done = !it.done; redraw();
+  await safe(() => rpc("set_done", { p_list: LIST, p_id: it.id, p_done: it.done }));
+  if (it.done) loadHistory();
+}
+async function removeItem(it) {
+  items = items.filter((x) => x !== it); redraw();
+  await safe(() => rpc("delete_item", { p_list: LIST, p_id: it.id }));
+}
+async function moveItem(it) {
+  const c = await chooseCategory(`Sposta «${it.name}» in…`, catOf(it));
+  if (!c || c === catOf(it)) return;
+  it.category = c; redraw();
+  const h = habits.find((x) => x.key === keyOf(it)); if (h) h.category = c;
+  if (it.id > 0) await safe(() => rpc("set_category", { p_list: LIST, p_id: it.id, p_cat: c }));
+}
 
-$("clear").onclick = async () => { items = items.filter((i) => !i.done); render(); await safe(() => rpc("clear_done", { p_list: LIST })); };
+// ---- Tocchi ----
+let pressTimer = null, pressed = false;
+$("catalog").addEventListener("click", (e) => {
+  const head = e.target.closest(".cat");
+  if (head) { const id = head.dataset.cat; openOv.set(id, !curOpen.get(id)); saveOpen(); redraw(); return; }
+  const row = e.target.closest(".row"); if (!row) return;
+  const key = row.dataset.key, here = findIn(key);
+  if (here) removeItem(here); else addNames([knownMap().get(key)?.name || key]);
+});
+$("list").addEventListener("click", (e) => {
+  if (pressed) { pressed = false; return; }
+  if (e.target.closest("[data-ofr]")) { goTab(2); return; }
+  const row = e.target.closest(".row"); if (!row) return;
+  if (row.dataset.sid) {                                                     // prodotto specifico
+    const x = specs.find((s) => String(s.id) === row.dataset.sid); if (!x) return;
+    if (e.target.closest("[data-sdel]")) setSpec(x, false, false); else setSpec(x, true, !x.done);
+    return;
+  }
+  const it = items.find((x) => String(x.id) === row.dataset.id); if (!it) return;
+  if (e.target.closest("[data-del]")) removeItem(it); else toggleItem(it);
+});
+$("list").addEventListener("pointerdown", (e) => {
+  const row = e.target.closest(".row[data-id]"); if (!row || e.target.closest("[data-del]")) return;
+  const it = items.find((x) => String(x.id) === row.dataset.id); if (!it) return;
+  clearTimeout(pressTimer);
+  pressTimer = setTimeout(() => { pressed = true; moveItem(it); }, 550);
+});
+["pointerup", "pointerleave", "pointercancel", "pointermove"].forEach((t) => $("list").addEventListener(t, () => clearTimeout(pressTimer)));
+$("list").addEventListener("contextmenu", (e) => { if (e.target.closest(".row")) e.preventDefault(); });
 
-// ---- Dettatura ----
+// ---- Fine spesa (con conferma) ----
+$("endwrap").addEventListener("click", (e) => { if (e.target.closest("#endBtn")) openEnd(); });
+function openEnd() {
+  const nDone = items.filter((i) => i.done).length + specs.filter((x) => x.want && x.done).length;
+  const nTodo = items.filter((i) => !i.done).length + specs.filter((x) => x.want && !x.done).length;
+  $("endMsg").textContent =
+    (nDone ? `Verranno cancellati i ${nDone} prodotti presi (quelli barrati). ` : "Non hai ancora preso nessun prodotto. ") +
+    (nTodo ? `${nDone ? "Restano" : "Ci sono"} in lista ${nTodo} prodotti non ancora presi. ` : "La lista resterà vuota. ") +
+    "I prodotti specifici restano salvati nella scheda Specifici. L'operazione non si può annullare.";
+  $("endGo").hidden = !nDone; $("endGo").textContent = `Cancella i ${nDone} presi`;
+  $("endAll").hidden = !nTodo; $("endAll").textContent = nDone ? "Cancella anche i non presi" : "Svuota la lista";
+  $("endDlg").showModal();
+}
+$("endNo").onclick = () => $("endDlg").close();
+async function endShopping(all) {
+  $("endDlg").close();
+  const rest = all ? items.filter((i) => !i.done && i.id > 0) : [];
+  items = all ? [] : items.filter((i) => !i.done);
+  specs.forEach((x) => { if (x.want && (x.done || all)) { x.want = false; x.done = false; } });
+  redraw();
+  await safe(async () => {
+    await rpc("clear_done", { p_list: LIST });
+    for (const i of rest) await rpc("delete_item", { p_list: LIST, p_id: i.id });
+    await rpc("finish_specifics", { p_list: LIST, p_all: all }).catch(() => {});
+  });
+  toast(all ? "Lista svuotata ✓" : "Spesa conclusa ✓");
+}
+$("endGo").onclick = () => endShopping(false);
+$("endAll").onclick = () => endShopping(true);
+
+// ---- Aggiunta da testo e da voce ----
+function splitItems(text) {
+  return text.split(/,|;|\n|\s+e\s+/i).map((s) => s.trim().replace(/^(e|e poi|poi)\s+/i, "")).filter(Boolean);
+}
+$("inp").addEventListener("input", () => { redraw(); if ($("inp").value.trim() && currentTab() === 1) goTab(0); });
+$("form").onsubmit = async (e) => {
+  e.preventDefault();
+  const t = $("inp").value; $("inp").value = ""; redraw();
+  await addNames(splitItems(t));
+};
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let rec = null;
 $("mic").onclick = () => {
@@ -205,11 +836,383 @@ $("mic").onclick = () => {
   if (rec) { rec.stop(); return; }
   rec = new SR(); rec.lang = "it-IT"; rec.interimResults = false;
   rec.onstart = () => $("mic").classList.add("on");
-  rec.onresult = (ev) => { const n = splitItems(ev.results[0][0].transcript.replace(/[.!?]$/, "")); if (n.length) add(n); };
+  rec.onresult = (ev) => addNames(splitItems(ev.results[0][0].transcript.replace(/[.!?]$/, "")));
   rec.onerror = (ev) => { if (ev.error === "not-allowed") alert("Consenti l'uso del microfono nelle impostazioni, oppure usa il microfono della tastiera."); };
   rec.onend = () => { rec = null; $("mic").classList.remove("on"); };
   rec.start();
 };
+
+// ---- Prodotti specifici ----
+async function setSpec(x, want, done) {
+  x.want = want; x.done = done; redraw();
+  if (x.id > 0) await safe(() => rpc("set_specific_state", { p_list: LIST, p_id: x.id, p_want: want, p_done: done }));
+}
+async function createSpec(d, want) {
+  const tmp = -Date.now();
+  const x = { id: tmp, name: d.name, barcode: d.barcode || null, note: d.note || null, category: d.cat, has_photo: !!d.photo,
+              photo_url: d.photoUrl || null, store: d.store || null, valid_to: d.validTo || null, want, done: false, created_at: new Date().toISOString() };
+  if (d.photo) photos.set(tmp, d.photo);
+  specs = [x, ...specs]; redraw();
+  await safe(async () => {
+    const id = await rpc("add_specific", { p_list: LIST, p_name: x.name, p_barcode: x.barcode, p_note: x.note, p_cat: x.category,
+                                           p_photo: d.photo || null, p_photo_url: x.photo_url, p_want: want, p_store: x.store, p_valid_to: x.valid_to });
+    x.id = id; if (d.photo) photos.set(id, d.photo); redraw();
+  });
+}
+$("specs").addEventListener("click", (e) => {
+  const card = e.target.closest(".card"); if (!card) return;
+  const x = specs.find((s) => String(s.id) === card.dataset.sid); if (!x) return;
+  if (e.target.closest("[data-edit]")) return openSpec({ id: x.id, name: x.name, note: x.note || "", cat: specCat(x), store: x.store || "", validTo: x.valid_to || "", photo: photos.get(x.id) || null, photoUrl: x.photo_url, edit: x });
+  if (x.want) setSpec(x, false, false); else { setSpec(x, true, false); toast("✓ In lista, la trovi nella scheda Lista"); }
+});
+
+let spec = null, catTouched = false;
+function openSpec(d) {
+  spec = { id: null, name: "", note: "", cat: "altro", store: "", validTo: "", photo: null, photoUrl: null, barcode: null, edit: null, ...d };
+  catTouched = !!spec.id || spec.cat !== "altro";
+  $("specTitle").textContent = spec.id ? "Modifica prodotto" : "Prodotto specifico";
+  $("specName").value = spec.name; $("specNote").value = spec.note || "";
+  $("specCat").innerHTML = CATS.map((c) => `<option value="${c.id}">${c.emoji} ${c.name}</option>`).join("");
+  $("specCat").value = spec.cat;
+  $("specStore").value = spec.store || ""; $("specValid").value = spec.validTo || "";
+  const src = spec.photo || spec.photoUrl;
+  $("specImg").hidden = !src; if (src) $("specImg").src = src;
+  $("specName").placeholder = spec.photo && !spec.name ? "Scrivi marca e modello" : "es. Gocciole Pavesi 500 g";
+  $("specAdd").textContent = spec.id ? "Salva modifiche" : "Metti in lista";
+  $("specSave").hidden = !!spec.id; $("specDel").hidden = !spec.id;
+  $("specDlg").showModal();
+}
+$("specName").addEventListener("input", () => { if (!catTouched) $("specCat").value = guessCat($("specName").value); });
+$("specCat").addEventListener("change", () => { catTouched = true; });
+$("specNo").onclick = () => $("specDlg").close();
+function readSpec() {
+  const name = $("specName").value.trim();
+  if (!name) { $("specName").focus(); $("specName").style.borderColor = "var(--red)"; return null; }
+  $("specName").style.borderColor = "";
+  return { name, note: $("specNote").value.trim(), cat: $("specCat").value, store: $("specStore").value, validTo: $("specValid").value || null };
+}
+$("specAdd").onclick = async () => {
+  const v = readSpec(); if (!v) return;
+  $("specDlg").close();
+  if (spec.id) {
+    const x = spec.edit; x.name = v.name; x.note = v.note || null; x.category = v.cat; x.store = v.store || null; x.valid_to = v.validTo; redraw();
+    if (x.id > 0) await safe(() => rpc("update_specific", { p_list: LIST, p_id: x.id, p_name: v.name, p_note: v.note || null, p_cat: v.cat, p_store: v.store || null, p_valid_to: v.validTo }));
+  } else {
+    await createSpec({ ...spec, ...v }, true); toast("✓ In lista, la trovi nella scheda Lista");
+  }
+};
+$("specSave").onclick = async () => { const v = readSpec(); if (!v) return; $("specDlg").close(); await createSpec({ ...spec, ...v }, false); toast("✓ Salvato nei tuoi prodotti"); };
+$("specDel").onclick = async () => {
+  if (!confirm(`Eliminare «${spec.edit.name}» dai prodotti specifici?`)) return;
+  const x = spec.edit; $("specDlg").close(); specs = specs.filter((s) => s !== x); redraw();
+  if (x.id > 0) await safe(() => rpc("delete_specific", { p_list: LIST, p_id: x.id }));
+};
+
+// ---- Offerte: pulsanti ----
+$("offers").addEventListener("click", async (e) => {
+  if (e.target.closest("#allOffers")) { offersAll = !offersAll; redraw(); return; }
+  const b = e.target.closest("button[data-oid]"); if (!b || b.disabled) return;
+  const o = offers.find((v) => String(v.id) === b.dataset.oid); if (!o) return;
+  const note = [o.price != null ? eur(o.price) : "", o.old_price ? "invece di " + eur(o.old_price) : ""].filter(Boolean).join(" ");
+  b.disabled = true;
+  await createSpec({ name: o.title, note, cat: guessCat(o.title), photoUrl: o.image || null, store: o.store, validTo: o.valid_to || null }, true);
+  toast(`✓ ${o.title} aggiunto alla lista`);
+});
+
+// ---- Volantini (Esselunga, Coop...): lettura delle pagine direttamente sul telefono (Tesseract, gratis) ----
+let tessLoad = null;
+function loadTess() {
+  if (window.Tesseract) return Promise.resolve();
+  return tessLoad || (tessLoad = new Promise((res, rej) => {
+    const sc = document.createElement("script");
+    sc.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js";
+    sc.onload = res; sc.onerror = () => { tessLoad = null; rej(new Error("tesseract")); };
+    document.head.appendChild(sc);
+  }));
+}
+async function pageCanvas(file, longSide = 2200) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await loadImg(url);
+    const k = Math.min(2, longSide / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    const g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height); g.drawImage(img, 0, 0, c.width, c.height);
+    return c;
+  } finally { URL.revokeObjectURL(url); }
+}
+const withTimeout = (p, ms, msg) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error(msg)), ms))]);
+async function ocrPages(files, onStatus) {
+  await withTimeout(loadTess(), 30000, "Non riesco a scaricare il lettore di testo");
+  const worker = await withTimeout(Tesseract.createWorker("ita", 1, { logger: (m) => { if (m.status && onStatus && m.progress != null && m.status.startsWith("recognizing")) onStatus(m.progress); } }), 90000, "Il lettore di testo non parte");
+  const lines = [];
+  try {
+    for (let i = 0; i < files.length; i++) {
+      onStatus && onStatus(0, i + 1, files.length);
+      const { data } = await withTimeout(worker.recognize(await pageCanvas(files[i])), 120000, "La pagina " + (i + 1) + " ci mette troppo");
+      for (const l of data.lines || []) { const t = l.text.replace(/\s+/g, " ").trim(); if (t.length >= 3) lines.push({ page: i + 1, text: t }); }
+    }
+  } finally { await worker.terminate(); }
+  return lines;
+}
+// prezzo vicino a una riga: l'OCR spesso legge "1 29 €" o "1 ,09" al posto di "1,29" / "1,09"
+const PRICE_RES = [/(\d{1,2})\s*[.,]\s*(\d{2})\s*€/, /(\d{1,2})\s+(\d{2})\s*€/, /(\d{1,2})\s*[.,]\s*(\d{2})\b/];
+function priceNear(lines, i) {
+  const near = lines.slice(i, i + 3).map((l) => l.text);
+  for (const re of PRICE_RES) for (const t of near) {
+    const m = t.match(re); if (!m) continue;
+    const v = Number(m[1] + "." + m[2]);
+    if (v >= 0.1 && v <= 60) return v;
+  }
+  return null;
+}
+const mostlyUpper = (t) => { const l = t.replace(/[^A-Za-zÀ-ÿ]/g, ""); return l.length >= 4 && l.replace(/[^A-ZÀ-Ý]/g, "").length / l.length > 0.7; };
+function flyerMatches(lines) {
+  const inList = items.filter((i) => !i.done).map((i) => ({ name: i.name, category: catOf(i), pri: 0 }));
+  const known = [...knownMap().values()].filter((p) => !inList.some((l) => l.name.toLowerCase() === p.key)).map((p) => ({ name: p.name, category: p.category, pri: 1 }));
+  const prods = [...inList, ...known];
+  const best = new Map();
+  lines.forEach((ln, i) => {
+    const hit = prods.map((p) => ({ p, pos: matchPos(p.name, ln.text), n: sigWords(p.name).length })).filter((h) => h.pos >= 0);
+    if (!hit.length) return;
+    const top = Math.max(...hit.map((h) => h.n));            // "Detersivo piatti" batte "Limone" sulla stessa riga
+    const price = priceNear(lines, i);
+    for (const h of hit.filter((x) => x.n === top)) {
+      const score = h.pos * 10 - (price ? 6 : 0) - (mostlyUpper(ln.text) ? 4 : 0);   // più basso = più convincente
+      const old = best.get(h.p.name);
+      if (!old || score < old.score) best.set(h.p.name, { ...h.p, snippet: ln.text, price, page: ln.page, score });
+    }
+  });
+  return [...best.values()].sort((a, b) => a.pri - b.pri || a.score - b.score || a.name.localeCompare(b.name, "it"));
+}
+let flyerFound = [];
+$("flyerBtn").onclick = () => { $("flyStatus").textContent = ""; $("flyResults").innerHTML = ""; $("flyAdd").hidden = true; $("flyGo").hidden = false; $("flyerDlg").showModal(); };
+$("flyNo").onclick = () => $("flyerDlg").close();
+$("flyGo").onclick = async () => {
+  const files = [...$("flyFiles").files];
+  if (!files.length) { $("flyStatus").textContent = "Scegli prima almeno una pagina del volantino."; return; }
+  $("flyGo").disabled = true;
+  try {
+    $("flyStatus").textContent = "Scarico il lettore di testo (la prima volta ci vuole un po')…";
+    const lines = await ocrPages(files, (p, n, tot) => { $("flyStatus").textContent = n ? `Leggo la pagina ${n} di ${tot}…` : $("flyStatus").textContent; });
+    flyerFound = flyerMatches(lines);
+    $("flyStatus").textContent = flyerFound.length ? `Ho letto ${lines.length} righe e trovato ${flyerFound.length} dei tuoi prodotti. Controlla e scegli.` : `Ho letto ${lines.length} righe ma non ho trovato prodotti tuoi. Con un volantino molto grafico può capitare.`;
+    $("flyResults").innerHTML = flyerFound.map((f, i) => `<label class="fres"><input type="checkbox" data-i="${i}" ${f.pri === 0 ? "checked" : ""}><span><b>${esc(f.name)}</b>${f.price ? " · " + eur(f.price) : ""}<small>pag. ${f.page} · «${esc(f.snippet)}»</small></span></label>`).join("");
+    $("flyAdd").hidden = !flyerFound.length;
+  } catch (e) {
+    console.error(e);
+    $("flyStatus").textContent = "Non sono riuscito a leggere le pagine. Controlla la connessione e riprova.";
+  } finally { $("flyGo").disabled = false; }
+};
+$("flyAdd").onclick = async () => {
+  const store = $("flyStore").value, validTo = $("flyTo").value || null;
+  const sel = [...$("flyResults").querySelectorAll("input:checked")].map((i) => flyerFound[+i.dataset.i]);
+  $("flyerDlg").close();
+  for (const f of sel) {
+    const note = [f.price ? eur(f.price) : "", `«${f.snippet}»`].filter(Boolean).join(" · ").slice(0, 190);
+    await createSpec({ name: f.name, note, cat: f.category, store, validTo }, true);
+  }
+  if (sel.length) { toast(`✓ ${sel.length} prodotti aggiunti alla lista, puoi correggerli con ✎`); goTab(1); }
+};
+$("flyerBtn").addEventListener("click", () => { const t = new Date(); t.setDate(t.getDate() + 7); if (!$("flyTo").value) $("flyTo").value = t.toISOString().slice(0, 10); });
+
+// carica un'immagine con il metodo classico (onload), che funziona su qualsiasi browser
+function loadImg(url) {
+  return new Promise((res, rej) => { const img = new Image(); img.onload = () => res(img); img.onerror = () => rej(new Error("immagine non leggibile")); img.src = url; });
+}
+// foto: scatto (o scelgo dalla libreria), la rimpicciolisco e la salvo con il nome scritto da te
+async function shrink(file, max = 640, quality = 0.72) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await loadImg(url);
+    const k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    return c.toDataURL("image/jpeg", quality);
+  } finally { URL.revokeObjectURL(url); }
+}
+$("camBtn").onclick = () => $("camInput").click();
+$("camInput").onchange = async (e) => {
+  const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+  try { openSpec({ photo: await shrink(f) }); } catch (err) { console.error(err); alert("Non riesco a leggere la foto."); }
+};
+
+// codice a barre: lettura con la libreria ZXing (caricata solo quando serve) + ricerca in Open Food Facts
+let zxingLoad = null, reader = null;
+function loadZXing() {
+  if (window.ZXing) return Promise.resolve();
+  return zxingLoad || (zxingLoad = new Promise((res, rej) => {
+    const sc = document.createElement("script");
+    sc.src = "https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js";
+    sc.onload = res; sc.onerror = () => { zxingLoad = null; rej(new Error("zxing")); };
+    document.head.appendChild(sc);
+  }));
+}
+async function openScan() {
+  $("scanMsg").textContent = "Avvio della fotocamera…"; $("scanManual").value = ""; $("scanDlg").showModal();
+  try {
+    await loadZXing();
+    const B = ZXing.BarcodeFormat, hints = new Map();
+    hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS, [B.EAN_13, B.EAN_8, B.UPC_A, B.UPC_E, B.CODE_128]);
+    reader = new ZXing.BrowserMultiFormatReader(hints, 250);
+    $("scanMsg").textContent = "Inquadra il codice a barre sulla confezione.";
+    await reader.decodeFromConstraints({ video: { facingMode: { ideal: "environment" } } }, $("scanVideo"), (result) => { if (result) gotCode(result.getText()); });
+  } catch (err) {
+    console.error(err);
+    $("scanMsg").textContent = "Non riesco ad usare la fotocamera. Consenti l'accesso, oppure scrivi le cifre del codice qui sotto.";
+  }
+}
+function stopScan() { try { reader && reader.reset(); } catch (e) {} reader = null; }
+$("scanDlg").addEventListener("close", stopScan);
+$("scanNo").onclick = () => $("scanDlg").close();
+$("scanBtn").onclick = openScan;
+$("scanGo").onclick = () => { const c = $("scanManual").value.replace(/\D/g, ""); if (c.length >= 6) gotCode(c); else $("scanMsg").textContent = "Scrivi tutte le cifre del codice."; };
+function gotCode(code) {
+  if (!$("scanDlg").open) return;
+  $("scanDlg").close();
+  processCode(code);
+}
+const firstWords = (s) => (s || "").split(",")[0].trim();
+async function lookupBarcode(code) {
+  for (const host of ["world.openfoodfacts.org", "world.openbeautyfacts.org", "world.openproductsfacts.org"]) {
+    try {
+      const r = await fetch(`https://${host}/api/v2/product/${code}.json?fields=product_name,product_name_it,brands,quantity,image_front_small_url`);
+      if (!r.ok) continue;
+      const j = await r.json(); const p = j.product;
+      if (j.status !== 1 || !p) continue;
+      const base = (p.product_name_it || p.product_name || "").trim();
+      const company = /\b(srl|s\.r\.l|spa|s\.p\.a|gmbh|ltd|inc|sas|snc|group|italia|services|technical|company|industries)\b/i;
+      const brands = (p.brands || "").split(",").map((b) => b.trim()).filter((b) => b && !company.test(b));
+      const brandInName = brands.some((b) => base.toLowerCase().includes(b.split(/\s+/)[0].toLowerCase()));
+      const qty = (p.quantity || "").replace(/\s+e$/i, "").trim();
+      const name = [brandInName ? "" : brands[0], base, qty && !base.includes(qty) ? qty : ""].filter(Boolean).join(" ").trim();
+      if (name) return { name, photoUrl: p.image_front_small_url || null };
+    } catch (e) { /* provo il prossimo archivio */ }
+  }
+  return null;
+}
+async function processCode(code) {
+  const known = specs.find((x) => x.barcode === code);
+  if (known) { await setSpec(known, true, false); toast(`✓ «${known.name}» era già tra i tuoi prodotti: ora è in lista`); return; }
+  toast("Cerco il prodotto…");
+  const found = await lookupBarcode(code);
+  setStatus("");
+  if (found) openSpec({ name: found.name, photoUrl: found.photoUrl, barcode: code, cat: guessCat(found.name) });
+  else { openSpec({ barcode: code }); toast("Prodotto non trovato nel database: scrivi tu il nome."); }
+}
+
+// ---- Scheda Altro: cose da comprare fuori dal supermercato ----
+const XCATS = [
+  { id: "x_vestiti", name: "Abbigliamento e scarpe", emoji: "👟", color: "#7c4dcc" },
+  { id: "x_casa", name: "Casa e mobili", emoji: "🛋️", color: "#b5651d" },
+  { id: "x_libri", name: "Libri", emoji: "📚", color: "#2e7d6b" },
+  { id: "x_utensili", name: "Utensili e ferramenta", emoji: "🔧", color: "#5f6f86" },
+  { id: "x_farmacia", name: "Farmacia", emoji: "💊", color: "#d6456a" },
+  { id: "x_cartoleria", name: "Cartoleria", emoji: "✏️", color: "#2f86c4" },
+  { id: "x_elettronica", name: "Elettronica", emoji: "💻", color: "#4f46c8" },
+  { id: "x_regali", name: "Regali", emoji: "🎁", color: "#d6448a" },
+  { id: "x_altro", name: "Altro", emoji: "📦", color: "#8c7b70" },
+];
+const xcatById = (id) => XCATS.find((c) => c.id === id) || XCATS[XCATS.length - 1];
+const XRULES = [
+  ["x_vestiti", /scarp|stivali|sandal|ciabatt|sneaker|giacc|cappott|magli|camici|pantalon|jeans|gonna|vestit|felpa|calz|cappell|sciarp|guant|cintur|costum|pigiam|intimo|borsa|zaino|abbigli|reggisen|slip|boxer|impermeab|piumino/],
+  ["x_libri", /libr|romanz|fumett|manual|dizionar|enciclop|audiolibr|rivist|atlante/],
+  ["x_farmacia", /farmac|medicin|pomata|cerott|integrator|antibiotic|collirio|sciropp|termomet|mascherin|parafarmac|vitamin|garza|disinfett|spray nasale|aerosol/],
+  ["x_cartoleria", /quadern|penn[ae]\b|matit|astucc|pennarell|gomma|tempera|righell|raccoglit|cartell|post-?it|album|diario|evidenziat|forbic|colla stick|cartoleria|risma|fogli|agenda|zainetto|colori/],
+  ["x_elettronica", /cavo|caricabat|cuffie|telefon|smartphone|tablet|computer|\bpc\b|mouse|tastiera|chiavett|usb|televis|power ?bank|auricolar|stampant|cartucc|toner|altoparlant|lampadin|batteri|\bpile\b|monitor|router|hard disk/],
+  ["x_utensili", /martell|cacciavit|trapan|\bviti\b|chiod|pinza|chiave|\bsega\b|ferrament|nastro|scala\b|levigatr|\blama\b|utensil|attrezz|tassell|lima\b|metro\b|livella|avvitat|cutter|guanti da lavoro|vernice|pennello|silicone/],
+  ["x_casa", /mobil|divan|poltron|sedia|tavol|letto|materass|armadi|scaffal|lampada|tappet|tend[ae]\b|cuscin|lenzuol|asciugam|pentol|padell|bicchier|posate|comodin|librer|scrivan|piumon|coperta|specchio|cornice|vaso|piatti/],
+  ["x_regali", /regal|bigliett|fiori|compleann|nozze|bomboniera/],
+];
+const guessX = (t) => { t = norm(t); for (const [c, re] of XRULES) if (re.test(t)) return c; return null; };
+
+function renderExtras() {
+  const todo = extras.filter((x) => !x.done), done = extras.filter((x) => x.done).sort(byNew);
+  const row = (x, c) => `<div class="row${x.done ? " done" : ""}" data-xid="${x.id}" style="--c:${c.color}"><span class="check">${x.done ? "✓" : ""}</span><span class="e">${c.emoji}</span><span class="n">${esc(x.name)}${x.note ? `<small style="color:var(--mute);font-weight:400">${esc(x.note)}</small>` : ""}</span><button class="x" data-xdel title="Togli">✕</button></div>`;
+  let html = "";
+  for (const c of XCATS) {
+    const g = todo.filter((x) => (x.category || "x_altro") === c.id).sort(byNew);
+    if (!g.length) continue;
+    html += `<div class="lh" style="--c:${c.color}"><span style="background:none;color:#fff;padding:0;text-align:left">${c.emoji} ${c.name}</span><span>${g.length}</span></div><div class="body" style="--c:${c.color}">${g.map((x) => row(x, c)).join("")}</div>`;
+  }
+  if (done.length) html += `<div class="lh gray"><span style="background:none;color:#fff;padding:0;text-align:left">✓ Già comprati</span><span>${done.length}</span></div><div class="body gray">${done.map((x) => row(x, xcatById(x.category))).join("")}</div>`;
+  $("extras").innerHTML = html || `<div class="empty">Niente in elenco.<br>Scrivi qui sopra cosa devi comprare, per esempio “scarpe da corsa - numero 43”.</div>`;
+  $("xend").innerHTML = done.length ? `<button class="endbtn" id="xclear">🧹 Elimina i già comprati (${done.length})</button>` : "";
+  $("tb3").textContent = todo.length || "";
+}
+async function addExtra(raw) {
+  if (!configured) return;
+  const parts = raw.trim().split(/\s+[-–—]\s+/);
+  const name = cap((parts.shift() || "").trim()), note = parts.join(" - ").trim() || null;
+  if (!name) return;
+  if (extras.some((x) => !x.done && x.name.toLowerCase() === name.toLowerCase())) { toast(`${name} è già in elenco`); return; }
+  let cat = guessX(name);
+  if (!cat) { cat = await chooseCategory(`In che gruppo va «${name}»?`, "x_altro", XCATS); if (!cat) return; }
+  const x = { id: -Date.now(), name, note, category: cat, done: false, created_at: new Date().toISOString() };
+  extras = [x, ...extras]; redraw(); toast(`✓ ${name} aggiunto`);
+  await safe(async () => { x.id = await rpc("add_extra", { p_list: LIST, p_name: name, p_note: note, p_cat: cat }); redraw(); });
+}
+$("xform").onsubmit = async (e) => { e.preventDefault(); const t = $("xinp").value; $("xinp").value = ""; if (t.trim()) await addExtra(t); };
+$("extras").addEventListener("click", async (e) => {
+  const row = e.target.closest(".row"); if (!row) return;
+  const x = extras.find((v) => String(v.id) === row.dataset.xid); if (!x) return;
+  if (e.target.closest("[data-xdel]")) { extras = extras.filter((v) => v !== x); redraw(); if (x.id > 0) await safe(() => rpc("delete_extra", { p_list: LIST, p_id: x.id })); return; }
+  x.done = !x.done; redraw();
+  if (x.id > 0) await safe(() => rpc("set_extra_done", { p_list: LIST, p_id: x.id, p_done: x.done }));
+});
+$("xend").addEventListener("click", async (e) => {
+  if (!e.target.closest("#xclear")) return;
+  const n = extras.filter((x) => x.done).length;
+  if (!confirm(`Cancellare i ${n} prodotti già comprati? L'operazione non si può annullare.`)) return;
+  extras = extras.filter((x) => !x.done); redraw();
+  await safe(() => rpc("clear_extras_done", { p_list: LIST })); toast("Fatto ✓");
+});
+
+// ---- Comandi vocali: i valori da usare in Comandi rapidi (Siri) e nella skill Alexa ----
+$("voiceBtn").onclick = () => {
+  const base = (window.CONFIG ? CONFIG.SUPABASE_URL.replace(/\/$/, "") : "") + "/rest/v1/rpc/";
+  $("vAdd").value = base + "add_voice"; $("vRead").value = base + "read_voice";
+  $("vKey").value = window.CONFIG ? CONFIG.SUPABASE_KEY : ""; $("vList").value = LIST;
+  $("dlg").close(); $("voiceDlg").showModal(); $("voiceNo").focus();
+};
+document.querySelectorAll("[data-copy]").forEach((b) => {
+  b.onclick = async () => {
+    const el = $(b.dataset.copy);
+    try { await navigator.clipboard.writeText(el.value); b.textContent = "Copiato ✓"; setTimeout(() => (b.textContent = "Copia"), 1600); } catch (err) { el.select(); }
+  };
+});
+$("voiceNo").onclick = () => $("voiceDlg").close();
+
+// ---- Schede a scorrimento ----
+const pager = $("pager");
+const currentTab = () => Math.round(pager.scrollLeft / Math.max(pager.clientWidth, 1));
+function goTab(i, smooth = true) { pager.scrollTo({ left: i * pager.clientWidth, behavior: smooth ? "smooth" : "auto" }); }
+let raf = 0;
+function syncTabs() {
+  const i = currentTab();
+  document.querySelectorAll(".tab").forEach((t, k) => t.classList.toggle("on", k === i));
+  try { localStorage.setItem("tab", i); } catch (e) {}
+}
+pager.addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(syncTabs); }, { passive: true });
+$("tab0").onclick = () => goTab(0);
+$("tab1").onclick = () => goTab(1);
+$("tab2").onclick = () => goTab(2);
+$("tab3").onclick = () => goTab(3);
+window.addEventListener("resize", () => goTab(currentTab(), false));
+
+// ---- Sincronizzazione ----
+async function refresh() {
+  if (!configured || document.hidden) return;
+  try {
+    const [it, sp, ex] = await Promise.all([rpc("get_items", { p_list: LIST }), rpc("get_specifics", { p_list: LIST }).catch(() => null), rpc("get_extras", { p_list: LIST }).catch(() => null)]);
+    items = it; if (sp) specs = sp; if (ex) extras = ex;
+    render(); setStatus("");
+    if (Date.now() - offersAt > 600000) loadOffers();
+  } catch (e) { console.error(e); setStatus("⚠️ Offline: i dati potrebbero non essere aggiornati"); }
+}
+async function loadHistory() {
+  if (!configured) return;
+  try { habits = await rpc("get_history", { p_list: LIST }); render(); } catch (e) { console.error(e); }
+}
 
 // ---- Condivisione ----
 const shareUrl = () => location.origin + location.pathname + "?l=" + LIST;
@@ -220,7 +1223,7 @@ $("nativeShare").onclick = () => navigator.share ? navigator.share({ title: "Lis
 $("joinBtn").onclick = () => {
   const m = $("joinInp").value.match(UUID);
   if (!m) { alert("Link o codice non valido."); return; }
-  LIST = m[0]; localStorage.setItem("listId", LIST); $("dlg").close(); $("joinInp").value = ""; refresh();
+  LIST = m[0]; localStorage.setItem("listId", LIST); $("dlg").close(); $("joinInp").value = ""; items = []; habits = []; specs = []; extras = []; redraw(); refresh(); loadHistory();
 };
 
 // ---- Avvio ----
@@ -228,7 +1231,10 @@ if (!configured) {
   $("notice").innerHTML = `<div class="notice">⚙️ Manca ancora il collegamento al database: compila <b>config.js</b> con i dati di Supabase.</div>`;
 }
 render();
+let startTab = 0; try { startTab = +localStorage.getItem("tab") || 0; } catch (e) {}
+requestAnimationFrame(() => { goTab(startTab, false); syncTabs(); });
 refresh();
+loadHistory();
 setInterval(refresh, 4000);
 document.addEventListener("visibilitychange", refresh);
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
