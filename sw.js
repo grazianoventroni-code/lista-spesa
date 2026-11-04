@@ -1,5 +1,5 @@
 // Service worker minimale: tiene in cache l'interfaccia, i dati arrivano sempre dalla rete.
-const CACHE = "spesa-v1";
+const CACHE = "spesa-v2";
 const FILES = ["./", "index.html", "config.js", "manifest.webmanifest", "icon-192.png", "icon-512.png"];
 
 self.addEventListener("install", (e) => {
@@ -13,5 +13,5 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   const url = new URL(e.request.url);
   if (url.origin !== location.origin) return; // Supabase & co. passano diretti
-  e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+  e.respondWith(fetch(e.request).catch(() => caches.match(e.request, { ignoreSearch: true })));
 });

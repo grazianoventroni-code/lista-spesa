@@ -81,11 +81,12 @@
   .notice { background:#fff4d6; color:#5a4500; border-radius:14px; padding:14px; margin:12px 0; font-size:15px; }
 
   .tab { font-size:15px; padding:10px 2px; }
-  .spbtns { display:flex; gap:10px; margin:6px 0 14px; }
-  .spbtn { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; padding:16px 8px; border-radius:16px; border:2px dashed var(--line);
+  .spbtns { display:flex; gap:8px; margin:6px 0 14px; }
+  .spbtn { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; padding:14px 4px; border-radius:16px; border:2px dashed var(--line); font-size:15px; text-align:center;
            background:var(--card); color:var(--ink); font:inherit; font-weight:600; cursor:pointer; }
   .spbtn .big { font-size:30px; line-height:1; }
-  .spbtn small { color:var(--mute); font-weight:400; font-size:13px; }
+  .spbtn small { color:var(--mute); font-weight:400; font-size:12px; line-height:1.25; }
+  #noteTxt { width:100%; min-height:150px; box-sizing:border-box; padding:10px; border-radius:12px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font:inherit; font-size:16px; resize:vertical; }
   .thumb { width:52px; height:52px; border-radius:10px; object-fit:cover; flex:none; background:var(--bg); }
   .thumb.ph { display:flex; align-items:center; justify-content:center; font-size:26px; }
   .card { display:flex; align-items:center; gap:12px; padding:10px 10px 10px 10px; margin-top:10px; background:var(--card); border:1px solid var(--line);
@@ -106,6 +107,19 @@
   #scanVideo { width:100%; max-height:46vh; border-radius:14px; background:#000; object-fit:cover; }
   .links { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:0 0 12px; font-size:14px; color:var(--mute); }
   .links a { color:var(--ink); background:var(--card); border:1px solid var(--line); border-radius:999px; padding:6px 11px; text-decoration:none; }
+  .storebar { display:flex; align-items:center; gap:6px; margin:0 0 8px; }
+  .schips { display:flex; align-items:center; gap:6px; flex:1; min-width:0; overflow-x:auto; scrollbar-width:none; }
+  .schips::-webkit-scrollbar { display:none; }
+  .storebar .sbl { flex:none; font-size:13px; color:var(--mute); }
+  .schip { flex:none; display:inline-flex; align-items:center; gap:4px; background:var(--card); border:1px solid var(--line); border-radius:999px; padding:4px 9px; color:var(--ink); font:inherit; font-size:12px; cursor:pointer; }
+  .schip .sb { margin:0; }
+  .sbedit { flex:none; background:none; border:1px solid var(--line); border-radius:999px; color:var(--mute); width:30px; height:28px; font-size:15px; cursor:pointer; }
+  .strow { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:9px 0; border-bottom:1px solid var(--line); }
+  .strow label { display:flex; align-items:center; gap:10px; flex:1; font-size:16px; }
+  .strow input { width:20px; height:20px; }
+  .strow .sact { font-size:13px; color:var(--mute); display:flex; gap:10px; align-items:center; }
+  .strow .sact button { background:none; border:1px solid var(--line); border-radius:8px; color:var(--ink); font:inherit; font-size:13px; padding:5px 8px; cursor:pointer; }
+  .strow .sact a { color:var(--mute); text-decoration:none; }
   .sectitle { margin:16px 2px 4px; font-weight:700; font-size:16px; }
   .sectitle small { color:var(--mute); font-weight:400; }
   .offer { display:flex; align-items:center; gap:10px; margin-top:8px; padding:10px 12px; background:var(--card); border:1px solid var(--line); border-left:5px solid #b8860b; border-radius:14px; }
@@ -146,6 +160,29 @@
   .olink { display:inline-block; margin-top:4px; font-size:13px; color:var(--green); text-decoration:none; font-weight:600; }
   .cstore .sb, .n small .sb { margin-right:6px; }
   #offerList .offer { margin-top:10px; }
+  .menu { display:flex; flex-direction:column; gap:8px; margin-top:10px; }
+  .mrow { display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:13px 14px; border-radius:14px; border:1px solid var(--line);
+          background:var(--card); color:var(--ink); font:inherit; cursor:pointer; }
+  .mrow > span:first-child { font-size:24px; width:30px; text-align:center; flex:none; }
+  .mrow b { display:block; font-weight:600; }
+  .mrow small { display:block; color:var(--mute); font-size:13px; font-weight:400; }
+  .mrow .mt { flex:1; min-width:0; }
+  .mrow select { flex:none; width:auto; max-width:46%; padding:8px; }
+  .mrow.danger b { color:var(--red); }
+  .mrow2 { display:flex; align-items:center; gap:8px; padding:9px 4px; border-bottom:1px solid var(--line); }
+  .mrow2 .n { flex:1; min-width:0; overflow-wrap:anywhere; cursor:pointer; }
+  .mrow2 .dot { width:14px; height:14px; border-radius:50%; flex:none; }
+  .mrow2 .ce2, .mrow2 .e2 { font-size:20px; width:26px; text-align:center; flex:none; }
+  .mrow2 button { flex:none; min-width:38px; padding:8px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink); font:inherit; cursor:pointer; }
+  .mrow2 button:disabled { opacity:.3; }
+  .mlist { max-height:52vh; overflow-y:auto; margin-top:8px; }
+  .mhead { margin:12px 0 2px; font-size:13px; font-weight:700; color:var(--mute); text-transform:uppercase; letter-spacing:.04em; }
+  #ceColors { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+  #ceColors .sw { width:34px; height:34px; border-radius:50%; border:3px solid transparent; cursor:pointer; padding:0; }
+  #ceColors .sw.sel { border-color:var(--ink); }
+  #ceEmojis { display:flex; flex-wrap:wrap; gap:4px; margin-top:6px; max-height:104px; overflow-y:auto; }
+  #ceEmojis button { font-size:22px; width:40px; height:40px; border-radius:10px; border:1px solid var(--line); background:var(--card); cursor:pointer; padding:0; }
+  .warnbox { background:#fff4d6; color:#5a4500; border-radius:12px; padding:10px 12px; font-size:14px; margin-top:10px; }
   dialog { border:0; border-radius:18px; padding:22px; max-width:420px; width:calc(100% - 32px); background:var(--card); color:var(--ink); }
   dialog::backdrop { background:#0006; }
   dialog h2 { margin:0 0 8px; font-size:20px; overflow-wrap:anywhere; }
@@ -154,6 +191,13 @@
   #catGrid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
   .catpick { border:2px solid transparent; border-radius:12px; padding:11px 8px; font:inherit; font-size:15px; font-weight:600; color:#fff; background:var(--c); cursor:pointer; }
   .catpick.sel { border-color:var(--ink); box-shadow:0 0 0 2px var(--card) inset; }
+  .cmdbox { background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:10px 12px; margin:6px 0; font-size:15px; line-height:1.45; }
+  .cmdbox b { color:var(--green); font-weight:700; }
+  .cmdbox small { display:block; color:var(--mute); font-size:13px; }
+  .vh { margin:14px 0 2px; font-size:15px; font-weight:700; }
+  .vul { margin:4px 0 0; padding-left:18px; font-size:14px; color:var(--mute); line-height:1.45; }
+  a.lnkbtn { flex:1; font:inherit; padding:12px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--ink); text-decoration:none; text-align:center; font-size:14px; }
+  #pairBox b { display:block; font-size:30px; letter-spacing:5px; color:var(--ink); }
   .row2 { display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
   .row2 button { flex:1; font:inherit; padding:12px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer; }
   .row2 button.danger { background:var(--red); color:#fff; border-color:var(--red); font-weight:700; }
@@ -164,7 +208,7 @@
 <div class="top">
   <header>
     <h1>🛒 Spesa</h1>
-    <button class="icon-btn" id="shareBtn" title="Condividi">👥</button>
+    <button class="icon-btn" id="settingsBtn" title="Impostazioni">⚙️</button>
   </header>
   <div id="notice"></div>
   <form class="add" id="form" autocomplete="off">
@@ -176,7 +220,7 @@
   <div class="tabs">
     <button class="tab" id="tab0"><span class="ti">📖</span>Catalogo</button>
     <button class="tab" id="tab1"><span class="ti">🛒</span>Lista<span class="tb" id="tb"></span></button>
-    <button class="tab" id="tab2"><span class="ti">⭐</span>Specifici<span class="tb" id="tb2"></span></button>
+    <button class="tab" id="tab2"><span class="ti">⭐</span>Da cercare<span class="tb" id="tb2"></span></button>
     <button class="tab" id="tab3"><span class="ti">🛍️</span>Altro<span class="tb" id="tb3"></span></button>
   </div>
 </div>
@@ -195,17 +239,13 @@
     <div class="spbtns">
       <button class="spbtn" id="camBtn"><span class="big">📷</span>Foto<small>confezione o volantino</small></button>
       <button class="spbtn" id="scanBtn"><span class="big"><svg viewBox="0 0 48 30" width="46" height="30" fill="currentColor" aria-hidden="true"><rect x="2" width="3" height="30"/><rect x="8" width="1.5" height="30"/><rect x="12" width="4" height="30"/><rect x="19" width="2" height="30"/><rect x="24" width="1.5" height="30"/><rect x="28" width="4" height="30"/><rect x="35" width="2" height="30"/><rect x="40" width="3" height="30"/></svg></span>Codice a barre<small>trova il prodotto</small></button>
+      <button class="spbtn" id="listBtn"><span class="big">📝</span>Lista scritta<small>scritta o stampata</small></button>
     </div>
     <input type="file" id="camInput" accept="image/*" hidden>
-    <div class="links"><span>🔎 Cerca offerte:</span>
-      <a href="https://www.esselunga.it/it-it/promozioni/volantini.esselunga-di-via-di-novoli-firenze.oli.html" target="_blank" rel="noopener">Esselunga Novoli</a>
-      <a href="https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini" target="_blank" rel="noopener">Unicoop Firenze</a>
-      <a href="https://www.lidl.it/c/volantino-lidl/s10018048" target="_blank" rel="noopener">Lidl</a>
-      <a href="https://www.doveconviene.it/firenze/iper-e-super" target="_blank" rel="noopener">DoveConviene</a>
-    </div>
-    <button class="more" id="flyerBtn" style="margin:0 0 6px">📄 Leggi un volantino (screenshot o foto)</button>
+    <input type="file" id="listInput" accept="image/*" hidden>
+    <div class="storebar" id="storeBar"></div>
     <div id="offers"></div>
-    <div class="sectitle">I tuoi prodotti specifici</div>
+    <div class="sectitle">Prodotti da cercare</div>
     <div id="specs"></div>
     <div class="hint">Qui metti i prodotti precisi: una marca, un modello, un'offerta.<br>Toccane uno per metterlo in lista, toccalo ancora per toglierlo.</div>
   </div></section>
@@ -221,7 +261,7 @@
 </div>
 
 <dialog id="specDlg">
-  <h2 id="specTitle">Prodotto specifico</h2>
+  <h2 id="specTitle">Prodotto da cercare</h2>
   <img id="specImg" alt="" hidden>
   <label class="lbl" for="specName">Nome (marca e modello)</label>
   <input id="specName" placeholder="es. Gocciole Pavesi 500 g" autocapitalize="sentences">
@@ -255,14 +295,42 @@
   <div class="row2"><button id="offerNo">Chiudi</button></div>
 </dialog>
 
+<dialog id="helpDlg">
+  <h2>🎙️ Comandi vocali</h2>
+  <p class="hint" style="padding:4px 0 0;text-align:left">Parli e la spesa si aggiorna, senza aprire l'app. I comandi si dicono in italiano. Quello che aggiungi finisce nella stessa lista dell'app, entro pochi secondi.</p>
+  <div class="vh">Siri · iPhone, Apple Watch, HomePod, auto</div>
+  <div class="cmdbox" data-noi18n><b>«Ehi Siri, aggiungi alla spesa»</b><small>Siri chiede cosa aggiungere: «latte, uova e pane»</small></div>
+  <div class="cmdbox" data-noi18n><b>«Ehi Siri, cosa devo comprare»</b><small>Ti legge la lista</small></div>
+  <div class="vh">Alexa · Echo e Fire TV</div>
+  <div class="cmdbox" data-noi18n><b>«Alexa, apri i miei acquisti»</b><small>Risponde «Cosa aggiungo?»: «latte, uova e pane». Poi altri prodotti («anche il burro») o «basta»</small></div>
+  <div class="cmdbox" data-noi18n><b>«Alexa, chiedi a i miei acquisti di aggiungere latte e uova»</b><small>Tutto in una frase</small></div>
+  <div class="cmdbox" data-noi18n><b>«Alexa, chiedi a i miei acquisti cosa devo comprare»</b><small>Ti legge la lista</small></div>
+  <div class="vh">Come funziona</div>
+  <ul class="vul">
+    <li>Puoi dire più prodotti insieme, anche senza «e»: «latte burro uova». L'app li riconosce e li separa.</li>
+    <li>Un prodotto già in lista non si duplica. Uno nuovo va nel reparto che l'app ritiene più adatto: lo cambi tenendolo premuto.</li>
+    <li>Per usarli serve prepararli una volta sola: Siri con due comandi rapidi, Alexa con una skill personale.</li>
+  </ul>
+  <div class="vh">Prepara i comandi</div>
+  <p class="hint" style="padding:2px 0;text-align:left">Siri: tocca per aggiungere i due comandi, poi inserisci il codice lista quando te lo chiede.</p>
+  <div class="row2" id="siriBtns" hidden><a class="lnkbtn" id="siriAdd" target="_blank" rel="noopener">🎙️ Aggiungi «aggiungi alla spesa»</a><a class="lnkbtn" id="siriRead" target="_blank" rel="noopener">🎙️ Aggiungi «cosa devo comprare»</a></div>
+  <div class="row2"><button id="copyCode">📋 Copia il mio codice lista</button></div>
+  <p class="hint" style="padding:10px 0 2px;text-align:left">Alexa: tocca per avere un codice di 6 cifre, poi dillo ad Alexa.</p>
+  <div class="row2"><button id="alexaLink">🔗 Collega Alexa</button></div>
+  <div class="cmdbox" id="pairBox" hidden></div>
+  <div class="row2"><button id="helpSetup">⚙️ Configurazione di Siri e Alexa</button></div>
+  <div class="row2"><button id="helpNo">Chiudi</button></div>
+</dialog>
+
 <dialog id="voiceDlg">
   <h2>🎙️ Comandi vocali</h2>
-  <p>Con <b>Siri</b> aggiungi prodotti alla spesa e ti fai leggere la lista, anche da Apple Watch, in auto (CarPlay) e da HomePod. Si crea una volta sola nell'app <b>Comandi rapidi</b>, con questi valori:</p>
+  <p data-noi18n>Con <b>Siri</b> aggiungi prodotti alla spesa e ti fai leggere la lista, anche da Apple Watch, in auto (CarPlay) e da HomePod. Si crea una volta sola nell'app <b>Comandi rapidi</b>, con questi valori:</p>
   <label class="lbl">Indirizzo per «aggiungere»</label><div class="cp"><input id="vAdd" readonly><button data-copy="vAdd">Copia</button></div>
   <label class="lbl">Indirizzo per «leggere la lista»</label><div class="cp"><input id="vRead" readonly><button data-copy="vRead">Copia</button></div>
   <label class="lbl">Chiave (apikey)</label><div class="cp"><input id="vKey" readonly><button data-copy="vKey">Copia</button></div>
   <label class="lbl">Codice della tua lista (p_list)</label><div class="cp"><input id="vList" readonly><button data-copy="vList">Copia</button></div>
-  <details><summary>Comando «Aggiungi alla spesa»</summary><ol>
+  <p class="hint">I comandi vocali di Siri e Alexa funzionano in italiano.</p>
+  <details data-noi18n><summary>Comando «Aggiungi alla spesa»</summary><ol>
     <li>In <b>Comandi rapidi</b> tocca <b>＋</b> per creare un comando.</li>
     <li>Azione <b>Chiedi input</b>: tipo <b>Testo</b>, domanda «Cosa aggiungo alla spesa?».</li>
     <li>Azione <b>Ottieni contenuti dell'URL</b>. URL: incolla l'indirizzo per «aggiungere». Tocca la freccia per le opzioni: Metodo <b>POST</b>.</li>
@@ -272,22 +340,43 @@
     <li>Azione <b>Pronuncia testo</b>: «Valore del dizionario».</li>
     <li>Chiama il comando <b>Aggiungi alla spesa</b>. Dirai: «Ehi Siri, aggiungi alla spesa», poi i prodotti, anche più di uno («uova, latte e pane»).</li>
   </ol></details>
-  <details><summary>Comando «Cosa devo comprare»</summary><ol>
+  <details data-noi18n><summary>Comando «Cosa devo comprare»</summary><ol>
     <li>Nuovo comando con <b>Ottieni contenuti dell'URL</b>: URL = indirizzo per «leggere la lista», Metodo <b>POST</b>, stesse tre intestazioni.</li>
     <li>Corpo JSON con un solo campo Testo: <code>p_list</code> = il codice lista.</li>
     <li>Poi <b>Ottieni valore del dizionario</b> (<code>message</code>) e <b>Pronuncia testo</b>.</li>
     <li>Chiamalo <b>Cosa devo comprare</b>.</li>
   </ol></details>
-  <p>Per tua moglie: nel comando tocca <b>Condividi → Copia link iCloud</b> e mandaglielo. Chi usa lo stesso codice lista vede e modifica la stessa spesa.</p>
+  <p data-noi18n>Per tua moglie: nel comando tocca <b>Condividi → Copia link iCloud</b> e mandaglielo. Chi usa lo stesso codice lista vede e modifica la stessa spesa.</p>
   <p><b>Alexa</b>: serve una skill personale. Le istruzioni e i file sono nella cartella <b>alexa</b> del progetto (<b>LEGGIMI.txt</b>), e usano gli stessi valori qui sopra.</p>
   <div class="row2"><button id="voiceNo">Chiudi</button></div>
+</dialog>
+
+<dialog id="storeDlg">
+  <h2>Negozi e volantini</h2>
+  <p class="hint">Spunta i negozi di cui vuoi vedere le offerte. Per quelli con 📄 carichi tu il volantino.</p>
+  <div id="storeList"></div>
+  <p style="margin:10px 0 0"><a href="https://www.doveconviene.it/firenze/iper-e-super" target="_blank" rel="noopener" style="color:var(--mute);font-size:14px">Altri volantini su DoveConviene ↗</a></p>
+  <div class="row2"><button id="storeClose">Chiudi</button></div>
+</dialog>
+
+<dialog id="noteDlg">
+  <h2>Leggi una lista scritta</h2>
+  <p class="hint">Fotografa un foglio o un post-it: l'app legge i prodotti e li mette nella lista. Un prodotto per riga.</p>
+  <p class="hint">La scrittura a mano può essere letta male: correggi il testo qui sotto prima di aggiungere.</p>
+  <p id="noteStatus"></p>
+  <textarea id="noteTxt" placeholder="Un prodotto per riga" spellcheck="false"></textarea>
+  <div class="row2">
+    <button class="p" id="noteAdd">Aggiungi alla lista</button>
+    <button id="noteAgain">📷 Rifotografa</button>
+    <button id="noteNo">Chiudi</button>
+  </div>
 </dialog>
 
 <dialog id="flyerDlg">
   <h2>Leggi un volantino</h2>
   <p>Scegli gli screenshot o le foto delle pagine del volantino. L'app cerca i tuoi prodotti e i prezzi vicini. Lavora sul telefono, gratis: con volantini molto colorati può sbagliare o perdere qualcosa.</p>
   <label class="lbl" for="flyStore">Supermercato</label>
-  <select id="flyStore"><option>Esselunga</option><option>Coop</option><option>Lidl</option><option>Altro</option></select>
+  <select id="flyStore"></select>
   <label class="lbl" for="flyTo">Il volantino vale fino al</label>
   <input id="flyTo" type="date">
   <label class="lbl" for="flyFiles">Pagine del volantino</label>
@@ -318,9 +407,82 @@
   <div class="row2"><button id="catClose">Annulla</button></div>
 </dialog>
 
+<dialog id="setDlg">
+  <h2>⚙️ Impostazioni</h2>
+  <div class="menu">
+    <button class="mrow" id="setShare"><span>👥</span><span class="mt"><b>Condividi la lista</b><small>Invia il link a chi vuole partecipare</small></span></button>
+    <label class="mrow"><span>🌐</span><span class="mt"><b>Lingua</b></span>
+      <select id="langSel"><option value="it">Italiano</option><option value="en">English</option><option value="fr">Français</option><option value="es">Español</option><option value="zh">中文</option></select></label>
+    <button class="mrow" id="setCats"><span>🏷️</span><span class="mt"><b>Reparti della spesa</b><small>Rinomina, aggiungi, riordina o elimina</small></span></button>
+    <button class="mrow" id="setXCats"><span>🛍️</span><span class="mt"><b>Gruppi della scheda Altro</b><small>Rinomina, aggiungi, riordina o elimina</small></span></button>
+    <button class="mrow" id="setProds"><span>📦</span><span class="mt"><b>Prodotti del catalogo</b><small>Rinomina, sposta, elimina o aggiungi</small></span></button>
+    <button class="mrow" id="setVoice"><span>🎙️</span><span class="mt"><b>Comandi vocali</b><small>Siri e Alexa</small></span></button>
+    <button class="mrow danger" id="setReset"><span>↩️</span><span class="mt"><b>Ripristina il catalogo originale</b><small>Annulla tutte le personalizzazioni di reparti e prodotti</small></span></button>
+  </div>
+  <div class="warnbox" id="setWarn" hidden>Le modifiche sono salvate solo su questo telefono: manca l'aggiornamento del database (script supabase-impostazioni.sql).</div>
+  <div class="row2"><button id="setClose">Chiudi</button></div>
+</dialog>
+
+<dialog id="catsDlg">
+  <h2 id="cmTitle">Reparti della spesa</h2>
+  <p>Tocca un reparto per modificarlo. Con ▲ e ▼ cambi l'ordine in cui compare in lista.</p>
+  <div class="mlist" id="cmList"></div>
+  <div class="row2"><button class="p" id="cmAdd">＋ Aggiungi reparto</button><button id="cmClose">Chiudi</button></div>
+</dialog>
+
+<dialog id="catEditDlg">
+  <h2 id="ceTitle">Modifica reparto</h2>
+  <label class="lbl" for="ceName">Nome</label>
+  <input id="ceName" maxlength="40">
+  <label class="lbl" for="ceEmoji">Icona</label>
+  <input id="ceEmoji" maxlength="4" style="width:90px;text-align:center;font-size:22px">
+  <div id="ceEmojis"></div>
+  <label class="lbl">Colore</label>
+  <div id="ceColors"></div>
+  <div class="row2">
+    <button class="p" id="ceSave">Salva</button>
+    <button id="ceReset" hidden>Ripristina il nome originale</button>
+    <button class="danger" id="ceDel">Elimina reparto</button>
+    <button id="ceNo">Annulla</button>
+  </div>
+</dialog>
+
+<dialog id="prodsDlg">
+  <h2>📦 Prodotti del catalogo</h2>
+  <select id="pdCat"></select>
+  <input id="pdQ" type="search" placeholder="Cerca un prodotto…" style="margin-top:8px">
+  <div class="mlist" id="pdList"></div>
+  <div class="row2"><button class="p" id="pdAdd">＋ Aggiungi prodotto</button><button id="pdClose">Chiudi</button></div>
+</dialog>
+
+<dialog id="peDlg">
+  <h2 id="peTitle">Modifica prodotto</h2>
+  <label class="lbl" for="peName">Nome</label>
+  <input id="peName" maxlength="100">
+  <label class="lbl" for="peCat">Reparto</label>
+  <select id="peCat"></select>
+  <div class="row2">
+    <button class="p" id="peSave">Salva</button>
+    <button class="danger" id="peDel" hidden>Elimina prodotto</button>
+    <button id="peNo">Annulla</button>
+  </div>
+</dialog>
+
+<dialog id="startDlg">
+  <h2>Benvenuto 👋</h2>
+  <p>Hai già una lista condivisa, per esempio quella di casa? Incolla qui il link: da quel momento tu e gli altri vedrete la stessa spesa.</p>
+  <button class="more" id="startPaste" style="margin:6px 0 10px">📋 Incolla il link</button>
+  <input id="startInp" placeholder="Oppure scrivilo o incollalo qui">
+  <p id="startMsg" style="color:var(--red)"></p>
+  <div class="row2"><button class="p" id="startJoin">Usa questa lista</button></div>
+  <div class="row2"><button id="startNew">No, inizio una lista nuova</button></div>
+  <p style="font-size:13px">Il link si copia dall'app di chi ha già la lista: tocca ⚙️, poi «Condividi la lista» e «Copia link».</p>
+</dialog>
+
 <dialog id="dlg">
   <h2>Condividi la lista</h2>
   <p>Manda questo link a chi vuoi: aprendolo vedrà e potrà modificare la stessa lista. Chi ha il link ha accesso, quindi mandalo solo a persone fidate.</p>
+  <p style="font-size:13px">Sull'iPhone, per metterla sulla Home: apri il link in Safari, tocca Condividi e poi «Aggiungi alla schermata Home».</p>
   <input id="shareLink" readonly>
   <div class="row2">
     <button class="p" id="copyBtn">Copia link</button>
@@ -342,21 +504,121 @@ const UUID = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
 const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
-// ---- Lista corrente: dal link (?l=...) oppure salvata, oppure nuova ----
-function loadListId() {
-  const fromUrl = new URLSearchParams(location.search).get("l");
-  if (fromUrl && UUID.test(fromUrl)) {
-    localStorage.setItem("listId", fromUrl.match(UUID)[0]);
-    history.replaceState(null, "", location.pathname);
+// ---- Lingua: italiano di base, poi inglese, francese, spagnolo, cinese ----
+const I18N = {"exact":[["Aggiungi","Add","Ajouter","Añadir","添加"],["Aggiunta","Added","Ajoutée","Añadida","已添加"],["Aggiungi alla lista","Add to list","Ajouter à la liste","Añadir a la lista","添加到清单"],["Aggiungi i selezionati","Add selected","Ajouter la sélection","Añadir seleccionados","添加所选项"],["Altro","Other","Autre","Otro","其他"],["Annulla","Cancel","Annuler","Cancelar","取消"],["Annulla tutte le personalizzazioni di reparti e prodotti","Undo all customizations of departments and products","Annuler toutes les personnalisations des rayons et des produits","Deshacer todas las personalizaciones de secciones y productos","撤销对分类和商品的所有自定义"],["Avvio della fotocamera…","Starting the camera…","Démarrage de la caméra…","Iniciando la cámara…","正在启动相机…"],["Benvenuto 👋","Welcome 👋","Bienvenue 👋","Bienvenido 👋","欢迎 👋"],["Cancella i prodotti presi","Clear the taken items","Effacer les produits pris","Borrar los productos ya cogidos","清除已买商品"],["Cancella anche i non presi","Also clear the items not taken","Effacer aussi les produits non pris","Borrar también los no cogidos","同时清除未买的商品"],["Cancella tutta la lista","Clear the whole list","Effacer toute la liste","Borrar toda la lista","清空整个清单"],["Svuota la lista","Empty the list","Vider la liste","Vaciar la lista","清空清单"],["Catalogo","Catalog","Catalogue","Catálogo","商品目录"],["Cerca","Search","Rechercher","Buscar","搜索"],["Cerca o aggiungi un prodotto…","Search or add a product…","Rechercher ou ajouter un produit…","Buscar o añadir un producto…","搜索或添加商品…"],["Cerca un prodotto…","Search for a product…","Rechercher un produit…","Buscar un producto…","搜索商品…"],["Chiave (apikey)","Key (apikey)","Clé (apikey)","Clave (apikey)","密钥 (apikey)"],["Chiudi","Close","Fermer","Cerrar","关闭"],["Codice a barre","Barcode","Code-barres","Código de barras","条形码"],["Codice della tua lista (p_list)","Your list code (p_list)","Code de votre liste (p_list)","Código de tu lista (p_list)","你的清单代码 (p_list)"],["Colore","Color","Couleur","Color","颜色"],["Comandi vocali","Voice commands","Commandes vocales","Comandos de voz","语音指令"],["🎙️ Comandi vocali","🎙️ Voice commands","🎙️ Commandes vocales","🎙️ Comandos de voz","🎙️ 语音指令"],["🎙️ Comandi vocali (Siri e Alexa)","🎙️ Voice commands (Siri and Alexa)","🎙️ Commandes vocales (Siri et Alexa)","🎙️ Comandos de voz (Siri y Alexa)","🎙️ 语音指令（Siri 和 Alexa）"],["I comandi vocali di Siri e Alexa funzionano in italiano.","The Siri and Alexa voice commands work in Italian.","Les commandes vocales de Siri et Alexa fonctionnent en italien.","Los comandos de voz de Siri y Alexa funcionan en italiano.","Siri 和 Alexa 的语音指令使用意大利语。"],["Concludere la spesa?","Finish shopping?","Terminer les courses ?","¿Terminar la compra?","结束购物？"],["Condividi","Share","Partager","Compartir","分享"],["Condividi la lista","Share the list","Partager la liste","Compartir la lista","分享清单"],["Copia","Copy","Copier","Copiar","复制"],["Copiato ✓","Copied ✓","Copié ✓","Copiado ✓","已复制 ✓"],["Copia link","Copy link","Copier le lien","Copiar enlace","复制链接"],["Detta","Dictate","Dicter","Dictar","语音输入"],["Dopo il trattino puoi scrivere una nota (misura, modello, negozio).","After the dash you can write a note (size, model, store).","Après le tiret, vous pouvez écrire une note (taille, modèle, magasin).","Después del guion puedes escribir una nota (talla, modelo, tienda).","破折号后面可以写备注（尺码、型号、店铺）。"],["Elimina prodotto","Delete product","Supprimer le produit","Eliminar producto","删除商品"],["Elimina reparto","Delete department","Supprimer le rayon","Eliminar sección","删除分类"],["Es. scarpe da corsa - numero 43","E.g. running shoes - size 43","Ex. chaussures de course - pointure 43","Ej. zapatillas de correr - talla 43","例如：跑鞋 - 43码"],["Foto","Photo","Photo","Foto","照片"],["Gruppi della scheda Altro","Groups of the Other tab","Groupes de l'onglet Autre","Grupos de la pestaña Otro","“其他”页的分组"],["Hai già una lista condivisa, per esempio quella di casa? Incolla qui il link: da quel momento tu e gli altri vedrete la stessa spesa.","Do you already have a shared list, for example the one at home? Paste the link here: from then on you and the others will see the same shopping list.","Avez-vous déjà une liste partagée, par exemple celle de la maison ? Collez le lien ici : vous verrez alors tous les mêmes courses.","¿Ya tienes una lista compartida, por ejemplo la de casa? Pega aquí el enlace: desde ese momento tú y los demás veréis la misma compra.","你已经有共享清单了吗，比如家里的那份？在这里粘贴链接，之后你和其他人就能看到同一份购物清单。"],["Hai ricevuto un link o un codice? Incollalo qui per unirti a un'altra lista:","Received a link or a code? Paste it here to join another list:","Vous avez reçu un lien ou un code ? Collez-le ici pour rejoindre une autre liste :","¿Has recibido un enlace o un código? Pégalo aquí para unirte a otra lista:","收到了链接或代码？粘贴到这里即可加入另一份清单："],["Prodotti da cercare","Products to look for","Produits à chercher","Productos por buscar","待找商品"],["Icona","Icon","Icône","Icono","图标"],["Il link si copia dall'app di chi ha già la lista: tocca ⚙️, poi «Condividi la lista» e «Copia link».","The link is copied from the app of whoever already has the list: tap ⚙️, then “Share the list” and “Copy link”.","Le lien se copie depuis l'appli de la personne qui a déjà la liste : touchez ⚙️, puis « Partager la liste » et « Copier le lien ».","El enlace se copia desde la app de quien ya tiene la lista: toca ⚙️, luego «Compartir la lista» y «Copiar enlace».","链接可在已有清单的人的应用里复制：点 ⚙️，再点“分享清单”和“复制链接”。"],["Sull'iPhone, per metterla sulla Home: apri il link in Safari, tocca Condividi e poi «Aggiungi alla schermata Home».","On iPhone, to put it on the Home Screen: open the link in Safari, tap Share and then “Add to Home Screen”.","Sur iPhone, pour la mettre sur l'écran d'accueil : ouvrez le lien dans Safari, touchez Partager puis « Sur l'écran d'accueil ».","En iPhone, para ponerla en la pantalla de inicio: abre el enlace en Safari, toca Compartir y luego «Añadir a pantalla de inicio».","在 iPhone 上添加到主屏幕：用 Safari 打开链接，点“分享”，再点“添加到主屏幕”。"],["Il volantino vale fino al","The flyer is valid until","Le prospectus est valable jusqu'au","El folleto es válido hasta el","传单有效期至"],["In offerta","On offer","En promotion","En oferta","优惠"],["Indirizzo per «aggiungere»","Address for “adding”","Adresse pour « ajouter »","Dirección para «añadir»","“添加”用的地址"],["Indirizzo per «leggere la lista»","Address for “reading the list”","Adresse pour « lire la liste »","Dirección para «leer la lista»","“读取清单”用的地址"],["Invia il link a chi vuole partecipare","Send the link to whoever wants to join","Envoyez le lien à ceux qui veulent participer","Envía el enlace a quien quiera participar","把链接发给想参与的人"],["Invia…","Send…","Envoyer…","Enviar…","发送…"],["Impostazioni","Settings","Réglages","Ajustes","设置"],["⚙️ Impostazioni","⚙️ Settings","⚙️ Réglages","⚙️ Ajustes","⚙️ 设置"],["L'offerta vale fino al (facoltativo)","The offer is valid until (optional)","L'offre est valable jusqu'au (facultatif)","La oferta es válida hasta el (opcional)","优惠有效期至（可选）"],["Le modifiche sono salvate solo su questo telefono: manca l'aggiornamento del database (script supabase-impostazioni.sql).","Changes are saved only on this phone: the database update (script supabase-impostazioni.sql) is missing.","Les modifications ne sont enregistrées que sur ce téléphone : la mise à jour de la base de données (script supabase-impostazioni.sql) manque.","Los cambios se guardan solo en este teléfono: falta la actualización de la base de datos (script supabase-impostazioni.sql).","修改仅保存在此手机上：缺少数据库更新（脚本 supabase-impostazioni.sql）。"],["Leggi le pagine","Read the pages","Lire les pages","Leer las páginas","读取页面"],["Leggi un volantino","Read a flyer","Lire un prospectus","Leer un folleto","读取传单"],["📄 Leggi un volantino (screenshot o foto)","📄 Read a flyer (screenshot or photo)","📄 Lire un prospectus (capture ou photo)","📄 Leer un folleto (captura o foto)","📄 读取传单（截图或照片）"],["Lingua","Language","Langue","Idioma","语言"],["Link o codice lista","List link or code","Lien ou code de la liste","Enlace o código de la lista","清单链接或代码"],["Lista","List","Liste","Lista","清单"],["Manda questo link a chi vuoi: aprendolo vedrà e potrà modificare la stessa lista. Chi ha il link ha accesso, quindi mandalo solo a persone fidate.","Send this link to anyone you like: by opening it they will see and be able to edit the same list. Anyone with the link has access, so only send it to people you trust.","Envoyez ce lien à qui vous voulez : en l'ouvrant, la personne verra et pourra modifier la même liste. Toute personne ayant le lien a accès, ne l'envoyez donc qu'à des personnes de confiance.","Envía este enlace a quien quieras: al abrirlo verá y podrá modificar la misma lista. Quien tenga el enlace tiene acceso, así que envíalo solo a personas de confianza.","把这个链接发给你想邀请的人：打开后就能看到并修改同一份清单。拿到链接的人都能访问，所以只发给你信任的人。"],["Metti in lista","Add to list","Mettre dans la liste","Poner en la lista","加入清单"],["Modifica prodotto","Edit product","Modifier le produit","Editar producto","编辑商品"],["Modifica reparto","Edit department","Modifier le rayon","Editar sección","编辑分类"],["Nuovo prodotto","New product","Nouveau produit","Nuevo producto","新商品"],["Nuovo reparto","New department","Nouveau rayon","Nueva sección","新分类"],["No, inizio una lista nuova","No, I'll start a new list","Non, je commence une nouvelle liste","No, empiezo una lista nueva","不，新建一份清单"],["Nome","Name","Nom","Nombre","名称"],["Nome (marca e modello)","Name (brand and model)","Nom (marque et modèle)","Nombre (marca y modelo)","名称（品牌和型号）"],["Nota (facoltativa)","Note (optional)","Note (facultative)","Nota (opcional)","备注（可选）"],["Oppure scrivi le cifre del codice","Or type the digits of the code","Ou saisissez les chiffres du code","O escribe las cifras del código","或输入代码数字"],["Oppure scrivilo o incollalo qui","Or type or paste it here","Ou saisissez-le ou collez-le ici","O escríbelo o pégalo aquí","或在这里输入或粘贴"],["Pagine del volantino","Flyer pages","Pages du prospectus","Páginas del folleto","传单页面"],["Prodotti del catalogo","Catalog products","Produits du catalogue","Productos del catálogo","目录商品"],["📦 Prodotti del catalogo","📦 Catalog products","📦 Produits du catalogue","📦 Productos del catálogo","📦 目录商品"],["Prodotto da cercare","Product to look for","Produit à chercher","Producto por buscar","待找商品"],["Qui metti i prodotti precisi: una marca, un modello, un'offerta.","Here you put exact products: a brand, a model, an offer.","Ici, vous mettez les produits précis : une marque, un modèle, une offre.","Aquí pones productos concretos: una marca, un modelo, una oferta.","在这里记录具体商品：某个品牌、某个型号或某个优惠。"],["Qui ti segni quello che non trovi al supermercato: scarpe, mobili, libri, utensili, cartoleria…","Here you note what you can't find at the supermarket: shoes, furniture, books, tools, stationery…","Ici, vous notez ce que vous ne trouvez pas au supermarché : chaussures, meubles, livres, outils, papeterie…","Aquí apuntas lo que no encuentras en el supermercado: zapatos, muebles, libros, herramientas, papelería…","在这里记下超市买不到的东西：鞋子、家具、书籍、工具、文具……"],["Reparti della spesa","Shopping departments","Rayons des courses","Secciones de la compra","购物分类"],["Reparto","Department","Rayon","Sección","分类"],["Rinomina, aggiungi, riordina o elimina","Rename, add, reorder or delete","Renommer, ajouter, réorganiser ou supprimer","Renombrar, añadir, reordenar o eliminar","重命名、添加、排序或删除"],["Rinomina, sposta, elimina o aggiungi","Rename, move, delete or add","Renommer, déplacer, supprimer ou ajouter","Renombrar, mover, eliminar o añadir","重命名、移动、删除或添加"],["Ripristina il catalogo originale","Restore the original catalog","Rétablir le catalogue d'origine","Restaurar el catálogo original","恢复原始目录"],["Ripristina il nome originale","Restore the original name","Rétablir le nom d'origine","Restaurar el nombre original","恢复原名称"],["Ripristina","Restore","Rétablir","Restaurar","恢复"],["Eliminati","Deleted","Supprimés","Eliminados","已删除"],["Tutti i reparti","All departments","Tous les rayons","Todas las secciones","所有分类"],["Salva","Save","Enregistrer","Guardar","保存"],["Salva modifiche","Save changes","Enregistrer les modifications","Guardar cambios","保存修改"],["Salva senza metterlo in lista","Save without adding to the list","Enregistrer sans l'ajouter à la liste","Guardar sin ponerlo en la lista","保存但不加入清单"],["Scansiona il codice a barre","Scan the barcode","Scanner le code-barres","Escanear el código de barras","扫描条形码"],["Scegli gli screenshot o le foto delle pagine del volantino. L'app cerca i tuoi prodotti e i prezzi vicini. Lavora sul telefono, gratis: con volantini molto colorati può sbagliare o perdere qualcosa.","Choose the screenshots or photos of the flyer pages. The app looks for your products and nearby prices. It works on your phone, for free: with very colorful flyers it may get things wrong or miss something.","Choisissez les captures ou photos des pages du prospectus. L'appli cherche vos produits et les prix voisins. Elle travaille sur le téléphone, gratuitement : avec des prospectus très colorés, elle peut se tromper ou manquer des choses.","Elige las capturas o fotos de las páginas del folleto. La app busca tus productos y los precios cercanos. Funciona en el teléfono, gratis: con folletos muy coloridos puede equivocarse o perder algo.","选择传单页面的截图或照片。应用会查找你的商品和附近的价格。它在手机上免费运行：传单颜色很花哨时可能出错或漏掉内容。"],["Scegli il reparto. Quello evidenziato è il mio suggerimento.","Choose the department. The highlighted one is my suggestion.","Choisissez le rayon. Celui qui est en surbrillance est ma suggestion.","Elige la sección. La resaltada es mi sugerencia.","请选择分类，高亮的是我的建议。"],["Scorri a destra per vedere la lista.","Swipe right to see the list.","Faites glisser vers la droite pour voir la liste.","Desliza a la derecha para ver la lista.","向右滑动查看清单。"],["Siri e Alexa","Siri and Alexa","Siri et Alexa","Siri y Alexa","Siri 和 Alexa"],["Da cercare","To find","À chercher","Por buscar","待找"],["Supermercato","Supermarket","Supermarché","Supermercado","超市"],["Supermercato (se è un'offerta)","Supermarket (if it's an offer)","Supermarché (si c'est une offre)","Supermercado (si es una oferta)","超市（如果是优惠）"],["Tocca un prodotto per metterlo in lista, toccalo ancora per toglierlo.","Tap a product to add it to the list, tap it again to remove it.","Touchez un produit pour le mettre dans la liste, touchez-le encore pour l'enlever.","Toca un producto para ponerlo en la lista, tócalo otra vez para quitarlo.","点按商品加入清单，再点一次即可移除。"],["Tocca un reparto per modificarlo. Con ▲ e ▼ cambi l'ordine in cui compare in lista.","Tap a department to edit it. Use ▲ and ▼ to change the order in which it appears in the list.","Touchez un rayon pour le modifier. Avec ▲ et ▼, vous changez l'ordre dans lequel il apparaît dans la liste.","Toca una sección para editarla. Con ▲ y ▼ cambias el orden en que aparece en la lista.","点按分类即可编辑。用 ▲ 和 ▼ 调整它在清单中的顺序。"],["Toccane uno per metterlo in lista, toccalo ancora per toglierlo.","Tap one to add it to the list, tap it again to remove it.","Touchez-en un pour le mettre dans la liste, touchez-le encore pour l'enlever.","Toca uno para ponerlo en la lista, tócalo otra vez para quitarlo.","点按其中一个加入清单，再点一次即可移除。"],["Unisciti","Join","Rejoindre","Unirse","加入"],["Usa questa lista","Use this list","Utiliser cette liste","Usar esta lista","使用这份清单"],["confezione o volantino","package or flyer","emballage ou prospectus","envase o folleto","包装或传单"],["trova il prodotto","finds the product","trouve le produit","encuentra el producto","查找商品"],["— qualsiasi —","— any —","— n'importe lequel —","— cualquiera —","— 任意 —"],["＋ Aggiungi prodotto","＋ Add product","＋ Ajouter un produit","＋ Añadir producto","＋ 添加商品"],["＋ Aggiungi reparto","＋ Add department","＋ Ajouter un rayon","＋ Añadir sección","＋ 添加分类"],["＋ Aggiungi gruppo","＋ Add group","＋ Ajouter un groupe","＋ Añadir grupo","＋ 添加分组"],["Elimina","Delete","Supprimer","Eliminar","删除"],["📋 Incolla il link","📋 Paste the link","📋 Coller le lien","📋 Pegar el enlace","📋 粘贴链接"],["🔎 Cerca offerte:","🔎 Find offers:","🔎 Chercher des offres :","🔎 Buscar ofertas:","🔎 查找优惠："],["🛒 Spesa","🛒 Shopping","🛒 Courses","🛒 Compra","🛒 购物"],["es. Gocciole Pavesi 500 g","e.g. Pavesi Gocciole 500 g","ex. Pavesi Gocciole 500 g","ej. Pavesi Gocciole 500 g","例如：Pavesi Gocciole 500 g"],["es. in offerta fino a sabato","e.g. on offer until Saturday","ex. en promotion jusqu'à samedi","ej. en oferta hasta el sábado","例如：优惠到周六"],["Scrivi marca e modello","Write brand and model","Écrivez la marque et le modèle","Escribe marca y modelo","请填写品牌和型号"],["Aggiungi alla lista","Add to list","Ajouter à la liste","Añadir a la lista","添加到清单"],["Togli dalla lista","Remove from the list","Retirer de la liste","Quitar de la lista","从清单移除"],["Togli","Remove","Retirer","Quitar","移除"],["Modifica","Edit","Modifier","Editar","编辑"],["Dimentica","Forget","Oublier","Olvidar","忘记"],["✓ Già comprati","✓ Already bought","✓ Déjà achetés","✓ Ya comprados","✓ 已购买"],["✓ Nel carrello","✓ In the cart","✓ Dans le panier","✓ En el carrito","✓ 已放入购物车"],["⭐ Da cercare · proprio questi","⭐ To find · exactly these","⭐ À chercher · précisément ceux-ci","⭐ Por buscar · justo estos","⭐ 待找 · 请认准这些"],["🧾 Spesa conclusa: cancella la lista","🧾 Shopping done: clear the list","🧾 Courses terminées : effacer la liste","🧾 Compra terminada: borrar la lista","🧾 购物结束：清空清单"],["Tocca un prodotto quando lo metti nel carrello.","Tap a product when you put it in the cart.","Touchez un produit quand vous le mettez dans le panier.","Toca un producto cuando lo metas en el carrito.","把商品放进购物车时点按它。"],["Tienilo premuto per cambiargli reparto.","Press and hold it to change its department.","Maintenez-le appuyé pour changer son rayon.","Mantenlo pulsado para cambiarle la sección.","长按可更改它所属的分类。"],["La lista è vuota 🎉","The list is empty 🎉","La liste est vide 🎉","La lista está vacía 🎉","清单是空的 🎉"],["Scorri a sinistra, o tocca “Catalogo”, per scegliere cosa comprare.","Swipe left, or tap “Catalog”, to choose what to buy.","Faites glisser vers la gauche, ou touchez « Catalogue », pour choisir quoi acheter.","Desliza a la izquierda, o toca «Catálogo», para elegir qué comprar.","向左滑动或点“商品目录”，选择要买的东西。"],["Nessun prodotto trovato.","No products found.","Aucun produit trouvé.","No se encontró ningún producto.","没有找到商品。"],["Premi ＋ in alto per aggiungerlo alla lista.","Press ＋ at the top to add it to the list.","Appuyez sur ＋ en haut pour l'ajouter à la liste.","Pulsa ＋ arriba para añadirlo a la lista.","点上方的 ＋ 把它加入清单。"],["Niente in elenco.","Nothing on the list.","Rien dans la liste.","Nada en la lista.","清单里没有东西。"],["Scrivi qui sopra cosa devi comprare, per esempio “scarpe da corsa - numero 43”.","Write above what you need to buy, for example “running shoes - size 43”.","Écrivez ci-dessus ce que vous devez acheter, par exemple « chaussures de course - pointure 43 ».","Escribe arriba lo que necesitas comprar, por ejemplo «zapatillas de correr - talla 43».","在上方写下要买的东西，例如“跑鞋 - 43码”。"],["Niente da cercare.","Nothing to look for.","Rien à chercher.","Nada por buscar.","没有待找商品。"],["Fotografa una confezione, scansiona il codice a barre o aggiungi un'offerta.","Photograph a package, scan the barcode or add an offer.","Photographiez un emballage, scannez le code-barres ou ajoutez une offre.","Fotografía un envase, escanea el código de barras o añade una oferta.","拍一张包装照片、扫描条形码或添加一个优惠。"],["Le offerte di Lidl e Penny compaiono qui da sole una volta attivato l'aggiornamento automatico.","Lidl and Penny offers appear here on their own once the automatic update is on.","Les offres de Lidl et Penny apparaissent ici d'elles-mêmes une fois la mise à jour automatique activée.","Las ofertas de Lidl y Penny aparecen aquí solas una vez activada la actualización automática.","启用自动更新后，Lidl 和 Penny 的优惠会自动显示在这里。"],["Per gli altri negozi tocca ✎ e carica un volantino.","For the other stores tap ✎ and upload a flyer.","Pour les autres magasins, touchez ✎ et chargez un prospectus.","Para las demás tiendas toca ✎ y sube un folleto.","其他店铺请点 ✎ 并上传传单。"],["Questa settimana nessuna offerta sui tuoi prodotti.","No offers on your products this week.","Cette semaine, aucune offre sur vos produits.","Esta semana no hay ofertas en tus productos.","本周你的商品没有优惠。"],["🏷 In offerta su quello che devi comprare","🏷 On offer: things you need to buy","🏷 En promotion : ce que vous devez acheter","🏷 En oferta: lo que tienes que comprar","🏷 优惠：你要买的东西"],["🏷 In offerta sui tuoi prodotti di solito","🏷 On offer: your usual products","🏷 En promotion : vos produits habituels","🏷 En oferta: tus productos de siempre","🏷 优惠：你常买的商品"],["prezzo nel volantino","price in the flyer","prix dans le prospectus","precio en el folleto","价格见传单"],["Apri la pagina del prodotto ↗","Open the product page ↗","Ouvrir la page du produit ↗","Abrir la página del producto ↗","打开商品页面 ↗"],["🏪 Dove capita","🏪 Wherever","🏪 Peu importe","🏪 Donde sea","🏪 不限店铺"],["in lista","on the list","dans la liste","en la lista","已在清单"],["preso","taken","pris","cogido","已买"],["⚠️ Problema di connessione, riprovo…","⚠️ Connection problem, retrying…","⚠️ Problème de connexion, nouvel essai…","⚠️ Problema de conexión, reintentando…","⚠️ 连接出问题，正在重试…"],["⚠️ Offline: i dati potrebbero non essere aggiornati","⚠️ Offline: the data may not be up to date","⚠️ Hors ligne : les données peuvent ne pas être à jour","⚠️ Sin conexión: los datos pueden no estar actualizados","⚠️ 离线：数据可能不是最新的"],["Dettatura non disponibile qui. Tocca il campo di testo e usa il microfono sulla tastiera dell'iPhone.","Dictation is not available here. Tap the text field and use the microphone on the iPhone keyboard.","La dictée n'est pas disponible ici. Touchez le champ de texte et utilisez le micro du clavier de l'iPhone.","El dictado no está disponible aquí. Toca el campo de texto y usa el micrófono del teclado del iPhone.","此处无法使用语音输入。请点按文本框，使用 iPhone 键盘上的麦克风。"],["Consenti l'uso del microfono nelle impostazioni, oppure usa il microfono della tastiera.","Allow microphone use in Settings, or use the keyboard microphone.","Autorisez l'usage du micro dans les réglages, ou utilisez le micro du clavier.","Permite el uso del micrófono en Ajustes, o usa el micrófono del teclado.","请在设置中允许使用麦克风，或使用键盘上的麦克风。"],["Lista svuotata ✓","List emptied ✓","Liste vidée ✓","Lista vaciada ✓","清单已清空 ✓"],["Spesa conclusa ✓","Shopping done ✓","Courses terminées ✓","Compra terminada ✓","购物已结束 ✓"],["Fatto ✓","Done ✓","Fait ✓","Hecho ✓","完成 ✓"],["✓ In lista, la trovi nella scheda Lista","✓ On the list, you'll find it in the List tab","✓ Dans la liste, vous la trouvez dans l'onglet Liste","✓ En la lista, la encuentras en la pestaña Lista","✓ 已加入清单，可在“清单”页查看"],["✓ Salvato nei tuoi prodotti","✓ Saved to your products","✓ Enregistré dans vos produits","✓ Guardado en tus productos","✓ 已保存到你的商品"],["Catalogo ripristinato ✓","Catalog restored ✓","Catalogue rétabli ✓","Catálogo restaurado ✓","目录已恢复 ✓"],["Ripristinare il catalogo originale? Reparti e prodotti tornano come all'inizio (le voci già in lista non cambiano).","Restore the original catalog? Departments and products go back to how they were at the start (items already on the list don't change).","Rétablir le catalogue d'origine ? Les rayons et les produits redeviennent comme au début (les articles déjà dans la liste ne changent pas).","¿Restaurar el catálogo original? Las secciones y los productos vuelven a como estaban al principio (lo que ya está en la lista no cambia).","恢复原始目录？分类和商品将回到最初的样子（清单中已有的内容不变）。"],["Scegli prima almeno una pagina del volantino.","First choose at least one page of the flyer.","Choisissez d'abord au moins une page du prospectus.","Elige primero al menos una página del folleto.","请先至少选择一页传单。"],["Scarico il lettore di testo (la prima volta ci vuole un po')…","Downloading the text reader (the first time it takes a while)…","Téléchargement du lecteur de texte (la première fois, cela prend un peu de temps)…","Descargando el lector de texto (la primera vez tarda un poco)…","正在下载文字识别组件（第一次需要一点时间）…"],["Non sono riuscito a leggere le pagine. Controlla la connessione e riprova.","I couldn't read the pages. Check the connection and try again.","Je n'ai pas réussi à lire les pages. Vérifiez la connexion et réessayez.","No pude leer las páginas. Revisa la conexión e inténtalo de nuevo.","无法读取这些页面。请检查网络后重试。"],["Non riesco a leggere la foto.","I can't read the photo.","Je n'arrive pas à lire la photo.","No puedo leer la foto.","无法读取这张照片。"],["Inquadra il codice a barre sulla confezione.","Point the camera at the barcode on the package.","Cadrez le code-barres sur l'emballage.","Enfoca el código de barras del envase.","请对准包装上的条形码。"],["Non riesco ad usare la fotocamera. Consenti l'accesso, oppure scrivi le cifre del codice qui sotto.","I can't use the camera. Allow access, or type the digits of the code below.","Je n'arrive pas à utiliser la caméra. Autorisez l'accès, ou saisissez les chiffres du code ci-dessous.","No puedo usar la cámara. Permite el acceso, o escribe las cifras del código abajo.","无法使用相机。请允许访问，或在下方输入代码数字。"],["Scrivi tutte le cifre del codice.","Type all the digits of the code.","Saisissez tous les chiffres du code.","Escribe todas las cifras del código.","请输入完整的代码数字。"],["Cerco il prodotto…","Looking for the product…","Recherche du produit…","Buscando el producto…","正在查找商品…"],["Prodotto non trovato nel database: scrivi tu il nome.","Product not found in the database: type the name yourself.","Produit introuvable dans la base : saisissez le nom vous-même.","Producto no encontrado en la base de datos: escribe tú el nombre.","数据库中没有这个商品：请自己填写名称。"],["Link o codice non valido.","Invalid link or code.","Lien ou code non valide.","Enlace o código no válido.","链接或代码无效。"],["Non vedo un codice valido. Copia il link dall'app di chi ha già la lista (⚙️ → Condividi la lista → Copia link).","I can't see a valid code. Copy the link from the app of whoever already has the list (⚙️ → Share the list → Copy link).","Je ne vois pas de code valide. Copiez le lien depuis l'appli de la personne qui a déjà la liste (⚙️ → Partager la liste → Copier le lien).","No veo un código válido. Copia el enlace desde la app de quien ya tiene la lista (⚙️ → Compartir la lista → Copiar enlace).","没有找到有效的代码。请从已有清单的人的应用中复制链接（⚙️ → 分享清单 → 复制链接）。"],["Tieni premuto nel campo qui sotto e scegli Incolla.","Press and hold in the field below and choose Paste.","Maintenez appuyé dans le champ ci-dessous et choisissez Coller.","Mantén pulsado en el campo de abajo y elige Pegar.","长按下方输入框，选择“粘贴”。"],["Il lettore di testo non parte","The text reader won't start","Le lecteur de texte ne démarre pas","El lector de texto no arranca","文字识别组件无法启动"],["Non riesco a scaricare il lettore di testo","I can't download the text reader","Je n'arrive pas à télécharger le lecteur de texte","No puedo descargar el lector de texto","无法下载文字识别组件"],["immagine non leggibile","unreadable image","image illisible","imagen ilegible","图片无法读取"],["Offerte","Offers","Offres","Ofertas","优惠"],["Negozi e volantini","Stores and flyers","Magasins et prospectus","Tiendas y folletos","店铺和传单"],["Spunta i negozi di cui vuoi vedere le offerte. Per quelli con 📄 carichi tu il volantino.","Tick the stores whose offers you want to see. For those with 📄 you upload the flyer yourself.","Cochez les magasins dont vous voulez voir les offres. Pour ceux avec 📄, vous chargez vous-même le prospectus.","Marca las tiendas cuyas ofertas quieres ver. En las que tienen 📄 subes tú el folleto.","勾选想看优惠的店铺。带 📄 的店铺需要你自己上传传单。"],["automatico","automatic","automatique","automático","自动"],["📄 Carica","📄 Upload","📄 Charger","📄 Subir","📄 上传"],["Sito ↗","Website ↗","Site ↗","Sitio ↗","网站 ↗"],["Offerte aggiornate in automatico","Offers are updated automatically","Offres mises à jour automatiquement","Ofertas actualizadas automáticamente","优惠会自动更新"],["Altri volantini su DoveConviene ↗","More flyers on DoveConviene ↗","Plus de prospectus sur DoveConviene ↗","Más folletos en DoveConviene ↗","在 DoveConviene 查看更多传单 ↗"],["Scegli i negozi","Choose stores","Choisir les magasins","Elegir tiendas","选择店铺"],["🏷 Offerte","🏷 Offers","🏷 Offres","🏷 Ofertas","🏷 优惠"],["Lista scritta","Written list","Liste écrite","Lista escrita","手写清单"],["scritta o stampata","handwritten or printed","manuscrite ou imprimée","a mano o impresa","手写或打印"],["Leggi una lista scritta","Read a written list","Lire une liste écrite","Leer una lista escrita","读取书面清单"],["Fotografa un foglio o un post-it: l'app legge i prodotti e li mette nella lista. Un prodotto per riga.","Photograph a sheet or a sticky note: the app reads the products and puts them on the list. One product per line.","Photographiez une feuille ou un post-it : l'appli lit les produits et les met dans la liste. Un produit par ligne.","Fotografía una hoja o un post-it: la app lee los productos y los pone en la lista. Un producto por línea.","拍下纸张或便利贴：应用会识别商品并加入清单。每行一个商品。"],["La scrittura a mano può essere letta male: correggi il testo qui sotto prima di aggiungere.","Handwriting can be misread: fix the text below before adding.","L'écriture manuscrite peut être mal lue : corrigez le texte ci-dessous avant d'ajouter.","La letra a mano puede leerse mal: corrige el texto de abajo antes de añadir.","手写字可能识别有误：添加前请先修改下面的文字。"],["Un prodotto per riga","One product per line","Un produit par ligne","Un producto por línea","每行一个商品"],["Leggo il testo…","Reading the text…","Lecture du texte…","Leyendo el texto…","正在识别文字…"],["Non ho trovato scritte. Riprova con più luce e il foglio dritto, oppure scrivi i prodotti qui sotto.","I found no writing. Try again with more light and the sheet straight, or type the products below.","Je n'ai trouvé aucun texte. Réessayez avec plus de lumière et la feuille bien droite, ou saisissez les produits ci-dessous.","No he encontrado texto. Inténtalo de nuevo con más luz y la hoja recta, o escribe los productos abajo.","没有识别到文字。请在光线更好、纸张摆正的情况下重试，或在下方直接输入商品。"],["📷 Rifotografa","📷 Photograph again","📷 Reprendre une photo","📷 Volver a fotografiar","📷 重新拍照"],["Nessun prodotto da aggiungere.","No products to add.","Aucun produit à ajouter.","No hay productos que añadir.","没有可添加的商品。"],["Parli e la spesa si aggiorna, senza aprire l'app. I comandi si dicono in italiano. Quello che aggiungi finisce nella stessa lista dell'app, entro pochi secondi.","You speak and the list updates, without opening the app. Commands are spoken in Italian. What you add ends up in the same list as the app, within a few seconds.","Vous parlez et la liste se met à jour, sans ouvrir l'appli. Les commandes se disent en italien. Ce que vous ajoutez arrive dans la même liste que l'appli, en quelques secondes.","Hablas y la lista se actualiza, sin abrir la app. Los comandos se dicen en italiano. Lo que añades llega a la misma lista de la app en pocos segundos.","开口说话就能更新清单，无需打开应用。指令要用意大利语说。你添加的内容几秒钟内就会出现在应用的同一份清单里。"],["Siri · iPhone, Apple Watch, HomePod, auto","Siri · iPhone, Apple Watch, HomePod, car","Siri · iPhone, Apple Watch, HomePod, voiture","Siri · iPhone, Apple Watch, HomePod, coche","Siri · iPhone、Apple Watch、HomePod、汽车"],["Alexa · Echo e Fire TV","Alexa · Echo and Fire TV","Alexa · Echo et Fire TV","Alexa · Echo y Fire TV","Alexa · Echo 和 Fire TV"],["Come funziona","How it works","Comment ça marche","Cómo funciona","使用说明"],["Puoi dire più prodotti insieme, anche senza «e»: «latte burro uova». L'app li riconosce e li separa.","You can say several products together, even without “and”: “latte burro uova”. The app recognizes and separates them.","Vous pouvez dire plusieurs produits ensemble, même sans « et » : « latte burro uova ». L'appli les reconnaît et les sépare.","Puedes decir varios productos juntos, incluso sin «y»: «latte burro uova». La app los reconoce y los separa.","可以一次说多个商品，甚至不用说“和”：“latte burro uova”。应用会识别并分开它们。"],["Un prodotto già in lista non si duplica. Uno nuovo va nel reparto che l'app ritiene più adatto: lo cambi tenendolo premuto.","A product already on the list is not duplicated. A new one goes in the department the app thinks fits best: change it by pressing and holding it.","Un produit déjà dans la liste n'est pas dupliqué. Un nouveau va dans le rayon que l'appli juge le plus adapté : changez-le en le maintenant appuyé.","Un producto que ya está en la lista no se duplica. Uno nuevo va a la sección que la app considera más adecuada: la cambias manteniéndolo pulsado.","已在清单中的商品不会重复添加。新商品会放进应用认为最合适的分类：长按即可更改。"],["Per usarli serve prepararli una volta sola: Siri con due comandi rapidi, Alexa con una skill personale.","To use them you need to set them up once: Siri with two shortcuts, Alexa with a personal skill.","Pour les utiliser, il faut les préparer une seule fois : Siri avec deux raccourcis, Alexa avec une skill personnelle.","Para usarlos hay que prepararlos una sola vez: Siri con dos atajos, Alexa con una skill personal.","使用前需要设置一次：Siri 用两个快捷指令，Alexa 用一个个人技能。"],["⚙️ Configurazione di Siri e Alexa","⚙️ Siri and Alexa setup","⚙️ Configuration de Siri et Alexa","⚙️ Configuración de Siri y Alexa","⚙️ Siri 和 Alexa 设置"],["Prepara i comandi","Set up the commands","Préparer les commandes","Preparar los comandos","设置指令"],["Siri: tocca per aggiungere i due comandi, poi inserisci il codice lista quando te lo chiede.","Siri: tap to add the two shortcuts, then enter the list code when asked.","Siri : touchez pour ajouter les deux commandes, puis saisissez le code de la liste quand on vous le demande.","Siri: toca para añadir los dos comandos, luego escribe el código de la lista cuando te lo pida.","Siri：点按添加两个快捷指令，然后在提示时输入清单代码。"],["🎙️ Aggiungi «aggiungi alla spesa»","🎙️ Add “aggiungi alla spesa”","🎙️ Ajouter « aggiungi alla spesa »","🎙️ Añadir «aggiungi alla spesa»","🎙️ 添加“aggiungi alla spesa”"],["🎙️ Aggiungi «cosa devo comprare»","🎙️ Add “cosa devo comprare”","🎙️ Ajouter « cosa devo comprare »","🎙️ Añadir «cosa devo comprare»","🎙️ 添加“cosa devo comprare”"],["📋 Copia il mio codice lista","📋 Copy my list code","📋 Copier le code de ma liste","📋 Copiar el código de mi lista","📋 复制我的清单代码"],["🔗 Collega Alexa","🔗 Connect Alexa","🔗 Connecter Alexa","🔗 Conectar Alexa","🔗 连接 Alexa"],["Alexa: tocca per avere un codice di 6 cifre, poi dillo ad Alexa.","Alexa: tap to get a 6-digit code, then say it to Alexa.","Alexa : touchez pour obtenir un code à 6 chiffres, puis dites-le à Alexa.","Alexa: toca para obtener un código de 6 cifras y dícelo a Alexa.","Alexa：点按获取6位代码，然后对 Alexa 说出来。"],["Vale 10 minuti.","Valid for 10 minutes.","Valable 10 minutes.","Válido 10 minutos.","10分钟内有效。"],["Non riesco a creare il codice. Controlla la connessione e che lo script supabase-alexa.sql sia stato eseguito.","I can't create the code. Check the connection and that the supabase-alexa.sql script has been run.","Je n'arrive pas à créer le code. Vérifiez la connexion et que le script supabase-alexa.sql a été exécuté.","No puedo crear el código. Revisa la conexión y que se haya ejecutado el script supabase-alexa.sql.","无法生成代码。请检查网络，并确认已运行 supabase-alexa.sql 脚本。"],["Codice lista copiato ✓","List code copied ✓","Code de la liste copié ✓","Código de la lista copiado ✓","清单代码已复制 ✓"]],"pat":[["✓ {n} di nuovo in lista","✓ {n} back on the list","✓ {n} de nouveau dans la liste","✓ {n} de nuevo en la lista","✓ {n} 重新加入清单"],["{n} è già in lista","{n} is already on the list","{n} est déjà dans la liste","{n} ya está en la lista","{n} 已在清单中"],["✓ {n} aggiunto alla lista","✓ {n} added to the list","✓ {n} ajouté à la liste","✓ {n} añadido a la lista","✓ 已将 {n} 加入清单"],["✓ {n} aggiunto","✓ {n} added","✓ {n} ajouté","✓ {n} añadido","✓ 已添加 {n}"],["{n} è già in elenco","{n} is already in the list","{n} est déjà dans la liste","{n} ya está en la lista","{n} 已在列表中"],["✓ «{n}» era già tra i tuoi prodotti: ora è in lista","✓ “{n}” was already among your products: now it's on the list","✓ « {n} » était déjà dans vos produits : il est maintenant dans la liste","✓ «{n}» ya estaba entre tus productos: ahora está en la lista","✓ “{n}”已在你的商品中，现已加入清单"],["✓ {n} prodotti aggiunti alla lista, puoi correggerli con ✎","✓ {n} products added to the list, you can fix them with ✎","✓ {n} produits ajoutés à la liste, vous pouvez les corriger avec ✎","✓ {n} productos añadidos a la lista, puedes corregirlos con ✎","✓ 已将 {n} 个商品加入清单，可用 ✎ 修改"],["In che reparto va «{n}»?","Which department does “{n}” go in?","Dans quel rayon va « {n} » ?","¿En qué sección va «{n}»?","“{n}”属于哪个分类？"],["In che gruppo va «{n}»?","Which group does “{n}” go in?","Dans quel groupe va « {n} » ?","¿En qué grupo va «{n}»?","“{n}”属于哪个分组？"],["Sposta «{n}» in…","Move “{n}” to…","Déplacer « {n} » vers…","Mover «{n}» a…","将“{n}”移动到…"],["In offerta per «{n}»","On offer for “{n}”","En promotion pour « {n} »","En oferta para «{n}»","“{n}”的优惠"],["Cancella i {n} presi","Clear the {n} taken","Effacer les {n} pris","Borrar los {n} cogidos","清除已买的 {n} 个"],["Eliminare «{n}» dai prodotti da cercare?","Delete “{n}” from the products to look for?","Supprimer « {n} » des produits à chercher ?","¿Eliminar «{n}» de los productos por buscar?","要从待找商品中删除“{n}”吗？"],["Cancellare i {n} prodotti già comprati? L'operazione non si può annullare.","Delete the {n} products already bought? This cannot be undone.","Supprimer les {n} produits déjà achetés ? Cette opération est irréversible.","¿Borrar los {n} productos ya comprados? No se puede deshacer.","要删除已买的 {n} 个商品吗？此操作无法撤销。"],["Eliminare «{n}»? I suoi prodotti passano in «Altro».","Delete “{n}”? Its products move to “Other”.","Supprimer « {n} » ? Ses produits passent dans « Autre ».","¿Eliminar «{n}»? Sus productos pasan a «Otro».","要删除“{n}”吗？其中的商品会移到“其他”。"],["Eliminare «{n}» dal catalogo?","Delete “{n}” from the catalog?","Supprimer « {n} » du catalogue ?","¿Eliminar «{n}» del catálogo?","要从目录中删除“{n}”吗？"],["Leggo la pagina {n} di {m}…","Reading page {n} of {m}…","Lecture de la page {n} sur {m}…","Leyendo la página {n} de {m}…","正在读取第 {n} / {m} 页…"],["Ho letto {n} righe e trovato {m} dei tuoi prodotti. Controlla e scegli.","I read {n} lines and found {m} of your products. Check and choose.","J'ai lu {n} lignes et trouvé {m} de vos produits. Vérifiez et choisissez.","He leído {n} líneas y encontrado {m} de tus productos. Revisa y elige.","已读取 {n} 行，找到 {m} 个你的商品。请检查并选择。"],["Ho letto {n} righe ma non ho trovato prodotti tuoi. Con un volantino molto grafico può capitare.","I read {n} lines but found none of your products. It can happen with a very graphic flyer.","J'ai lu {n} lignes mais je n'ai trouvé aucun de vos produits. Cela peut arriver avec un prospectus très graphique.","He leído {n} líneas pero no he encontrado productos tuyos. Puede pasar con un folleto muy gráfico.","已读取 {n} 行，但没有找到你的商品。传单图案太多时可能会这样。"],["🧹 Elimina i già comprati ({n})","🧹 Delete the already bought ({n})","🧹 Supprimer les déjà achetés ({n})","🧹 Eliminar los ya comprados ({n})","🧹 删除已购买的（{n}）"],["Mostra tutte le offerte ({n})","Show all offers ({n})","Afficher toutes les offres ({n})","Mostrar todas las ofertas ({n})","显示全部优惠（{n}）"],["Nascondi tutte le offerte ({n})","Hide all offers ({n})","Masquer toutes les offres ({n})","Ocultar todas las ofertas ({n})","隐藏全部优惠（{n}）"],["pag. {n} · «{t}»","p. {n} · “{t}”","p. {n} · « {t} »","pág. {n} · «{t}»","第 {n} 页 · “{t}”"],["La pagina {n} ci mette troppo","Page {n} is taking too long","La page {n} prend trop de temps","La página {n} tarda demasiado","第 {n} 页耗时过长"],["Ho letto {n} prodotti. Controlla e correggi, poi aggiungi.","I read {n} products. Check and fix them, then add.","J'ai lu {n} produits. Vérifiez et corrigez, puis ajoutez.","He leído {n} productos. Revisa y corrige, luego añade.","已识别 {n} 个商品。请检查并修改，然后添加。"],["✓ {n} prodotti letti dalla lista scritta","✓ {n} products read from the written list","✓ {n} produits lus depuis la liste écrite","✓ {n} productos leídos de la lista escrita","✓ 已从书面清单读取 {n} 个商品"]],"frag":[["Verranno cancellati i (\\d+) prodotti presi \\(quelli barrati\\)\\.","The $1 products taken (the crossed-out ones) will be deleted.","Les $1 produits pris (ceux barrés) seront supprimés.","Se borrarán los $1 productos cogidos (los tachados).","已买的 $1 个商品（划掉的）将被删除。"],["Non hai ancora preso nessun prodotto\\.","You haven't taken any product yet.","Vous n'avez encore pris aucun produit.","Todavía no has cogido ningún producto.","你还没有买任何商品。"],["Restano in lista (\\d+) prodotti non ancora presi\\.","$1 products not yet taken remain on the list.","Il reste $1 produits non encore pris dans la liste.","Quedan $1 productos aún sin coger en la lista.","清单中还剩 $1 个未买的商品。"],["Ci sono in lista (\\d+) prodotti non ancora presi\\.","There are $1 products not yet taken on the list.","Il y a $1 produits non encore pris dans la liste.","Hay $1 productos aún sin coger en la lista.","清单中有 $1 个未买的商品。"],["La lista resterà vuota\\.","The list will stay empty.","La liste restera vide.","La lista quedará vacía.","清单将保持为空。"],["I prodotti da cercare restano salvati nella scheda Da cercare\\. L'operazione non si può annullare\\.","Products to look for stay saved in the To find tab. This cannot be undone.","Les produits à chercher restent enregistrés dans l'onglet À chercher. Cette opération est irréversible.","Los productos por buscar siguen guardados en la pestaña Por buscar. No se puede deshacer.","待找商品仍保存在“待找”页。此操作无法撤销。"],["fino al (\\d{1,2}/\\d{1,2})","until $1","jusqu'au $1","hasta el $1","至 $1"],["scaduta il (\\d{1,2}/\\d{1,2})","expired on $1","expirée le $1","caducada el $1","已于 $1 过期"],["SCADUTA il (\\d{1,2}/\\d{1,2})","EXPIRED on $1","EXPIRÉE le $1","CADUCADA el $1","已于 $1 过期"],["\\bin offerta\\b","on offer","en promotion","en oferta","优惠中"],[" per «([^»]+)»"," for “$1”"," pour « $1 »"," para «$1»"," 对应“$1”"],["invece di ","instead of ","au lieu de ","en vez de ","原价 "]],"cats":{"frutta":["Frutta","Fruit","Fruits","Fruta","水果"],"verdura":["Verdura","Vegetables","Légumes","Verduras","蔬菜"],"frigo":["Banco frigo","Fridge section","Rayon frais","Refrigerados","冷藏区"],"pesce":["Pesce","Fish","Poisson","Pescado","鱼类"],"carne":["Carne","Meat","Viande","Carne","肉类"],"forno":["Forno","Bakery","Boulangerie","Panadería","烘焙"],"scatolette":["Scatolette","Canned goods","Conserves","Conservas","罐头"],"dispensa":["Dispensa","Pantry","Épicerie","Despensa","干货"],"cucina":["Cucina","Kitchen","Cuisine","Cocina","厨房用品"],"colazione":["Colazione","Breakfast","Petit-déjeuner","Desayuno","早餐"],"merendine":["Merendine","Snack cakes","Goûters","Meriendas","点心"],"snack":["Snack","Snacks","Snacks","Snacks","零食"],"bevande":["Bevande","Drinks","Boissons","Bebidas","饮料"],"farmaci":["Farmaci","Medicines","Médicaments","Medicamentos","药品"],"bagno":["Bagno","Bathroom","Salle de bain","Baño","浴室"],"casa":["Casa","Household","Maison","Hogar","家居"],"altro":["Altro","Other","Autre","Otro","其他"],"x_vestiti":["Abbigliamento e scarpe","Clothes and shoes","Vêtements et chaussures","Ropa y calzado","服装和鞋"],"x_casa":["Casa e mobili","Home and furniture","Maison et meubles","Hogar y muebles","家居和家具"],"x_libri":["Libri","Books","Livres","Libros","书籍"],"x_utensili":["Utensili e ferramenta","Tools and hardware","Outils et quincaillerie","Herramientas y ferretería","工具和五金"],"x_farmacia":["Farmacia","Pharmacy","Pharmacie","Farmacia","药房"],"x_cartoleria":["Cartoleria","Stationery","Papeterie","Papelería","文具"],"x_elettronica":["Elettronica","Electronics","Électronique","Electrónica","电子产品"],"x_regali":["Regali","Gifts","Cadeaux","Regalos","礼物"],"x_altro":["Altro","Other","Autre","Otro","其他"]}};
+const LANGS = ["it", "en", "fr", "es", "zh"];
+const SPEECH_LANG = { it: "it-IT", en: "en-US", fr: "fr-FR", es: "es-ES", zh: "zh-CN" };
+const TITLES = { it: "Lista Spesa", en: "Shopping List", fr: "Liste de courses", es: "Lista de la compra", zh: "购物清单" };
+let LANG = "it";
+try { const l = localStorage.getItem("lang"); if (LANGS.indexOf(l) >= 0) LANG = l; } catch (e) {}
+const LOCALE = () => LANG;
+const catNameT = (id, itName) => { if (LANG === "it") return itName; const r = I18N.cats[id]; return r ? r[LANGS.indexOf(LANG)] : itName; };
+const I = { ex: new Map(), pat: [], frag: [] };
+function buildI18n() {
+  const k = LANGS.indexOf(LANG); I.ex = new Map(); I.pat = []; I.frag = [];
+  if (k < 1) return;
+  for (const r of I18N.exact) I.ex.set(r[0], r[k]);
+  for (const r of I18N.pat) {
+    const names = [];
+    const src = r[0].replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\\\{(\w+)\\\}/g, (_, n) => { names.push(n); return "(.+?)"; });
+    I.pat.push({ rx: new RegExp("^" + src + "$"), names, out: r[k] });
   }
-  let id = localStorage.getItem("listId");
-  if (!id) { id = crypto.randomUUID(); localStorage.setItem("listId", id); }
-  return id;
+  for (const r of I18N.frag) I.frag.push({ rx: new RegExp(r[0], "g"), out: r[k] });
+}
+function tr(s) {
+  if (LANG === "it" || !s) return s;
+  const m = /^(\s*)([\s\S]*?)(\s*)$/.exec(s);
+  if (!m[2]) return s;
+  const out = trCore(m[2]);
+  return out === m[2] ? s : m[1] + out + m[3];
+}
+function trCore(c) {
+  if (I.ex.has(c)) return I.ex.get(c);
+  for (const p of I.pat) {
+    const mm = p.rx.exec(c);
+    if (mm) return p.out.replace(/\{(\w+)\}/g, (_, n) => mm[1 + p.names.indexOf(n)]);
+  }
+  if (c.indexOf("\n") >= 0) return c.split("\n").map((l) => tr(l)).join("\n");
+  const parts = c.match(/[^.?!]*[.?!]+\s*|[^.?!]+$/g);
+  if (parts && parts.length > 1) return parts.map((x) => tr(x)).join("");
+  let r = c;
+  for (const f of I.frag) r = r.replace(f.rx, f.out);
+  return r;
+}
+const I18N_SKIP = { SCRIPT: 1, STYLE: 1, TEXTAREA: 1, CODE: 1, PRE: 1 };
+const I18N_ATTRS = ["placeholder", "title", "aria-label", "alt"];
+function trText(n, force) {
+  const p = n.parentNode;
+  if (!p || I18N_SKIP[p.nodeName] || (p.closest && p.closest("[data-noi18n]"))) return;
+  if (n.__tr !== undefined && n.nodeValue === n.__tr && !force) return;
+  const orig = (force && n.__it !== undefined && n.nodeValue === n.__tr) ? n.__it : n.nodeValue;
+  const t = tr(orig);
+  n.__it = orig; n.__tr = t;
+  if (t !== n.nodeValue) n.nodeValue = t;
+}
+function trAttr(el, a, force) {
+  const v = el.getAttribute(a);
+  if (v == null || (el.closest && el.closest("[data-noi18n]"))) return;
+  const st = el.__ia || (el.__ia = {}), rec = st[a];
+  let orig = v;
+  if (rec && v === rec.tr) { if (!force) return; orig = rec.it; }
+  const t = tr(orig);
+  st[a] = { it: orig, tr: t };
+  if (t !== v) el.setAttribute(a, t);
+}
+function i18nWalk(n, force) {
+  if (n.nodeType === 3) { trText(n, force); return; }
+  if (n.nodeType !== 1 || I18N_SKIP[n.nodeName] || n.hasAttribute("data-noi18n")) return;
+  for (const a of I18N_ATTRS) if (n.hasAttribute(a)) trAttr(n, a, force);
+  for (let c = n.firstChild; c; c = c.nextSibling) i18nWalk(c, force);
+}
+const i18nObserver = new MutationObserver((recs) => {
+  if (LANG === "it") return;
+  for (const r of recs) {
+    if (r.type === "childList") r.addedNodes.forEach((n) => { if (n.nodeType === 1 && n.closest("[data-noi18n]")) return; i18nWalk(n, false); });
+    else if (r.type === "characterData") trText(r.target, false);
+    else if (r.type === "attributes") trAttr(r.target, r.attributeName, false);
+  }
+});
+i18nObserver.observe(document.documentElement, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: I18N_ATTRS });
+const _alert = window.alert.bind(window), _confirm = window.confirm.bind(window);
+window.alert = (m) => _alert(tr(String(m)));
+window.confirm = (m) => _confirm(tr(String(m)));
+function setLang(l) {
+  if (LANGS.indexOf(l) < 0) l = "it";
+  LANG = l;
+  try { localStorage.setItem("lang", l); } catch (e) {}
+  document.documentElement.lang = l; document.title = TITLES[l];
+  if ($("langSel")) $("langSel").value = l;
+  buildI18n(); i18nWalk(document.body, true);
+  applyPrefs(); redraw(); refreshSettingsViews();
+}
+buildI18n(); document.documentElement.lang = LANG; document.title = TITLES[LANG];
+if (LANG !== "it") i18nWalk(document.body, true);
+
+// ---- Lista corrente: dal link (?l=...) oppure salvata, oppure nuova ----
+const isApp = () => navigator.standalone === true || (window.matchMedia && matchMedia("(display-mode: standalone)").matches);
+const getStored = () => { try { return localStorage.getItem("listId"); } catch (e) { return null; } };
+const setStored = (id) => { try { localStorage.setItem("listId", id); } catch (e) {} };
+function loadListId() {
+  const m = (new URLSearchParams(location.search).get("l") || "").match(UUID);
+  if (m) { setStored(m[0]); return m[0]; }                  // il link ha sempre la precedenza
+  const saved = getStored();
+  if (saved) return saved;
+  if (isApp()) return null;                                 // app sulla Home alla prima apertura: chiedo quale lista usare
+  const id = crypto.randomUUID(); setStored(id); return id;
 }
 let LIST = loadListId();
+// il codice resta nell'indirizzo: così "Aggiungi alla Home" lo porta con sé
+function pinUrl() {
+  if (!LIST) return;
+  const want = location.pathname + "?l=" + LIST;
+  if (location.pathname + location.search !== want) { try { history.replaceState(null, "", want); } catch (e) {} }
+}
+function setList(id) { LIST = id; setStored(id); pinUrl(); if (typeof loadPrefsLocal === "function") loadPrefsLocal(); }
 
 // ---- Reparti (nell'ordine in cui compaiono) e relativo colore ----
-const CATS = [
+const BASE_CATS = [
   { id: "frutta", name: "Frutta", emoji: "🍎", color: "#d93f45" },
   { id: "verdura", name: "Verdura", emoji: "🥬", color: "#2f9e5b" },
   { id: "frigo", name: "Banco frigo", emoji: "🧀", color: "#3b82e0" },
@@ -375,7 +637,9 @@ const CATS = [
   { id: "casa", name: "Casa", emoji: "🏠", color: "#3d8b8b" },
   { id: "altro", name: "Altro", emoji: "📦", color: "#8c7b70" },
 ];
+let CATS = BASE_CATS.map((c) => ({ ...c }));          // reparti in uso (con le personalizzazioni)
 const catById = (id) => CATS.find((c) => c.id === id) || CATS[CATS.length - 1];
+const okCat = (id) => (CATS.some((c) => c.id === id) ? id : "altro");   // un reparto eliminato diventa «Altro»
 
 // ---- Riconoscimento automatico del reparto, dal nome ----
 const CAT_RULES = [
@@ -489,14 +753,14 @@ const CATALOG_SRC = {
   scatolette: "Tonno|Legumi|Ceci|Fagioli cannellini|Fagioli rossi|Fagioli borlotti|Olive|Capperi|Polpa fine piccola|Polpa di pomodoro",
   dispensa: "Pasta|Pasta corta|Spaghetti|Pastine|Riso|Trofie|Sugo pronto|Olio|Aceto|Sale grosso|Farina di granturco|Dado|Ketchup|Senape|Zafferano|Pomodori secchi",
   cucina: "Scottex|Bobina carta|Tovaglioli|Tovaglia carta|Carta forno|Pellicola|Alluminio|Sacchetti freezer|Cucchiaini plastica|Stuzzicadenti",
-  colazione: "Caffè|Cialde caffè|Cialde Borbone|Fette biscottate|Marmellata|Nutella|Zucchero|Biscotti Kinderini|Gocciole|Tè|Tè pesca",
+  colazione: "Caffè|Cialde caffè|Fette biscottate|Marmellata|Nutella|Zucchero|Biscotti Kinderini|Gocciole|Tè|Tè pesca",
   merendine: "Gelato|Gelato panna|Crostata|Budino|Mousse di frutta",
   snack: "Patatine",
-  bevande: "Acqua|Acqua Sant'Anna|Spritz|Prosecco|Vino|Birra|4 Moretti|Estathe|Succo di frutta|Succo mirtillo|Succhini da bere|Triangolini",
+  bevande: "Acqua|Acqua Sant'Anna|Spritz|Prosecco|Vino|Birra|Estathe|Succo di frutta|Succo mirtillo|Succhini da bere|Succhi Triangolini",
   farmaci: "Tachipirina|Acqua ossigenata|Polase|Antizanzare|Crema solare",
-  bagno: "Dentifricio|Dentifricio Leo|Dentifricio Graziano|Colluttorio|Spazzolino lavoro|Ricambi spazzolino|Ricambio spazzolino Leo|Cotton fioc|Cotton fioc Leo|Bagnoschiuma|Shampoo|Sapone mani|Sapone intimo|Sapone|Deodorante Anna|Burro cacao|Salvaslip|Ceretta baffi|Carta igienica|Fazzoletti",
+  bagno: "Dentifricio|Colluttorio|Spazzolino lavoro|Ricambi spazzolino|Cotton fioc|Bagnoschiuma|Shampoo|Sapone mani|Sapone intimo|Sapone|Deodorante|Burro cacao|Salvaslip|Ceretta baffi|Carta igienica|Fazzoletti",
   casa: "Detersivo piatti|Sale lavastoviglie|Detersivo pavimenti|Detersivo lavatrice|Sgrassatore|Igienizzante|Mocio|Candeggina Cif|Viakal vetro doccia|Tavolette WC|Napisan|Smacchiatore|Amuchina bucato igienizzante|Cattura colore|Buste spazzatura|Profumatore ambiente|Batterie ricaricabili|Terriccio|Acqua San Giovanni multiuso",
-  altro: "Pure|Omogenizzati carne|Cibo senior|Lettiera|Sacchetti cacca",
+  altro: "Purè|Omogenizzati carne|Cibo senior|Lettiera|Sacchetti per lettiera",
 };
 
 const CATALOG = Object.entries(CATALOG_SRC).flatMap(([c, str]) => str.split("|").map((name) => ({ key: name.toLowerCase(), name, category: c, times: 0 })));
@@ -505,19 +769,30 @@ const CATALOG = Object.entries(CATALOG_SRC).flatMap(([c, str]) => str.split("|")
 let items = [];      // voci nella lista (da comprare o già prese)
 let habits = [];     // cronologia di ciò che è stato comprato (si impara spuntando)
 let extras = [];     // cose da comprare fuori dal supermercato (scheda Altro)
-let offers = [], offersAt = 0;   // offerte dei supermercati (scaricate da Supabase)
+let offers = [], allOffers = [], offersAt = 0;   // offerte dei supermercati (scaricate da Supabase)
 let specs = [];      // prodotti specifici (foto / codice a barre)
 const photos = new Map(), fetching = new Set();
 let openOv = new Map(); // reparti aperti/chiusi a mano
 try { openOv = new Map(JSON.parse(localStorage.getItem("open") || "[]")); } catch (e) {}
 const keyOf = (i) => i.name.trim().toLowerCase();
-const catOf = (i) => i.category || guessCat(i.name);
+const catOf = (i) => okCat(i.category || guessCat(i.name));
 const byNew = (a, b) => new Date(b.created_at) - new Date(a.created_at);
 
+// nomi cambiati nel catalogo: chi aveva già comprato la vecchia voce la ritrova con il nome nuovo, senza doppioni
+const RENAMED = { "pure": { key: "purè", name: "Purè" }, "triangolini": { key: "succhi triangolini", name: "Succhi Triangolini" }, "sacchetti cacca": { key: "sacchetti per lettiera", name: "Sacchetti per lettiera" } };
 function knownMap() {
-  const m = new Map();
-  for (const c of CATALOG) m.set(c.key, c);
-  for (const h of habits) m.set(h.key, { key: h.key, name: h.name, category: h.category || m.get(h.key)?.category || guessCat(h.name), times: h.times });
+  const m = new Map(), byOrig = new Map();
+  const put = (o) => {
+    if (RENAMED[o.key]) o = { ...o, ...RENAMED[o.key] };
+    const ov = prefs.prods[o.key] || {};
+    if (ov.hidden) return;                                      // prodotto eliminato
+    const name = ov.name || o.name, key = name.toLowerCase();
+    const e = { key, origKey: o.key, name, category: okCat(ov.category || o.category), times: Math.max(o.times || 0, m.get(key)?.times || 0) };
+    m.set(key, e); byOrig.set(o.key, e);
+  };
+  CATALOG.forEach(put);
+  prefs.newProds.forEach((np) => put({ ...np, times: 0 }));
+  for (const h of habits) put({ key: h.key, name: h.name, category: h.category || byOrig.get(h.key)?.category || guessCat(h.name), times: h.times });
   return m;
 }
 
@@ -547,12 +822,13 @@ function toast(msg) { setStatus(msg); clearTimeout(tt); tt = setTimeout(() => se
 
 function render() {
   const q = $("inp").value.trim().toLowerCase();
-  const sig = JSON.stringify([items.map((i) => [i.id, i.name, i.done, i.category]), specs.map((x) => [x.id, x.name, x.note, x.want, x.done, x.category, x.photo_url, x.store, x.valid_to, photos.has(x.id)]), extras.map((x) => [x.id, x.name, x.note, x.done, x.category]), habits.length, offers.length, [...openOv], q]);
+  const sig = JSON.stringify([items.map((i) => [i.id, i.name, i.done, i.category]), specs.map((x) => [x.id, x.name, x.note, x.want, x.done, x.category, x.photo_url, x.store, x.valid_to, photos.has(x.id)]), extras.map((x) => [x.id, x.name, x.note, x.done, x.category]), habits.length, offers.length, [...openOv], prefs.rev, LANG, q]);
   if (sig === lastSig) return;
   lastSig = sig;
   renderCatalog(q);
   renderList();
   renderSpecs();
+  renderStoreBar();
   renderOffers();
   renderExtras();
   const wanted = specs.filter((x) => x.want && !x.done).length;
@@ -571,7 +847,7 @@ function renderCatalog(q) {
   let html = "";
   for (const c of CATS) {
     const prods = [...known.values()].filter((p) => p.category === c.id && match(p.name))
-      .sort((a, b) => b.times - a.times || a.name.localeCompare(b.name, "it"));
+      .sort((a, b) => b.times - a.times || a.name.localeCompare(b.name, LOCALE()));
     if (!prods.length) continue;
     const nIn = items.filter((i) => catOf(i) === c.id).length;
     const isOpen = q ? true : !!openOv.get(c.id);
@@ -599,7 +875,7 @@ function thumb(x) {
   const src = x.photo_url || photos.get(x.id);
   return src ? `<img class="thumb" src="${esc(src)}" alt="">` : `<span class="thumb ph">${catById(x.category || guessCat(x.name)).emoji}</span>`;
 }
-const specCat = (x) => x.category || guessCat(x.name);
+const specCat = (x) => okCat(x.category || guessCat(x.name));
 
 // ---- Offerte: abbinamento con i tuoi prodotti ----
 const STOPW = new Set(["alla", "allo", "alle", "della", "delle", "dello", "degli", "dei", "del", "con", "senza", "per", "tipo", "gusto", "extra", "bio", "pronto", "pronta", "fresco", "fresca", "misto", "mista", "mini", "maxi", "gran", "nuovo", "pacco", "conf", "confezione", "lavoro"]);
@@ -614,7 +890,7 @@ function matchPos(prodName, text) {            // -1 = nessun abbinamento; più 
   for (const w of pw) { const i = tw.indexOf(w); if (i >= 0) { hit++; first = Math.min(first, i); } }
   return hit >= need ? first : -1;
 }
-const eur = (n) => (n == null ? "" : Number(n).toFixed(2).replace(".", ",") + " €");
+const eur = (n) => (n == null ? "" : Number(n).toFixed(2).replace(".", LANG === "en" || LANG === "zh" ? "." : ",") + " €");
 const dm = (iso) => (iso ? iso.slice(8, 10) + "/" + iso.slice(5, 7) : "");
 const todayISO = () => new Date().toISOString().slice(0, 10);
 const isExpired = (x) => !!x.valid_to && x.valid_to < todayISO();
@@ -622,6 +898,50 @@ const LOGOS = {"Esselunga": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wI
 // larghezza/altezza dei loghi: quelli quadrati si mostrano più alti di quello a scritta
 const LOGO_H = { Lidl: 18, Coop: 18, Esselunga: 13 };
 const safeUrl = (u) => (/^https:\/\//.test(u || "") ? u : "");
+const STORES = [
+  { n: "Lidl", auto: true, url: "https://www.lidl.it/c/volantino-lidl/s10018048" },
+  { n: "Penny", auto: true, url: "https://www.penny.it/offerte" },
+  { n: "Coop", url: "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini" },
+  { n: "Esselunga", url: "https://www.esselunga.it/it-it/promozioni/volantini.esselunga-di-via-di-novoli-firenze.oli.html" },
+  { n: "Eurospin", url: "https://www.eurospin.com/it-it/volantino/" },
+  { n: "MD", url: "https://www.mdspa.it/volantino/" },
+  { n: "Conad", url: "https://www.conad.it/" },
+  { n: "Carrefour", url: "https://www.carrefour.it/promozioni/" },
+  { n: "Pam", url: "https://www.pampanorama.it/volantino" },
+  { n: "Aldi", url: "https://www.aldi.it/" },
+];
+const DEFAULT_STORES = ["Lidl", "Coop", "Esselunga"];
+const followed = () => (Array.isArray(prefs.stores) ? prefs.stores : DEFAULT_STORES);
+function syncOffers() { const f = followed(); offers = allOffers.filter((o) => f.indexOf(o.store) >= 0); }
+function renderStoreBar() {
+  const chips = followed().map((n) => { const s = STORES.find((x) => x.n === n); return `<button class="schip" data-st="${esc(n)}">${storeBadge(n)}${s && s.auto ? "" : "📄"}</button>`; }).join("");
+  $("storeBar").innerHTML = `<span class="sbl">🏷 Offerte</span><div class="schips">${chips}</div><button class="sbedit" id="storeEdit" title="Scegli i negozi">✎</button>`;
+}
+function drawStoreDlg() {
+  const f = followed();
+  $("storeList").innerHTML = STORES.map((s) => `<div class="strow"><label><input type="checkbox" data-st="${esc(s.n)}" ${f.indexOf(s.n) >= 0 ? "checked" : ""}>${storeBadge(s.n)}</label><span class="sact">${s.auto ? "automatico" : `<button data-fly="${esc(s.n)}">📄 Carica</button>`}<a href="${s.url}" target="_blank" rel="noopener">Sito ↗</a></span></div>`).join("");
+}
+function openFlyer(store) {
+  const sel = $("flyStore");
+  if (!sel.options.length) sel.innerHTML = STORES.filter((s) => !s.auto).map((s) => `<option>${s.n}</option>`).join("") + "<option>Altro</option>";
+  if (store) sel.value = store;
+  $("flyStatus").textContent = ""; $("flyResults").innerHTML = ""; $("flyAdd").hidden = true; $("flyGo").hidden = false;
+  if (!$("flyTo").value) { const d = new Date(); d.setDate(d.getDate() + 7); $("flyTo").value = d.toISOString().slice(0, 10); }
+  $("flyerDlg").showModal();
+}
+document.addEventListener("click", (e) => {
+  const chip = e.target.closest(".schip");
+  if (chip) { const s = STORES.find((x) => x.n === chip.dataset.st); if (s && s.auto) toast("Offerte aggiornate in automatico"); else openFlyer(chip.dataset.st); return; }
+  if (e.target.closest("#storeEdit")) { drawStoreDlg(); $("storeDlg").showModal(); return; }
+  const fly = e.target.closest("[data-fly]");
+  if (fly) { $("storeDlg").close(); openFlyer(fly.dataset.fly); }
+});
+document.addEventListener("change", (e) => {
+  const cb = e.target.closest("#storeList input[data-st]");
+  if (!cb) return;
+  const sel = [...$("storeList").querySelectorAll("input:checked")].map((i) => i.dataset.st);
+  changePrefs((p) => { p.stores = sel; });
+});
 function storeBadge(name, big) {
   if (!name) return "";
   const src = LOGOS[name];
@@ -647,7 +967,7 @@ function offerCardHtml(o, forName, big) {
 }
 async function loadOffers() {
   offersAt = Date.now();
-  try { offers = (await rpc("get_offers", {})) || []; redraw(); } catch (e) { /* il database delle offerte non c'è ancora: l'app funziona lo stesso */ }
+  try { allOffers = (await rpc("get_offers", {})) || []; syncOffers(); redraw(); } catch (e) { /* il database delle offerte non c'è ancora: l'app funziona lo stesso */ }
 }
 
 function renderList() {
@@ -659,7 +979,7 @@ function renderList() {
   let html = "";
   if (sTodo.length) {                              // in evidenza, in cima: prodotti precisi da cercare
     const stores = [...new Set(sTodo.map((x) => x.store || ""))].sort();
-    html += `<div class="lh spec"><span style="background:none;color:#fff;padding:0;text-align:left">⭐ Prodotti specifici · cerca proprio questi</span><span>${sTodo.length}</span></div><div class="body spec">`;
+    html += `<div class="lh spec"><span style="background:none;color:#fff;padding:0;text-align:left">⭐ Da cercare · proprio questi</span><span>${sTodo.length}</span></div><div class="body spec">`;
     for (const st of stores) {
       if (stores.length > 1) html += `<div class="sub">${st ? storeBadge(st) : "🏪 Dove capita"}</div>`;
       html += sTodo.filter((x) => (x.store || "") === st).map(specRow).join("");
@@ -704,12 +1024,12 @@ function renderOffers() {
   const card = (m) => offerCardHtml(m.o, m.for, false);
   let html = "";
   if (!offers.length) {
-    html = `<div class="hint" style="padding:8px 0">Le offerte di Lidl compaiono qui da sole una volta attivato l'aggiornamento automatico.<br>Per Esselunga e Coop usa “Leggi un volantino”.</div>`;
+    html = `<div class="hint" style="padding:8px 0">Le offerte di Lidl e Penny compaiono qui da sole una volta attivato l'aggiornamento automatico.<br>Per gli altri negozi tocca ✎ e carica un volantino.</div>`;
   } else {
     const forList = pick(wanted), forCat = pick(catalog).slice(0, 12);
     if (forList.length) html += `<div class="sectitle">🏷 In offerta su quello che devi comprare <small>(${forList.length})</small></div>` + forList.map(card).join("");
     if (forCat.length) html += `<div class="sectitle">🏷 In offerta sui tuoi prodotti di solito <small>(${forCat.length})</small></div>` + forCat.map(card).join("");
-    if (!forList.length && !forCat.length) html += `<div class="hint" style="padding:8px 0">Questa settimana nessuna offerta Lidl sui tuoi prodotti.</div>`;
+    if (!forList.length && !forCat.length) html += `<div class="hint" style="padding:8px 0">Questa settimana nessuna offerta sui tuoi prodotti.</div>`;
     html += `<button class="more" id="allOffers">${offersAll ? "Nascondi" : "Mostra"} tutte le offerte (${offers.length})</button>`;
     if (offersAll) html += offers.map((o) => card({ o, for: null })).join("");
   }
@@ -725,7 +1045,7 @@ function renderSpecs() {
     const st = !x.want ? "＋<br>in lista" : x.done ? "✓<br>preso" : "✓<br>in lista";
     const where = [x.store ? storeBadge(x.store) : "", x.valid_to ? esc((isExpired(x) ? "scaduta il " : "fino al ") + dm(x.valid_to)) : ""].filter(Boolean).join(" ");
     return `<div class="card ${x.want ? "wanted" : ""} ${isExpired(x) ? "expired" : ""}" data-sid="${x.id}" style="--c:${c.color}">${thumb(x)}<div class="ct"><div class="cname">${esc(x.name)}</div>${where ? `<div class="cstore">${where}</div>` : ""}${x.note ? `<div class="cnote">${esc(x.note)}</div>` : ""}<div class="ctag">${c.emoji} ${c.name}</div></div><button class="edit" data-edit title="Modifica">✎</button><div class="cstate">${st}</div></div>`;
-  }).join("") || `<div class="empty">Nessun prodotto specifico.<br>Fotografa una confezione, scansiona il codice a barre o aggiungi un'offerta.</div>`;
+  }).join("") || `<div class="empty">Niente da cercare.<br>Fotografa una confezione, scansiona il codice a barre o aggiungi un'offerta.</div>`;
 }
 
 // ---- Scelta del reparto ----
@@ -827,7 +1147,7 @@ function openEnd() {
   $("endMsg").textContent =
     (nDone ? `Verranno cancellati i ${nDone} prodotti presi (quelli barrati). ` : "Non hai ancora preso nessun prodotto. ") +
     (nTodo ? `${nDone ? "Restano" : "Ci sono"} in lista ${nTodo} prodotti non ancora presi. ` : "La lista resterà vuota. ") +
-    "I prodotti specifici restano salvati nella scheda Specifici. L'operazione non si può annullare.";
+    "I prodotti da cercare restano salvati nella scheda Da cercare. L'operazione non si può annullare.";
   $("endGo").hidden = !nDone; $("endGo").textContent = `Cancella i ${nDone} presi`;
   $("endAll").hidden = !nTodo; $("endAll").textContent = nDone ? "Cancella anche i non presi" : "Svuota la lista";
   $("endDlg").showModal();
@@ -864,7 +1184,7 @@ let rec = null;
 $("mic").onclick = () => {
   if (!SR) { alert("Dettatura non disponibile qui. Tocca il campo di testo e usa il microfono sulla tastiera dell'iPhone."); return; }
   if (rec) { rec.stop(); return; }
-  rec = new SR(); rec.lang = "it-IT"; rec.interimResults = false;
+  rec = new SR(); rec.lang = SPEECH_LANG[LANG] || "it-IT"; rec.interimResults = false;
   rec.onstart = () => $("mic").classList.add("on");
   rec.onresult = (ev) => addNames(splitItems(ev.results[0][0].transcript.replace(/[.!?]$/, "")));
   rec.onerror = (ev) => { if (ev.error === "not-allowed") alert("Consenti l'uso del microfono nelle impostazioni, oppure usa il microfono della tastiera."); };
@@ -900,7 +1220,7 @@ let spec = null, catTouched = false;
 function openSpec(d) {
   spec = { id: null, name: "", note: "", cat: "altro", store: "", validTo: "", photo: null, photoUrl: null, barcode: null, edit: null, ...d };
   catTouched = !!spec.id || spec.cat !== "altro";
-  $("specTitle").textContent = spec.id ? "Modifica prodotto" : "Prodotto specifico";
+  $("specTitle").textContent = spec.id ? "Modifica prodotto" : "Prodotto da cercare";
   $("specName").value = spec.name; $("specNote").value = spec.note || "";
   $("specCat").innerHTML = CATS.map((c) => `<option value="${c.id}">${c.emoji} ${c.name}</option>`).join("");
   $("specCat").value = spec.cat;
@@ -933,7 +1253,7 @@ $("specAdd").onclick = async () => {
 };
 $("specSave").onclick = async () => { const v = readSpec(); if (!v) return; $("specDlg").close(); await createSpec({ ...spec, ...v }, false); toast("✓ Salvato nei tuoi prodotti"); };
 $("specDel").onclick = async () => {
-  if (!confirm(`Eliminare «${spec.edit.name}» dai prodotti specifici?`)) return;
+  if (!confirm(`Eliminare «${spec.edit.name}» dai prodotti da cercare?`)) return;
   const x = spec.edit; $("specDlg").close(); specs = specs.filter((s) => s !== x); redraw();
   if (x.id > 0) await safe(() => rpc("delete_specific", { p_list: LIST, p_id: x.id }));
 };
@@ -962,6 +1282,86 @@ $("offerList").addEventListener("click", async (e) => {
   b.disabled = true; b.textContent = "Aggiunta"; await addOfferAsSpec(o);
 });
 $("offerNo").onclick = () => $("offerDlg").close();
+
+// ---- Lista scritta a mano o stampata: foto -> testo -> prodotti ----
+function editDist(a, b) {
+  if (Math.abs(a.length - b.length) > 2) return 9;
+  const m = []; for (let i = 0; i <= a.length; i++) { m[i] = [i]; }
+  for (let j = 1; j <= b.length; j++) m[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    m[i][j] = Math.min(m[i - 1][j] + 1, m[i][j - 1] + 1, m[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return m[a.length][b.length];
+}
+function fixWord(w, keys) {                       // "Iatte" -> "latte": corregge piccoli errori di lettura sui prodotti noti
+  const l = w.toLowerCase();
+  if (l.length < 4 || keys.has(l)) return w;
+  let best = null, bd = 9;
+  for (const k of keys) { if (k.indexOf(" ") >= 0) continue; const dd = editDist(l, k); if (dd < bd) { bd = dd; best = k; } }
+  const lim = l.length >= 7 ? 2 : 1;
+  return best && bd <= lim ? best : w;
+}
+function parseScanned(text) {
+  const keys = new Set([...knownMap().values()].map((p) => p.name.toLowerCase()));
+  const out = [];
+  for (let line of String(text).split(/\n+/)) {
+    line = line.replace(/^[\s\-–—•*·▪■□☐☑✓✔>|\[\]()]+/, "").replace(/^\d+\s*[.)]\s+/, "").replace(/^\d+\s*(x\s+)?(?=\D)/i, "").trim();
+    for (let part of line.split(/[,;]+/)) {
+      part = part.replace(/[^\p{L}\p{N}\s'’.\-/%]/gu, " ").replace(/\s+/g, " ").trim();
+      if (!/\p{L}{3}/u.test(part)) continue;
+      const words = part.split(" ");
+      if (words.length > 1 && !keys.has(part.toLowerCase()) && words.every((w) => w.length >= 3)) {
+        const fixed = words.map((w) => fixWord(w, keys));
+        if (fixed.every((w) => keys.has(w.toLowerCase()))) { out.push(...fixed); continue; }       // "latte burro uova" -> tre prodotti
+      }
+      out.push(words.length === 1 ? fixWord(part, keys) : part);
+    }
+  }
+  return [...new Set(out.map((x) => cap(x === x.toUpperCase() ? x.toLowerCase() : x)))];
+}
+async function noteCanvas(file) {                 // foto di un foglio: scala di grigi e contrasto aumentato
+  const c = await pageCanvas(file, 1800), g = c.getContext("2d"), im = g.getImageData(0, 0, c.width, c.height), px = im.data;
+  const hist = new Array(256).fill(0);
+  for (let i = 0; i < px.length; i += 4) { const y = (px[i] * 0.3 + px[i + 1] * 0.59 + px[i + 2] * 0.11) | 0; px[i] = y; hist[y]++; }
+  const tot = px.length / 4; let acc = 0, hi = 255;
+  for (let v = 255; v >= 0; v--) { acc += hist[v]; if (acc > tot * 0.3) { hi = v; break; } }     // livello della carta
+  const lo = Math.round(hi * 0.55);
+  const span = Math.max(40, hi - lo);
+  for (let i = 0; i < px.length; i += 4) { const v = Math.max(0, Math.min(255, ((px[i] - lo) * 255) / span)) | 0; px[i] = px[i + 1] = px[i + 2] = v; }
+  g.putImageData(im, 0, 0);
+  return c;
+}
+async function readNote(file) {
+  await withTimeout(loadTess(), 30000, "Non riesco a scaricare il lettore di testo");
+  const worker = await withTimeout(Tesseract.createWorker("ita", 1), 90000, "Il lettore di testo non parte");
+  try {
+    await worker.setParameters({ tessedit_pageseg_mode: "6" });
+    const { data } = await withTimeout(worker.recognize(await noteCanvas(file)), 120000, "La foto ci mette troppo");
+    return data.text || "";
+  } finally { await worker.terminate(); }
+}
+$("listBtn").onclick = () => $("listInput").click();
+$("noteAgain").onclick = () => $("listInput").click();
+$("noteNo").onclick = () => $("noteDlg").close();
+$("listInput").onchange = async (e) => {
+  const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+  $("noteTxt").value = ""; $("noteAdd").disabled = true; $("noteStatus").textContent = "Scarico il lettore di testo (la prima volta ci vuole un po')…";
+  if (!$("noteDlg").open) $("noteDlg").showModal();
+  try {
+    $("noteStatus").textContent = "Leggo il testo…";
+    const list = parseScanned(await readNote(f));
+    $("noteTxt").value = list.join("\n");
+    $("noteStatus").textContent = list.length ? `Ho letto ${list.length} prodotti. Controlla e correggi, poi aggiungi.` : "Non ho trovato scritte. Riprova con più luce e il foglio dritto, oppure scrivi i prodotti qui sotto.";
+  } catch (err) {
+    console.error(err);
+    $("noteStatus").textContent = "Non sono riuscito a leggere la foto. Controlla la connessione e riprova.";
+  } finally { $("noteAdd").disabled = false; }
+};
+$("noteAdd").onclick = async () => {
+  const names = parseScanned($("noteTxt").value);
+  if (!names.length) { $("noteStatus").textContent = "Nessun prodotto da aggiungere."; return; }
+  $("noteDlg").close(); goTab(1);
+  await addNames(names);
+};
 
 // ---- Volantini (Esselunga, Coop...): lettura delle pagine direttamente sul telefono (Tesseract, gratis) ----
 let tessLoad = null;
@@ -1026,10 +1426,10 @@ function flyerMatches(lines) {
       if (!old || score < old.score) best.set(h.p.name, { ...h.p, snippet: ln.text, price, page: ln.page, score });
     }
   });
-  return [...best.values()].sort((a, b) => a.pri - b.pri || a.score - b.score || a.name.localeCompare(b.name, "it"));
+  return [...best.values()].sort((a, b) => a.pri - b.pri || a.score - b.score || a.name.localeCompare(b.name, LOCALE()));
 }
 let flyerFound = [];
-$("flyerBtn").onclick = () => { $("flyStatus").textContent = ""; $("flyResults").innerHTML = ""; $("flyAdd").hidden = true; $("flyGo").hidden = false; $("flyerDlg").showModal(); };
+$("storeClose").onclick = () => $("storeDlg").close();
 $("flyNo").onclick = () => $("flyerDlg").close();
 $("flyGo").onclick = async () => {
   const files = [...$("flyFiles").files];
@@ -1057,7 +1457,6 @@ $("flyAdd").onclick = async () => {
   }
   if (sel.length) { toast(`✓ ${sel.length} prodotti aggiunti alla lista, puoi correggerli con ✎`); goTab(1); }
 };
-$("flyerBtn").addEventListener("click", () => { const t = new Date(); t.setDate(t.getDate() + 7); if (!$("flyTo").value) $("flyTo").value = t.toISOString().slice(0, 10); });
 
 // carica un'immagine con il metodo classico (onload), che funziona su qualsiasi browser
 function loadImg(url) {
@@ -1145,7 +1544,7 @@ async function processCode(code) {
 }
 
 // ---- Scheda Altro: cose da comprare fuori dal supermercato ----
-const XCATS = [
+const BASE_XCATS = [
   { id: "x_vestiti", name: "Abbigliamento e scarpe", emoji: "👟", color: "#7c4dcc" },
   { id: "x_casa", name: "Casa e mobili", emoji: "🛋️", color: "#b5651d" },
   { id: "x_libri", name: "Libri", emoji: "📚", color: "#2e7d6b" },
@@ -1156,7 +1555,9 @@ const XCATS = [
   { id: "x_regali", name: "Regali", emoji: "🎁", color: "#d6448a" },
   { id: "x_altro", name: "Altro", emoji: "📦", color: "#8c7b70" },
 ];
+let XCATS = BASE_XCATS.map((c) => ({ ...c }));
 const xcatById = (id) => XCATS.find((c) => c.id === id) || XCATS[XCATS.length - 1];
+const okX = (id) => (XCATS.some((c) => c.id === id) ? id : "x_altro");
 const XRULES = [
   ["x_vestiti", /scarp|stivali|sandal|ciabatt|sneaker|giacc|cappott|magli|camici|pantalon|jeans|gonna|vestit|felpa|calz|cappell|sciarp|guant|cintur|costum|pigiam|intimo|borsa|zaino|abbigli|reggisen|slip|boxer|impermeab|piumino/],
   ["x_libri", /libr|romanz|fumett|manual|dizionar|enciclop|audiolibr|rivist|atlante/],
@@ -1174,7 +1575,7 @@ function renderExtras() {
   const row = (x, c) => `<div class="row${x.done ? " done" : ""}" data-xid="${x.id}" style="--c:${c.color}"><span class="check">${x.done ? "✓" : ""}</span><span class="e">${c.emoji}</span><span class="n">${esc(x.name)}${x.note ? `<small style="color:var(--mute);font-weight:400">${esc(x.note)}</small>` : ""}</span><button class="x" data-xdel title="Togli">✕</button></div>`;
   let html = "";
   for (const c of XCATS) {
-    const g = todo.filter((x) => (x.category || "x_altro") === c.id).sort(byNew);
+    const g = todo.filter((x) => okX(x.category || "x_altro") === c.id).sort(byNew);
     if (!g.length) continue;
     html += `<div class="lh" style="--c:${c.color}"><span style="background:none;color:#fff;padding:0;text-align:left">${c.emoji} ${c.name}</span><span>${g.length}</span></div><div class="body" style="--c:${c.color}">${g.map((x) => row(x, c)).join("")}</div>`;
   }
@@ -1245,42 +1646,291 @@ window.addEventListener("resize", () => goTab(currentTab(), false));
 
 // ---- Sincronizzazione ----
 async function refresh() {
-  if (!configured || document.hidden) return;
+  if (!configured || document.hidden || !LIST) return;
   try {
     const [it, sp, ex] = await Promise.all([rpc("get_items", { p_list: LIST }), rpc("get_specifics", { p_list: LIST }).catch(() => null), rpc("get_extras", { p_list: LIST }).catch(() => null)]);
     items = it; if (sp) specs = sp; if (ex) extras = ex;
     render(); setStatus("");
     if (Date.now() - offersAt > 600000) loadOffers();
+    pullPrefs();
   } catch (e) { console.error(e); setStatus("⚠️ Offline: i dati potrebbero non essere aggiornati"); }
 }
 async function loadHistory() {
-  if (!configured) return;
+  if (!configured || !LIST) return;
   try { habits = await rpc("get_history", { p_list: LIST }); render(); } catch (e) { console.error(e); }
 }
 
+// ---- Personalizzazioni condivise: reparti e prodotti modificabili ----
+const emptyPrefs = () => ({ rev: 0, cats: {}, xcats: {}, order: { c: [], x: [] }, custom: { c: [], x: [] }, prods: {}, newProds: [] });
+const normPrefs = (p) => {
+  const b = emptyPrefs(); p = p && typeof p === "object" ? p : {};
+  return { ...b, ...p, cats: { ...(p.cats || {}) }, xcats: { ...(p.xcats || {}) }, order: { c: p.order?.c || [], x: p.order?.x || [] },
+           custom: { c: p.custom?.c || [], x: p.custom?.x || [] }, prods: { ...(p.prods || {}) }, newProds: p.newProds || [] };
+};
+let prefs = emptyPrefs(), prefsTimer = null;
+const prefsKey = () => "prefs:" + LIST;
+const storePrefs = () => { try { localStorage.setItem(prefsKey(), JSON.stringify(prefs)); } catch (e) {} };
+function buildCats(base, custom, ov, order, lastId, defName) {
+  const all = [...base.map((c) => ({ ...c })), ...custom.map((c) => ({ ...c, custom: true }))].filter((c) => c.id === lastId || !ov[c.id]?.hidden);
+  for (const c of all) {
+    const o = ov[c.id] || {};
+    if (!c.custom) c.name = o.name || defName(c); else if (o.name) c.name = o.name;
+    if (o.emoji) c.emoji = o.emoji;
+    if (o.color) c.color = o.color;
+  }
+  const idx = (id) => { const i = order.indexOf(id); return i < 0 ? 1e6 : i; };
+  const last = all.filter((c) => c.id === lastId), rest = all.filter((c) => c.id !== lastId);
+  rest.sort((a, b) => idx(a.id) - idx(b.id));
+  return [...rest, ...last];
+}
+function applyPrefs() {
+  syncOffers();
+  CATS = buildCats(BASE_CATS, prefs.custom.c, prefs.cats, prefs.order.c, "altro", (c) => catNameT(c.id, c.name));
+  XCATS = buildCats(BASE_XCATS, prefs.custom.x, prefs.xcats, prefs.order.x, "x_altro", (c) => catNameT(c.id, c.name));
+}
+function loadPrefsLocal() {
+  try { const s = localStorage.getItem(prefsKey()); prefs = normPrefs(s ? JSON.parse(s) : null); } catch (e) { prefs = emptyPrefs(); }
+  applyPrefs();
+}
+function setPrefsWarn(on) { const w = $("setWarn"); if (w) w.hidden = !on; }
+function changePrefs(mut) {                         // ogni personalizzazione passa da qui: salva, ridisegna, condivide
+  mut(prefs); prefs.rev = (prefs.rev || 0) + 1;
+  storePrefs(); applyPrefs(); redraw(); refreshSettingsViews();
+  clearTimeout(prefsTimer); prefsTimer = setTimeout(pushPrefs, 500);
+}
+function adoptPrefs(r) { prefs = normPrefs(r); storePrefs(); applyPrefs(); redraw(); refreshSettingsViews(); }
+async function pushPrefs() {
+  prefsTimer = null;
+  if (!configured || !LIST) return;
+  try { const r = await rpc("set_prefs", { p_list: LIST, p_data: prefs }); if (r && (r.rev || 0) > prefs.rev) adoptPrefs(r); setPrefsWarn(false); }
+  catch (e) { setPrefsWarn(true); }
+}
+async function pullPrefs() {
+  if (!configured || !LIST || prefsTimer) return;
+  try {
+    const r = await rpc("get_prefs", { p_list: LIST }), sr = r?.rev || 0;
+    if (sr > (prefs.rev || 0)) adoptPrefs(r); else if (sr < (prefs.rev || 0)) pushPrefs();
+  } catch (e) {}
+}
+
+// ---- Menu Impostazioni ----
+$("settingsBtn").onclick = () => $("setDlg").showModal();
+$("setClose").onclick = () => $("setDlg").close();
+function openShare() { $("shareLink").value = shareUrl(); $("dlg").showModal(); }
+$("setShare").onclick = openShare;
+$("setVoice").onclick = () => { $("setDlg").close(); helpOpen(); };
+$("helpNo").onclick = () => $("helpDlg").close();
+// link dei comandi rapidi condivisi (si creano una volta su iCloud: vedi la guida) e abbinamento di Alexa
+const SIRI_LINKS = { add: "https://www.icloud.com/shortcuts/774f581a7c2448cda5922d8c5e79437e", read: "https://www.icloud.com/shortcuts/92934b2d15384668b43e252b6a4c911e" };
+function helpOpen() {
+  $("siriBtns").hidden = !(SIRI_LINKS.add && SIRI_LINKS.read);
+  if (SIRI_LINKS.add) $("siriAdd").href = SIRI_LINKS.add;
+  if (SIRI_LINKS.read) $("siriRead").href = SIRI_LINKS.read;
+  $("pairBox").hidden = true; $("pairBox").textContent = "";
+  $("helpDlg").showModal();
+}
+$("copyCode").onclick = async () => {
+  const b = $("copyCode");
+  try { await navigator.clipboard.writeText(LIST); b.textContent = "Codice lista copiato ✓"; setTimeout(() => (b.textContent = "📋 Copia il mio codice lista"), 1800); }
+  catch (e) { $("pairBox").hidden = false; $("pairBox").innerHTML = `<small>${esc(LIST)}</small>`; }
+};
+$("alexaLink").onclick = async () => {
+  const box = $("pairBox"); box.hidden = false; box.textContent = "…";
+  try {
+    const c = String(await rpc("create_pair_code", { p_list: LIST }));
+    if (!/^\d{6}$/.test(c)) throw new Error("codice");
+    box.innerHTML = `<b>${c.slice(0, 3)} ${c.slice(3)}</b><small>Vale 10 minuti.</small><small data-noi18n>Dì: «Alexa, apri i miei acquisti», poi «collega il codice ${c.split("").join(" ")}»</small>`;
+  } catch (e) { box.textContent = "Non riesco a creare il codice. Controlla la connessione e che lo script supabase-alexa.sql sia stato eseguito."; }
+};
+$("helpSetup").onclick = () => { $("helpDlg").close(); $("voiceBtn").onclick(); };
+$("langSel").value = LANG;
+$("langSel").onchange = () => setLang($("langSel").value);
+$("setReset").onclick = () => {
+  if (!confirm("Ripristinare il catalogo originale? Reparti e prodotti tornano come all'inizio (le voci già in lista non cambiano).")) return;
+  changePrefs((p) => { const keep = p.rev, st = p.stores; Object.assign(p, emptyPrefs()); p.rev = keep; if (st) p.stores = st; });
+  toast("Catalogo ripristinato ✓");
+};
+function refreshSettingsViews() { if ($("catsDlg").open) drawCatsMgr(); if ($("prodsDlg").open) drawProds(); }
+
+// reparti: elenco, ordine, modifica, nuovo, eliminato/ripristino
+let mgr = "c";                                      // "c" = reparti della spesa, "x" = gruppi di Altro
+const mgrBase = () => (mgr === "c" ? BASE_CATS : BASE_XCATS), mgrList = () => (mgr === "c" ? CATS : XCATS), mgrLast = () => (mgr === "c" ? "altro" : "x_altro");
+const mgrOv = (p = prefs) => (mgr === "c" ? p.cats : p.xcats);
+function drawCatsMgr() {
+  $("cmTitle").textContent = mgr === "c" ? "Reparti della spesa" : "Gruppi della scheda Altro";
+  $("cmAdd").textContent = mgr === "c" ? "＋ Aggiungi reparto" : "＋ Aggiungi gruppo";
+  const list = mgrList(), last = mgrLast();
+  let html = list.map((c, i) => `<div class="mrow2" data-id="${c.id}"><span class="dot" style="background:${c.color}"></span><span class="ce2">${c.emoji}</span><span class="n">${esc(c.name)}</span>` +
+    `<button data-act="up" ${i === 0 || c.id === last ? "disabled" : ""}>▲</button><button data-act="down" ${i >= list.length - 2 ? "disabled" : ""}>▼</button><button data-act="edit">✎</button></div>`).join("");
+  const gone = mgrBase().filter((c) => mgrOv()[c.id]?.hidden && c.id !== last);
+  if (gone.length) html += `<div class="mhead">Eliminati</div>` + gone.map((c) => `<div class="mrow2" data-id="${c.id}"><span class="dot" style="background:${c.color}"></span><span class="ce2">${c.emoji}</span><span class="n" style="opacity:.6;cursor:default">${esc(catNameT(c.id, c.name))}</span><button data-act="restore">Ripristina</button></div>`).join("");
+  $("cmList").innerHTML = html;
+}
+$("setCats").onclick = () => { mgr = "c"; drawCatsMgr(); $("catsDlg").showModal(); };
+$("setXCats").onclick = () => { mgr = "x"; drawCatsMgr(); $("catsDlg").showModal(); };
+$("cmClose").onclick = () => $("catsDlg").close();
+$("cmList").onclick = (e) => {
+  const row = e.target.closest(".mrow2"); if (!row) return;
+  const id = row.dataset.id, act = e.target.closest("button")?.dataset.act || "edit";
+  if (act === "edit") return openCatEdit(id);
+  if (act === "restore") return changePrefs((p) => { const o = mgrOv(p); if (o[id]) delete o[id].hidden; });
+  const dir = act === "up" ? -1 : 1;
+  changePrefs((p) => {
+    const ids = mgrList().map((c) => c.id), i = ids.indexOf(id), j = i + dir;
+    if (i < 0 || j < 0 || j >= ids.length - 1) return;
+    [ids[i], ids[j]] = [ids[j], ids[i]];
+    p.order[mgr] = ids.filter((x) => x !== mgrLast());
+  });
+};
+const PALETTE = ["#d93f45", "#e0642a", "#b87a10", "#7d8a1c", "#2f9e5b", "#0c8f9c", "#3b82e0", "#4f46c8", "#8e5bd1", "#b83dba", "#d6448a", "#8a6a4a", "#5f6f86", "#8c7b70"];
+const EMOJIS = ["🍎", "🥬", "🧀", "🐟", "🥩", "🥖", "🥫", "🍝", "🍽️", "☕", "🍪", "🥨", "🥤", "💊", "🛁", "🏠", "🧴", "🧹", "🐶", "🐱", "👶", "🍷", "🍫", "🥚", "🧂", "🍕", "🥗", "🛒", "🎁", "📚", "👟", "💻", "🔧", "✏️", "🛋️", "🌸", "🌱", "🧊", "🍼", "🧺"];
+let ce = null;
+function openCatEdit(id) {
+  const base = mgrBase().find((c) => c.id === id), cur = mgrList().find((c) => c.id === id);
+  ce = { id, isNew: !id, base, custom: !!cur?.custom, color: cur?.color || PALETTE[Math.floor(Math.random() * PALETTE.length)] };
+  $("ceTitle").textContent = id ? "Modifica reparto" : "Nuovo reparto";
+  $("ceName").value = cur?.name || ""; $("ceEmoji").value = cur?.emoji || "🏷️";
+  $("ceColors").innerHTML = PALETTE.map((c) => `<button type="button" class="sw${c === ce.color ? " sel" : ""}" data-c="${c}" style="background:${c}"></button>`).join("");
+  $("ceEmojis").innerHTML = EMOJIS.map((e) => `<button type="button" data-e="${e}">${e}</button>`).join("");
+  $("ceDel").hidden = !id || id === mgrLast();
+  $("ceReset").hidden = !(id && base && mgrOv()[id]?.name);
+  $("catEditDlg").showModal();
+}
+$("cmAdd").onclick = () => openCatEdit(null);
+$("ceColors").onclick = (e) => { const b = e.target.closest("[data-c]"); if (!b) return; ce.color = b.dataset.c; $("ceColors").querySelectorAll(".sw").forEach((x) => x.classList.toggle("sel", x === b)); };
+$("ceEmojis").onclick = (e) => { const b = e.target.closest("[data-e]"); if (b) $("ceEmoji").value = b.dataset.e; };
+$("ceNo").onclick = () => $("catEditDlg").close();
+$("ceSave").onclick = () => {
+  const name = $("ceName").value.trim();
+  if (!name) { $("ceName").focus(); return; }
+  const emoji = $("ceEmoji").value.trim() || "🏷️", color = ce.color;
+  changePrefs((p) => {
+    const ov = mgrOv(p), cust = p.custom[mgr];
+    if (ce.isNew) cust.push({ id: (mgr === "c" ? "u_" : "ux_") + Math.random().toString(36).slice(2, 8), name, emoji, color });
+    else if (ce.custom) { const c = cust.find((v) => v.id === ce.id); if (c) Object.assign(c, { name, emoji, color }); }
+    else { const o = (ov[ce.id] = ov[ce.id] || {}); if (name !== catNameT(ce.id, ce.base.name)) o.name = name; else delete o.name; o.emoji = emoji; o.color = color; }
+  });
+  $("catEditDlg").close();
+};
+$("ceReset").onclick = () => { changePrefs((p) => { const o = mgrOv(p)[ce.id]; if (o) delete o.name; }); $("catEditDlg").close(); };
+$("ceDel").onclick = () => {
+  const cur = mgrList().find((c) => c.id === ce.id); if (!cur) return;
+  if (!confirm(`Eliminare «${cur.name}»? I suoi prodotti passano in «Altro».`)) return;
+  changePrefs((p) => {
+    if (ce.custom) p.custom[mgr] = p.custom[mgr].filter((c) => c.id !== ce.id);
+    else { const ov = mgrOv(p); ov[ce.id] = { ...(ov[ce.id] || {}), hidden: true }; }
+    p.order[mgr] = p.order[mgr].filter((x) => x !== ce.id);
+  });
+  $("catEditDlg").close();
+};
+
+// prodotti del catalogo: elenco per reparto, rinomina, sposta, elimina, aggiungi
+function drawProds() {
+  const sel = $("pdCat"), prev = sel.value;
+  sel.innerHTML = `<option value="">Tutti i reparti</option>` + CATS.map((c) => `<option value="${c.id}">${c.emoji} ${esc(c.name)}</option>`).join("");
+  sel.value = CATS.some((c) => c.id === prev) ? prev : "";
+  const q = $("pdQ").value.trim().toLowerCase();
+  const all = [...knownMap().values()].filter((p) => (!sel.value || p.category === sel.value) && (!q || p.name.toLowerCase().includes(q)))
+    .sort((a, b) => a.name.localeCompare(b.name, LOCALE()));
+  const row = (p) => `<div class="mrow2" data-key="${esc(p.key)}"><span class="e2">${emojiFor(p.name, p.category)}</span><span class="n">${esc(p.name)}</span><button data-act="edit">✎</button><button data-act="del">✕</button></div>`;
+  let html = "";
+  for (const c of CATS) {
+    const g = all.filter((p) => p.category === c.id);
+    if (!g.length) continue;
+    if (!sel.value) html += `<div class="mhead">${c.emoji} ${esc(c.name)} · ${g.length}</div>`;
+    html += g.map(row).join("");
+  }
+  $("pdList").innerHTML = html || `<p style="text-align:center">Nessun prodotto trovato.</p>`;
+}
+$("setProds").onclick = () => { drawProds(); $("prodsDlg").showModal(); };
+$("pdClose").onclick = () => $("prodsDlg").close();
+$("pdCat").onchange = drawProds; $("pdQ").oninput = drawProds;
+async function removeProduct(p) {
+  changePrefs((pf) => { const o = (pf.prods[p.origKey] = pf.prods[p.origKey] || {}); o.hidden = true; });
+  habits = habits.filter((h) => h.key !== p.key && h.key !== p.origKey);
+  if (configured && LIST) { try { await rpc("delete_history", { p_list: LIST, p_key: p.key }); } catch (e) {} }
+}
+$("pdList").onclick = (e) => {
+  const row = e.target.closest(".mrow2"); if (!row) return;
+  const p = knownMap().get(row.dataset.key); if (!p) return;
+  if ((e.target.closest("button")?.dataset.act || "edit") === "del") { if (confirm(`Eliminare «${p.name}» dal catalogo?`)) removeProduct(p); }
+  else openProdEdit(p);
+};
+let pe = null;
+function openProdEdit(p) {
+  pe = p ? { origKey: p.origKey, key: p.key, name: p.name } : null;
+  $("peTitle").textContent = p ? "Modifica prodotto" : "Nuovo prodotto";
+  $("peCat").innerHTML = CATS.map((c) => `<option value="${c.id}">${c.emoji} ${esc(c.name)}</option>`).join("");
+  $("peName").value = p?.name || ""; $("peCat").value = p?.category || $("pdCat").value || CATS[0].id;
+  $("peDel").hidden = !p; $("peDlg").showModal();
+}
+$("pdAdd").onclick = () => openProdEdit(null);
+$("peNo").onclick = () => $("peDlg").close();
+$("peSave").onclick = () => {
+  const name = cap($("peName").value.trim());
+  if (!name) { $("peName").focus(); return; }
+  const cat = $("peCat").value;
+  changePrefs((pf) => {
+    if (!pe) {
+      const key = name.toLowerCase();
+      if (pf.prods[key]) delete pf.prods[key].hidden;
+      pf.prods[key] = { ...(pf.prods[key] || {}), category: cat };
+      if (!CATALOG.some((c) => c.key === key) && !pf.newProds.some((n) => n.key === key)) pf.newProds.push({ key, name, category: cat });
+    } else { const o = (pf.prods[pe.origKey] = pf.prods[pe.origKey] || {}); o.name = name; o.category = cat; delete o.hidden; }
+  });
+  $("peDlg").close();
+};
+$("peDel").onclick = () => {
+  if (!pe) return;
+  const p = knownMap().get(pe.key);
+  if (p && confirm(`Eliminare «${p.name}» dal catalogo?`)) { removeProduct(p); $("peDlg").close(); }
+};
+
 // ---- Condivisione ----
 const shareUrl = () => location.origin + location.pathname + "?l=" + LIST;
-$("shareBtn").onclick = () => { $("shareLink").value = shareUrl(); $("dlg").showModal(); };
 $("closeBtn").onclick = () => $("dlg").close();
 $("copyBtn").onclick = async () => { try { await navigator.clipboard.writeText(shareUrl()); $("copyBtn").textContent = "Copiato ✓"; } catch { $("shareLink").select(); } };
 $("nativeShare").onclick = () => navigator.share ? navigator.share({ title: "Lista Spesa", text: "Entra nella nostra lista della spesa:", url: shareUrl() }) : $("copyBtn").click();
 $("joinBtn").onclick = () => {
   const m = $("joinInp").value.match(UUID);
   if (!m) { alert("Link o codice non valido."); return; }
-  LIST = m[0]; localStorage.setItem("listId", LIST); $("dlg").close(); $("joinInp").value = ""; items = []; habits = []; specs = []; extras = []; redraw(); refresh(); loadHistory();
+  setList(m[0]); $("dlg").close(); $("joinInp").value = ""; items = []; habits = []; specs = []; extras = []; redraw(); refresh(); loadHistory();
 };
 
 // ---- Avvio ----
 if (!configured) {
   $("notice").innerHTML = `<div class="notice">⚙️ Manca ancora il collegamento al database: compila <b>config.js</b> con i dati di Supabase.</div>`;
 }
-render();
-let startTab = 0; try { startTab = +localStorage.getItem("tab") || 0; } catch (e) {}
-requestAnimationFrame(() => { goTab(startTab, false); syncTabs(); });
-refresh();
-loadHistory();
-setInterval(refresh, 4000);
-document.addEventListener("visibilitychange", refresh);
+let booted = false;
+function boot() {
+  if (booted) return; booted = true;
+  pinUrl();
+  loadPrefsLocal();
+  render();
+  let startTab = 0; try { startTab = +localStorage.getItem("tab") || 0; } catch (e) {}
+  requestAnimationFrame(() => { goTab(startTab, false); syncTabs(); });
+  refresh();
+  loadHistory();
+  setInterval(refresh, 4000);
+  document.addEventListener("visibilitychange", refresh);
+}
+function askList() {
+  const dlg = $("startDlg");
+  const join = (text) => {
+    const m = (text || "").match(UUID);
+    if (!m) { $("startMsg").textContent = "Non vedo un codice valido. Copia il link dall'app di chi ha già la lista (⚙️ → Condividi la lista → Copia link)."; return false; }
+    setList(m[0]); dlg.close(); boot(); return true;
+  };
+  $("startPaste").onclick = async () => {
+    try { const t = await navigator.clipboard.readText(); $("startInp").value = t; join(t); }
+    catch (e) { $("startMsg").textContent = "Tieni premuto nel campo qui sotto e scegli Incolla."; $("startInp").focus(); }
+  };
+  $("startJoin").onclick = () => join($("startInp").value);
+  $("startNew").onclick = () => { setList(crypto.randomUUID()); dlg.close(); boot(); };
+  dlg.addEventListener("cancel", (e) => e.preventDefault());   // non si chiude senza scegliere
+  dlg.showModal();
+}
+if (LIST) boot(); else askList();
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
 </script>
 </body>
