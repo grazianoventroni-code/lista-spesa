@@ -302,9 +302,9 @@
   <div class="cmdbox" data-noi18n><b>«Ehi Siri, aggiungi alla spesa»</b><small>Siri chiede cosa aggiungere: «latte, uova e pane»</small></div>
   <div class="cmdbox" data-noi18n><b>«Ehi Siri, cosa devo comprare»</b><small>Ti legge la lista</small></div>
   <div class="vh">Alexa · Echo e Fire TV</div>
-  <div class="cmdbox" data-noi18n><b>«Alexa, apri i miei acquisti»</b><small>Risponde «Cosa aggiungo?»: «latte, uova e pane». Poi altri prodotti («anche il burro») o «basta»</small></div>
-  <div class="cmdbox" data-noi18n><b>«Alexa, chiedi a i miei acquisti di aggiungere latte e uova»</b><small>Tutto in una frase</small></div>
-  <div class="cmdbox" data-noi18n><b>«Alexa, chiedi a i miei acquisti cosa devo comprare»</b><small>Ti legge la lista</small></div>
+  <div class="cmdbox" data-noi18n><b>«Alexa, apri cosa manca»</b><small>Risponde «Cosa aggiungo?»: «latte, uova e pane». Poi altri prodotti («anche il burro») o «basta»</small></div>
+  <div class="cmdbox" data-noi18n><b>«Alexa, chiedi a cosa manca di aggiungere latte e uova»</b><small>Tutto in una frase</small></div>
+  <div class="cmdbox" data-noi18n><b>«Alexa, chiedi a cosa manca cosa devo comprare»</b><small>Ti legge la lista</small></div>
   <div class="vh">Come funziona</div>
   <ul class="vul">
     <li>Puoi dire più prodotti insieme, anche senza «e»: «latte burro uova». L'app li riconosce e li separa.</li>
@@ -1739,7 +1739,7 @@ $("alexaLink").onclick = async () => {
   try {
     const c = String(await rpc("create_pair_code", { p_list: LIST }));
     if (!/^\d{6}$/.test(c)) throw new Error("codice");
-    box.innerHTML = `<b>${c.slice(0, 3)} ${c.slice(3)}</b><small>Vale 10 minuti.</small><small data-noi18n>Dì: «Alexa, apri i miei acquisti», poi «collega il codice ${c.split("").join(" ")}»</small>`;
+    box.innerHTML = `<b>${c.slice(0, 3)} ${c.slice(3)}</b><small>Vale 10 minuti.</small><small data-noi18n>Dì: «Alexa, apri cosa manca», poi «collega il codice ${c.split("").join(" ")}»</small>`;
   } catch (e) { box.textContent = "Non riesco a creare il codice. Controlla la connessione e che lo script supabase-alexa.sql sia stato eseguito."; }
 };
 $("helpSetup").onclick = () => { $("helpDlg").close(); $("voiceBtn").onclick(); };
