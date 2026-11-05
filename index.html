@@ -1383,6 +1383,8 @@ function parseScanned(text) {
     for (let part of line.split(/[,;]+/)) {
       part = part.replace(/[^\p{L}\p{N}\s'’.\-/%]/gu, " ").replace(/\s+/g, " ").trim();
       if (!/\p{L}{3}/u.test(part)) continue;
+      { const ws = part.split(" "), lg = ws.filter((w) => w.replace(/[^\p{L}]/gu, "").length >= 3);          // sillabe sperse ("Po .") davanti a prodotti noti si buttano
+        if (lg.length >= 2 && lg.length < ws.length && lg.filter((w) => keys.has(fixWord(w, keys).toLowerCase())).length >= 2) part = lg.join(" "); }
       const words = part.split(" ");
       if (words.length > 1 && !keys.has(part.toLowerCase()) && words.every((w) => w.length >= 3)) {
         const fixed = words.map((w) => fixWord(w, keys));
@@ -1472,7 +1474,8 @@ async function noteCanvas(file, inv) {      // inv: scritta chiara su sfondo scu
 function goodNoteLines(data) {
   const keys = new Set([...knownMap().values()].map((p) => p.name.toLowerCase()));
   const lines = data.lines && data.lines.length ? data.lines : String(data.text || "").split(/\n+/).map((t) => ({ text: t, confidence: 100 }));
-  return lines.filter((ln) => {
+  const clean = (s) => String(s || "").replace(/(^|\s)[^\p{L}\p{N}\s]+(?=\s|$)/gu, " ").replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, "").trim();   // via simboli sparsi (| ' .) ai bordi
+  return lines.map((ln) => ({ ...ln, text: clean(ln.text) })).filter((ln) => {
     const t = String(ln.text || "").trim(); if (!t) return false;
     const letters = (t.match(/\p{L}/gu) || []).length, junk = (t.match(/[^\p{L}\p{N}\s'’.,;\-/%]/gu) || []).length;
     if (letters < 3 || junk > letters / 3) return false;
