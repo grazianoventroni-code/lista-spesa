@@ -1386,7 +1386,8 @@ function parseScanned(text) {
       const words = part.split(" ");
       if (words.length > 1 && !keys.has(part.toLowerCase()) && words.every((w) => w.length >= 3)) {
         const fixed = words.map((w) => fixWord(w, keys));
-        if (fixed.every((w) => keys.has(w.toLowerCase()))) { out.push(...fixed); continue; }       // "latte burro uova" -> tre prodotti
+        const nk = fixed.filter((w) => keys.has(w.toLowerCase())).length;
+        if (nk === fixed.length || (fixed.length >= 3 && nk >= 2 && fixed.length - nk <= 1)) { out.push(...fixed); continue; }       // "latte burro uova" -> tre prodotti (anche se una parola non e' nel catalogo)
       }
       out.push(words.length === 1 ? fixWord(part, keys) : part);
     }
@@ -1395,11 +1396,11 @@ function parseScanned(text) {
 }
 // Foto di un foglio o di un post-it (anche colorato): tiene solo l'inchiostro, ritaglia la zona scritta
 // e ingrandisce le lettere a misura per il lettore. Toglie grana della carta, ombre, bordi e oggetti intorno.
-async function noteCanvas(file) {
+async function noteCanvas(file, inv) {      // inv: scritta chiara su sfondo scuro (schermata di chat, lavagna)
   const c = await pageCanvas(file, 1800), W = c.width, H = c.height;
   const px = c.getContext("2d").getImageData(0, 0, W, H).data, N = W * H;
   const gray = new Uint8Array(N);                  // canale più chiaro: la carta colorata diventa bianca, l'inchiostro resta scuro
-  for (let i = 0, j = 0; i < N; i++, j += 4) gray[i] = Math.max(px[j], px[j + 1], px[j + 2]);
+  for (let i = 0, j = 0; i < N; i++, j += 4) gray[i] = inv ? 255 - Math.max(px[j], px[j + 1], px[j + 2]) : Math.max(px[j], px[j + 1], px[j + 2]);
   const S = new Float64Array((W + 1) * (H + 1));   // somme cumulative per la media locale
   for (let y = 0; y < H; y++) { let row = 0; for (let x = 0; x < W; x++) { row += gray[y * W + x]; S[(y + 1) * (W + 1) + x + 1] = S[y * (W + 1) + x + 1] + row; } }
   const r = Math.max(8, Math.round(Math.max(W, H) / 40)), ink = new Uint8Array(N);
@@ -1488,8 +1489,18 @@ async function readNote(file) {
   const worker = await withTimeout(Tesseract.createWorker("ita", 1), 90000, "Il lettore di testo non parte");
   try {
     await worker.setParameters({ tessedit_pageseg_mode: "6" });
-    const { data } = await withTimeout(worker.recognize(await noteCanvas(file)), 120000, "La foto ci mette troppo");
-    return goodNoteLines(data);
+    const keys = new Set([...knownMap().values()].map((p) => p.name.toLowerCase()));
+    const run = async (inv) => {
+      const { data } = await withTimeout(worker.recognize(await noteCanvas(file, inv)), 120000, "La foto ci mette troppo");
+      const text = goodNoteLines(data), list = parseScanned(text);
+      return { text, known: list.filter((n) => keys.has(n.toLowerCase())).length, n: list.length, conf: data.confidence || 0 };
+    };
+    let a = await run(false);
+    if (a.known < 2 || a.known < a.n / 2) {            // poco riconosciuto: forse e' scritta chiara su sfondo scuro, si riprova al contrario
+      const b = await run(true);
+      if (b.known > a.known || (b.known === a.known && b.conf > a.conf + 10)) a = b;
+    }
+    return a.text;
   } finally { await worker.terminate(); }
 }
 $("listBtn").onclick = () => { $("noteTxt").value = ""; $("noteStatus").textContent = ""; $("noteAdd").disabled = false; $("noteDlg").showModal(); };
