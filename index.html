@@ -421,6 +421,7 @@
     <button class="mrow danger" id="setReset"><span>↩️</span><span class="mt"><b>Ripristina il catalogo originale</b><small>Annulla tutte le personalizzazioni di reparti e prodotti</small></span></button>
   </div>
   <div class="warnbox" id="setWarn" hidden>Le modifiche sono salvate solo su questo telefono: manca l'aggiornamento del database (script supabase-impostazioni.sql).</div>
+  <p class="hint" data-noi18n style="padding:6px 0 0">Versione dell'app: 6 novembre · c</p>
   <div class="row2"><button id="setClose">Chiudi</button></div>
 </dialog>
 
@@ -1102,7 +1103,7 @@ async function moveItem(it) {
 }
 
 // ---- Tocchi ----
-let pressTimer = null, pressed = false;
+let pressTimer = null, pressed = false, pressX = 0, pressY = 0;
 $("catalog").addEventListener("click", (e) => {
   const head = e.target.closest(".cat");
   if (head) { const id = head.dataset.cat; openOv.set(id, !curOpen.get(id)); saveOpen(); redraw(); return; }
@@ -1130,7 +1131,7 @@ async function moveSpec(x) {
 }
 $("list").addEventListener("pointerdown", (e) => {
   const row = e.target.closest(".row[data-id], .row[data-sid]"); if (!row || e.target.closest("[data-del], [data-sdel]")) return;
-  clearTimeout(pressTimer);
+  clearTimeout(pressTimer); pressX = e.clientX; pressY = e.clientY;
   if (row.dataset.sid) {
     const x = specs.find((s) => String(s.id) === row.dataset.sid); if (!x) return;
     pressTimer = setTimeout(() => { pressed = true; moveSpec(x); }, 550);
@@ -1139,7 +1140,8 @@ $("list").addEventListener("pointerdown", (e) => {
   const it = items.find((x) => String(x.id) === row.dataset.id); if (!it) return;
   pressTimer = setTimeout(() => { pressed = true; moveItem(it); }, 550);
 });
-["pointerup", "pointerleave", "pointercancel", "pointermove"].forEach((t) => $("list").addEventListener(t, () => clearTimeout(pressTimer)));
+["pointerup", "pointerleave", "pointercancel"].forEach((t) => $("list").addEventListener(t, () => clearTimeout(pressTimer)));
+$("list").addEventListener("pointermove", (e) => { if (Math.abs(e.clientX - pressX) > 12 || Math.abs(e.clientY - pressY) > 12) clearTimeout(pressTimer); });   // un piccolo tremolio del dito non annulla la pressione
 $("list").addEventListener("contextmenu", (e) => { if (e.target.closest(".row")) e.preventDefault(); });
 
 // ---- Fine spesa (con conferma) ----
